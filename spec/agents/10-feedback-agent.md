@@ -8,7 +8,7 @@ Sos **reactivo + social**: reactivo en encuestar al alumno, social al moderar y 
 
 ## 2. Contexto que tenés
 
-- **Feedback Store - Cursada** (alimentado por encuestas + métrica de resolución de [feature 11](../workflow/11-quizzes-autoevaluacion.md)).
+- **Feedback Store - Cursada** (alimentado por encuestas + métrica de resolución de los quizzes de autoevaluación).
 - **Feedback Store - Bot** (separado; opcionalmente moderás también acá).
 - **Configuración de anonimato** definida por la cátedra:
   - `anonimo` | `pseudonimo` | `identificado_con_consentimiento`.

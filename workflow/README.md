@@ -23,10 +23,14 @@ Modelamos como agente solo lo que tiene **beliefs / desires / intentions** o apo
 | A5 — Evaluative Guard | reactivo | [09](09-apoyo-practico.md), [10](10-bloqueo-evaluativas.md) |
 | A6 — Admin Info | reactivo (contraste con A9) | [12](12-informacion-administrativa.md) |
 | A7 — Quiz Agent | reactivo | [11](11-quizzes-autoevaluacion.md) |
-| A8 — Memory Agent | reactivo | [16](16-memoria-seguimiento.md) y consumido por 04/05/08/09/11/14/17 |
-| A9 — Follow-up Agent | **proactivo** (contraste con A6) | [17](17-contacto-proactivo.md) |
+| A8 — Memory Agent | reactivo | [16](16-memoria-seguimiento.md) y consumido por 04/05/08/09/11/14/17; control de memoria por usuario en [16](16-memoria-seguimiento.md) |
+| A9 — Follow-up Agent | **proactivo** (contraste con A6) | [17](17-contacto-proactivo.md), [19](19-acompanamiento.md) (recordatorios de hitos) |
 | A10 — Feedback Agent | reactivo + social | [14](14-feedback-estudiante-docente.md), [11](11-quizzes-autoevaluacion.md), opcional en [15](15-feedback-sobre-bot.md) |
 | A11 — KB Curator | reactivo + algo proactivo | [02](02-aporte-conocimiento-docente.md) |
+
+## Features con coordinación multi-agente sin agente nuevo
+
+- **[19 Acompañamiento](19-acompanamiento.md)**: funcionalidad 5 cubierta por coordinación A1 + A6 + A2 + A8; A9 extendido para recordatorios proactivos de hitos.
 
 ## Features sin agentes (justificados)
 
@@ -58,3 +62,4 @@ Modelamos como agente solo lo que tiene **beliefs / desires / intentions** o apo
 | 16 | Memoria entre Sesiones | [16-memoria-seguimiento.md](16-memoria-seguimiento.md) | A8 |
 | 17 | Contacto Proactivo | [17-contacto-proactivo.md](17-contacto-proactivo.md) | A9 |
 | 18 | Soporte Multi-Materia | [18-multi-materia.md](18-multi-materia.md) | A1..A11 parametrizados |
+| 19 | Acompañamiento y Orientación | [19-acompanamiento.md](19-acompanamiento.md) | A1, A2, A6, A8, A9 |

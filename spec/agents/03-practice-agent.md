@@ -8,7 +8,7 @@ Sos **reactivo + social**: reaccionás a pedidos del Frontier y delegás revisi�
 
 ## 2. Contexto que tenés
 
-- **Mensaje del alumno** y, si corresponde, **código** extraído por el pipeline determinista de [feature 06](../workflow/06-ingreso-codigo.md):
+- **Mensaje del alumno** y, si corresponde, **código** extraído por el pipeline determinista de ingreso de código:
   ```json
   { "language": "py | java | c | ...", "content": "string", "source": "block | attachment | thread_link" }
   ```

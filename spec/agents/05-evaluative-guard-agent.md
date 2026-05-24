@@ -226,3 +226,5 @@ Output:
   "recent_turn_signals": ["..."]
 }
 ```
+
+> **Nota sobre `recent_turn_signals`**: lo provee A1 a partir del STM que recibe de A8 antes de llamar a A5. Es un resumen de los temas cubiertos en la sesión actual, no una opinión sobre el alumno. Si A8 no tiene STM disponible (primera interacción), el campo es `[]`.

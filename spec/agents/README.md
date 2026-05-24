@@ -1,6 +1,6 @@
 # Especificación detallada de Agentes
 
-Esta carpeta contiene la spec funcional de cada uno de los **11 agentes** del sistema multiagente. Es complementaria al diseño de workflow (carpeta [../workflow/](../workflow/)) y al inventario conceptual de agentes ([../workflow/00-inventario-agentes.md](../workflow/00-inventario-agentes.md)).
+Esta carpeta contiene la spec funcional **operativa** de cada uno de los **11 agentes** del sistema multiagente. Es el detalle de bajo nivel (rol, contexto, system prompt, guardrails, formato de salida, ejemplos) que complementa la capa conceptual del [inventario y justificación de agentes](../01-inventario-y-justificacion-de-agentes.md) (Entregable 1).
 
 ## Estructura de cada archivo
 
@@ -36,8 +36,6 @@ Cada agente está documentado con las 7 secciones que pediste:
 - Cada agente especifica si su output va **directo al Discord Gateway** (publicar al alumno) o pasa por otro agente (typically **A4 Scaffolding** revisa borradores de **A3 Practice**).
 - Los campos `metadata.subject_id` y `metadata.channel_type` viajan con todos los pedidos: el aislamiento por materia y la visibilidad por canal son invariantes que ningún agente puede violar.
 
-## Mapeo agente ↔ feature
+## Relación con el Entregable 1
 
-Para ver en qué features participa cada agente, ver [../workflow/README.md](../workflow/README.md).
-
-Para ver los flujos completos (un C4 Container por feature, con agentes + infraestructura), ver los 18 archivos en `../workflow/01..18-*.md`.
+La justificación de **cuántos** agentes y **por qué** (trade-off de granularidad), el carácter **reactivo / proactivo / social + BDI** de cada uno, sus fronteras y el análisis de no-solapamiento están en el documento conceptual del [inventario y justificación de agentes](../01-inventario-y-justificacion-de-agentes.md). Los archivos de esta carpeta son la contraparte operativa de cada ficha de ese documento.

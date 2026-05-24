@@ -10,6 +10,18 @@ El sistema recuerda actividades del estudiante (temas, dudas, hilos pedagógicos
 
 Esta separación responde al **glosario obligatorio** del enunciado: *sesión* vs *conversación*, *memoria intra-sesión* vs *persistencia entre días*.
 
+## Control del usuario sobre su propia memoria
+
+El estudiante puede consultar y controlar lo que el sistema conserva sobre él mediante comandos en Discord:
+
+- `/mi-historial` — muestra un resumen de la LTM y el perfil pedagógico de la materia activa.
+- `/borrar-historial` — elimina la LTM de la materia activa (el STM de la sesión en curso no se ve afectado).
+- `/restablecer-perfil` — resetea el Pedagogical Profile de la materia activa.
+
+A8 ejecuta estas operaciones directamente sobre el Memory Store y responde por el mismo canal donde se emitió el comando.
+
+> **Distinción importante:** estos comandos controlan **qué se conserva** en el Memory Store. El opt-out del **contacto proactivo** (A9) es independiente y se gestiona en el User Preferences Store ([ver 17](17-contacto-proactivo.md)).
+
 ## Postura SMA
 
 Agente dedicado: **A8 — Memory Agent** (reactivo).
@@ -58,6 +70,9 @@ C4Container
     Rel(memory, stm, "2. Trae/actualiza historial inmediato (intra-sesion)")
     Rel(memory, ltm, "3. Trae/actualiza historial entre dias")
     Rel(memory, prof, "4. Trae/actualiza perfil pedagogico")
-    Rel(memory, memory, "5. Aplica politica: no expone DM en canal publico")
+    Rel(student, gw, "Opt: /mi-historial /borrar-historial /restablecer-perfil")
+    Rel(gw, memory, "Comando de control de memoria")
+    Rel(memory, gw, "Confirma: resumen o borrado exitoso")
+    Rel(memory, memory, "Aplica politica: no expone DM en canal publico")
     UpdateRelStyle(memory, memory, $offsetY="-20")
 ```

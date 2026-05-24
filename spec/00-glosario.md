@@ -68,7 +68,7 @@ Discord se modela como **entorno** del sistema multiagente, no como mera interfa
 
 - **`subject_id`** — Identificador de la **materia en contexto** que viaja con cada pedido. Es la clave de partición que materializa el aislamiento.
 
-- **Subject Router** — Mecanismo que resuelve la materia en contexto a partir del canal/categoría, el rol o un comando explícito. Si no puede determinarla, marca **ambigüedad de materia** (ver Atención y ruteo).
+- **Subject Router** — Mecanismo que resuelve la materia en contexto a partir del **servidor de Discord** donde entró el mensaje (**una materia = un servidor**). En **mensajes directos (DM)**, donde no hay servidor que la fije, la materia puede no quedar resuelta: se resuelve preguntando al usuario o por su indicación explícita, y mientras tanto se marca **ambigüedad de materia** (ver Atención y ruteo).
 
 - **Parametrización por materia** — Estrategia por la cual un mismo agente atiende *N* materias parametrizado por `subject_id` (con su KB y políticas aisladas), en lugar de clonar agentes por cursada.
 
@@ -84,7 +84,7 @@ Discord se modela como **entorno** del sistema multiagente, no como mera interfa
 
 - **Dispatch compuesto** — Ruteo a más de un especialista cuyas salidas el Frontier **ensambla** en una sola respuesta (p. ej., orientación = A6 + A2).
 
-- **Ambigüedad de materia** — Situación en que el Subject Router no puede determinar la materia en contexto; el Frontier pide **una** aclaración antes de derivar.
+- **Ambigüedad de materia** — Situación en que el Subject Router no puede determinar la materia en contexto —típicamente en **DM**, donde no hay servidor que la fije, si el usuario cursa más de una materia—; el Frontier pide **una** aclaración antes de derivar.
 
 - **Fuera de dominio** — Consulta evidentemente ajena al dominio de la materia. Se responde de forma educada aclarando el límite y se **reconduce a docentes**.
 
@@ -121,6 +121,10 @@ El conocimiento que consumen los agentes se mantiene **al día durante la cursad
 - **Recuperación (RAG)** — Mecanismo conceptual por el que los agentes traen fragmentos relevantes de la KB para **anclar** sus respuestas y no inventar.
 
 - **Config Store** — Configuración administrativa de la materia (fechas, modalidad, reglas de evaluación, recuperatorios, links oficiales) publicada por la cátedra. Es la fuente de A6 (admin) y de la lista de **evaluativas activas**.
+
+- **Atribución / cita de fuente** — Práctica por la cual toda afirmación que el sistema basa en un documento queda **referenciada a su fuente de cátedra** de forma legible para el alumno (p. ej., "Apunte de la Unidad 3 — Pilas y Colas" o "lo publicado por la cátedra en *reglas de evaluación*"). Es la **garantía de dónde sale la información**. Se cita siempre el material **vigente** (ver **Vigencia** / **Versionado**) y nunca contenido privado de otro usuario. Si no hay fuente en la KB o el Config Store, el sistema **no inventa** una cita: aplica la **reconducción a docentes**. Se materializa en los campos `kb_citations` (A2), `recursos_kb` (A3) y `fuente` (A6).
+
+- **Trazabilidad** — Capacidad de reconstruir **de dónde** salió un dato o una decisión, mediante identificadores y metadatos internos. Es transversal: la KB conserva `chunk_id`, `version` y `vigencia` (A11); el **dictamen** evaluativo lleva su justificación (A5); la **moderación** de feedback registra el flag para humano (A10). La trazabilidad **sostiene** la atribución / cita de fuente de cara al alumno, pero su nivel de detalle interno (IDs) **no** se muestra salvo que aporte.
 
 ---
 
@@ -237,6 +241,7 @@ El conocimiento que consumen los agentes se mantiene **al día durante la cursad
 | Andamiaje / Scaffolding (A4) | §7 Práctica y control |
 | Anonimato | §9 Feedback |
 | Aporte docente | §5 Conocimiento vivo |
+| Atribución / cita de fuente | §5 Conocimiento vivo |
 | Autenticación / Verificación | §2 Ambiente Discord |
 | Base de Conocimiento (KB) | §5 Conocimiento vivo |
 | Borrador (draft) | §7 Práctica y control |
@@ -306,6 +311,7 @@ El conocimiento que consumen los agentes se mantiene **al día durante la cursad
 | Subject Router | §3 Multi-materia |
 | Theory Agent (A2) | §6 Apoyo al aprendizaje |
 | Transferencia explícita y consentida | §2 Ambiente Discord |
+| Trazabilidad | §5 Conocimiento vivo |
 | Turno | §1 Transversales |
 | Versionado | §5 Conocimiento vivo |
 | Ventana (de evaluativa) | §7 Práctica y control |

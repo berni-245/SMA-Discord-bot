@@ -18,7 +18,7 @@ El asistente a diseñar se modela como un **sistema multiagente**: varios agente
 
 En un SMA, el **ambiente** tiene el mismo peso conceptual que los agentes: no se trata solo de una “interfaz” gráfica. **Discord** se modela como **entorno** con reglas propias —permisos, roles de usuario, tipos de canal, visibilidad— que acotan qué puede **percibirse** y qué puede **alterarse** desde el sistema. Esa visión encaja con la idea de **sensores y actuadores** en un entorno digital (qué entra al sistema, qué sale y dónde).
 
-**Alcance multi-materia (requisito del diseño):** el sistema **no** está pensado para una única asignatura. El diseño debe contemplar **varias materias en paralelo** (p. ej. distintas cátedras o cursadas que comparten servidor o infraestructura de Discord). Debe quedar claro **cómo** se delimita el dominio de conocimiento y las reglas administrativas **por materia**, cómo se evita mezclar contenidos entre cursadas y qué supuestos se hacen sobre la organización en Discord (sin implementar). No alcanza con elegir “una materia de ejemplo” como único universo del sistema: esa materia puede ilustrar escenarios, pero el **modelo** debe soportar **más de una**.
+**Alcance multi-materia (requisito del diseño):** el sistema **no** está pensado para una única asignatura. El diseño debe contemplar **varias materias en paralelo** (p. ej. distintas cátedras o cursadas, cada una con su único servidor o infraestructura de Discord). Debe quedar claro **cómo** se delimita el dominio de conocimiento y las reglas administrativas **por materia**, cómo se evita mezclar contenidos entre cursadas y qué supuestos se hacen sobre la organización en Discord (sin implementar). No alcanza con elegir “una materia de ejemplo” como único universo del sistema: esa materia puede ilustrar escenarios, pero el **modelo** debe soportar **más de una**.
 
 ## **Objetivo del proyecto**
 
@@ -235,7 +235,7 @@ Las siguientes cuestiones **no están definidas** a propósito. El diseño debe 
 * ¿Cómo se **versiona** o marca vigencia lo publicado en ese canal cuando cambia el programa (p. ej. hilos por unidad, fecha en nombre, agente catalogador)?  
 * ¿Quién en el mundo real **valida** antes de que un agente use un post (solo confianza en docentes, doble revisión, bot que marca “pendiente de incorporación”)?  
 * ¿Los agentes de programación tienen “lenguajes permitidos” o stack fijo en el diseño, y eso es global o configurable por materia?  
-* **Multi-materia (detalle abierto):** ¿un mismo agente “genérico” parametrizado por contexto, agentes por materia, o mix? ¿Quién “posee” la verdad cuando dos materias comparten Discord?
+* **Multi-materia (detalle abierto):** ¿un mismo agente “genérico” parametrizado por contexto, agentes por materia, o mix? 
 
 ### **Coordinación y conflictos**
 

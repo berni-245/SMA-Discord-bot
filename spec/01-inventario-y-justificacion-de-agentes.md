@@ -19,7 +19,7 @@ Este documento es la **capa conceptual** del inventario. La **spec operativa** d
 El inventario no se decide en el vacío: tres rasgos del problema empujan hacia ciertos cortes entre agentes.
 
 - **El ambiente (Discord) tiene peso propio.** Permisos, roles de usuario (estudiante / docente / ayudante), tipos de canal (público, privado, DM, hilo, canal docente) y visibilidad acotan **qué puede percibirse** y **qué puede alterarse**. Eso obliga a que ciertos agentes existan para custodiar invariantes del entorno (privacidad por canal, aislamiento por materia) y no solo para “responder”.
-- **Multi-materia.** El sistema soporta *N* materias en paralelo que pueden compartir servidor. El conocimiento teórico-administrativo y las políticas deben quedar **aislados por materia**. Esto favorece agentes **parametrizables por materia** sobre agentes “dueños” de una sola cursada.
+- **Multi-materia.** El sistema soporta *N* materias en paralelo, **cada una en su propio servidor de Discord**. El conocimiento teórico-administrativo y las políticas deben quedar **aislados por materia**. Esto favorece agentes **parametrizables por materia** (un *tenant* por servidor) sobre agentes “dueños” de una sola cursada.
 - **Límites pedagógicos y éticos no negociables.** No resolver evaluables completos, no reemplazar al docente, no exponer lo privado, no acosar con proactividad. Estas políticas se diseñan mejor como **responsabilidades separadas y auditables** que como reglas dispersas dentro de agentes de contenido.
 
 ## 3. Decisión de granularidad

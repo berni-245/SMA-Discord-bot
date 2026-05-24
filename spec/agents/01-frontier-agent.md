@@ -189,15 +189,17 @@ Output:
 }
 ```
 
-### Ejemplo 5 — Materia ambigua
+### Ejemplo 5 — Materia ambigua en DM
+
+Cada materia tiene su propio servidor, así que en un canal del servidor la materia queda determinada. La ambigüedad aparece en **DM** (no hay servidor que la fije) cuando el alumno cursa más de una materia.
 
 User input:
 ```json
 {
-  "channel_type": "publico",
+  "channel_type": "dm",
   "subject_name": "ambigua",
   "user": { "is_verified": true, "role": "estudiante" },
-  "message_text": "@bot ¿cuándo es el parcial?"
+  "message_text": "¿cuándo es el parcial?"
 }
 ```
 
@@ -209,8 +211,8 @@ Output:
   "intent": "info_administrativa",
   "confidence": 0.60,
   "sanitized_user_message": "¿cuándo es el parcial?",
-  "public_response_draft": "Estás escribiendo en un canal que comparten varias materias. ¿De cuál es el parcial que querés consultar?",
-  "metadata": { "channel_type": "publico", "subject_id": null, "needs_dm_suggestion": false }
+  "public_response_draft": "Como me escribís por privado y estás en más de una materia, no sé de cuál es el parcial. ¿De qué materia querés saber la fecha?",
+  "metadata": { "channel_type": "dm", "subject_id": null, "needs_dm_suggestion": false }
 }
 ```
 

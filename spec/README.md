@@ -17,7 +17,7 @@ Este directorio contiene los **entregables de diseño**. Se recomienda leerlos e
 | 6 | [Escenarios y trazabilidad](06-escenarios-y-trazabilidad.md) | Tres escenarios (A pedagógico-código, B administrativo-institucional, C mixto), paso a paso, con **diagramas de secuencia**. |
 | 7 | [Riesgos, supuestos y límites éticos](07-riesgos-supuestos-y-limites-eticos.md) | Supuestos, anti-alucinación, fuera de dominio/maliciosas, y tabla de **riesgos creíbles × mitigaciones**. |
 | 8 | [Auto-evaluación de la arquitectura](08-autoevaluacion-de-la-arquitectura.md) | Escalabilidad, robustez/degradación y flexibilidad, con juicio, argumento anclado y **límite honesto** por métrica. |
-| 9 | [Preguntas abiertas y no funcionales](09-preguntas-abiertas-y-no-funcionales.md) | Complemento: cierra explícitamente preguntas abiertas (voces, conversaciones largas, lenguajes) y no funcionales (degradación/latencia, idioma, accesibilidad). |
+| 9 | [Preguntas abiertas (registro de postura)](09-preguntas-abiertas-y-no-funcionales.md) | Registro de **todas** las preguntas abiertas con la postura del grupo y referencias a dónde se desarrollan; cierra las que no tenían lugar propio (voces, conversaciones largas, lenguajes, fuentes/prioridad, no funcionales). |
 
 La **spec operativa** de cada uno de los 11 agentes (rol, system prompt, guardrails, formato de salida, ejemplos) vive en [`agents/`](agents/), enlazada desde cada ficha del Entregable 1.
 

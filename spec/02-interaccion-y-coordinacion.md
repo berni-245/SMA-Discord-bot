@@ -91,6 +91,8 @@ La derivación primaria la decide A1 a partir de la **intención**. Las derivaci
 
 **Principio de derivación:** un agente deriva cuando la consulta **excede su rol** o cuando una **política** lo exige (A3 siempre a A4; práctica siempre por A5). Nunca deriva “para sacarse el problema de encima” sin justificación tipada.
 
+**El dictamen de A5 actúa como *gate*:** si A5 marca `is_evaluative = true` (la consulta cae sobre un evaluable activo), A1 **no** deriva a A3; mantiene la postura, declina resolver el entregable y ofrece ayuda conceptual o reconducción. A3 solo atiende consultas prácticas que A5 dejó pasar (`is_evaluative = false`).
+
 ## 5. Coordinación y límites éticos: coherencia
 
 El mecanismo de coordinación **materializa** los límites no negociables; no son reglas aparte:

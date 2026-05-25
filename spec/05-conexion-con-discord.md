@@ -30,6 +30,8 @@ Discord es el **ambiente** del sistema (no una mera capa de UI): sus permisos, r
 
 La **convivencia estudiantes/docentes** se materializa en esta separación de canales y permisos: las superficies separadas del Entregable 2 no son solo lógicas, son canales distintos con permisos distintos.
 
+> **Casos intermedios de visibilidad.** La regla general es que la visibilidad la define **quiénes pueden leer**, no el tamaño del espacio: un **hilo** hereda la visibilidad de su canal padre; un **canal restringido por rol** (p. ej. solo estudiantes) se trata como **público entre quienes pueden leerlo**; un **grupo pequeño** (canal o DM grupal de pocos integrantes) se trata como **privado respecto del resto del servidor, pero público entre sus miembros** — el bot no republica fuera del grupo lo dicho dentro, ni asume privacidad 1:1 como en un DM. La memoria (A8) etiqueta estos orígenes con su visibilidad para no filtrarlos luego.
+
 ## 3. Cómo se dispara y se recibe una interacción
 
 Todo entra y sale por el **Discord Gateway** (el sensor/actuador concreto):

@@ -26,12 +26,12 @@ Cada escenario va **paso a paso** (qué agente actúa, qué hace, qué informaci
 2. **Discord Gateway + pipeline de código (infra):** detecta el bloque, lo **extrae y valida**; entrega el código limpio. (Es DM, no hace falta sugerir mover a privado.)
 3. **A1 Frontier:** usuario verificado; materia = *Programación II* (resuelta por el **servidor**). Clasifica `intent = apoyo_practico`. Pide a **A8** el contexto (en DM, memoria completa de la materia). Como toda consulta práctica, deriva **primero a A5**.
 4. **A5 Evaluative Guard:** lee las **evaluativas activas** del Config Store. El TP1 está activo y la consulta pide **resolver el ejercicio 3**. Devuelve `is_evaluative = true` (confianza alta), con justificación. **No** redacta respuesta.
-5. **A1 (decisión de borde):** con `is_evaluative = true`, A1 **no deriva a A3** (por diseño, A3 no atiende consultas que caen sobre un evaluable activo). A1 compone la respuesta manteniendo la **postura**: declina entregar el ejercicio resuelto y **ofrece la ayuda que sí corresponde** — explicar el **concepto** necesario (puede derivar a **A2** la parte teórica del tema, que no resuelve el entregable) y orientar a los docentes ante dudas sobre la consigna.
-6. **Publicación (DM):** el bot deja explícito que **no** va a entregar el ejercicio resuelto, ofrece guiar el razonamiento o explicar el concepto, y **cita la fuente** de cátedra si aporta material teórico.
-7. **Registro:** A8 registra el tema y el estado (`stuck`). Si el patrón se repitiera, A5 puede marcar `pattern_flag` para que el docente decida —sin bloquear al alumno.
-8. **Cierre (opcional):** **A10** lanza una **encuesta** breve por DM, respetando el cooldown.
+5. **A1 (decisión de borde):** con `is_evaluative = true`, A1 **no deriva a A3** (por diseño, A3 no atiende consultas sobre un evaluable activo). Mantiene la **postura** pero **da ayuda igual**: declina resolver el ejercicio y **deriva el concepto teórico subyacente a A2** (despacho compuesto), aclarando que es el **concepto**, no la resolución del ejercicio.
+6. **A2 Theory:** explica ese concepto anclado en la KB y **con cita de fuente**, manteniéndose en el nivel conceptual (sin el procedimiento puntual que el alumno debe resolver); su guardrail le impide "dar la respuesta completa".
+7. **A1 ensambla y publica (DM):** declina el ejercicio + entrega la **explicación conceptual** de A2 + orienta a docentes para dudas de consigna. El alumno **recibe ayuda real** (el concepto) sin la solución del entregable.
+8. **Registro y cierre:** A8 registra el tema y el estado (`stuck`); si el patrón se repitiera, A5 puede marcar `pattern_flag` para que el docente decida —sin bloquear al alumno. Opcional: **A10** lanza una **encuesta** breve por DM, respetando el cooldown.
 
-**Quién evita la sobre-entrega (trazado explícito):** **A5** detecta que la consulta cae sobre un evaluable activo y, por su dictamen, **A1 no deriva a A3** y declina la solución manteniendo la postura pedagógica. El control de **densidad** de **A4** es el mecanismo complementario para la ayuda **no evaluable** (se ve en el Escenario C). No se bloquean cadenas incrementales de preguntas (límite honesto declarado).
+**Quién evita la sobre-entrega (trazado explícito):** **A5** (gate: detecta el evaluable activo ⇒ A1 no va a A3) + la **postura de A1**, que limita la ayuda al **concepto** vía **A2** (cuyo guardrail evita "dar la respuesta completa"). El control de **densidad** de **A4** es el mecanismo complementario para la ayuda **no evaluable** (Escenario C). No se bloquean cadenas incrementales de preguntas (límite honesto declarado).
 
 ```mermaid
 sequenceDiagram
@@ -41,6 +41,7 @@ sequenceDiagram
     participant A1 as A1 Frontier
     participant A8 as A8 Memory
     participant A5 as A5 Eval Guard
+    participant A2 as A2 Theory
 
     E->>D: DM con bloque de codigo + pedido de resolver el ej 3 del TP1
     D->>CP: Detecta bloque de codigo
@@ -49,9 +50,11 @@ sequenceDiagram
     A8-->>A1: Extracto pedagogico
     A1->>A5: Dictamen sobre apoyo_practico
     A5-->>A1: is_evaluative true (TP1 activo, pide resolver ej 3)
-    A1->>A1: No deriva a A3; mantiene la postura
-    A1-->>D: Declina la solucion + ofrece explicar el concepto / reconduce
-    D-->>E: No te resuelvo el entregable, pero te explico el concepto
+    A1->>A1: No deriva a A3 (evaluable activo)
+    A1->>A2: Deriva solo el concepto subyacente (no la resolucion)
+    A2-->>A1: Explicacion conceptual + cita de fuente
+    A1-->>D: Declina el ejercicio + explica el concepto + reconduce
+    D-->>E: Recibe ayuda conceptual, sin la solucion del entregable
     A1->>A8: write avance (TP1, stuck)
 ```
 
@@ -149,20 +152,66 @@ sequenceDiagram
 
 ---
 
-## 5. Cobertura de los siete bloques funcionales
+## 5. Escenario D (opcional) — Acompañamiento, autoevaluación, feedback y seguimiento
 
-Los tres escenarios atacan las tensiones exigidas; el resto de los bloques quedan ejercitados aquí o en ejemplos de otros entregables, sin inventar escenarios triviales:
+**Para qué:** mostrar **en vivo** los bloques funcionales que A/B/C no ejercitan de lleno —autoevaluación (3), acompañamiento (5), feedback (6) y seguimiento (7)— en un hilo **longitudinal**. No es obligatorio; complementa a A/B/C.
+
+**Contexto:** *Programación II*, **DM**.
+
+**Paso a paso:**
+
+1. **Día 1 — acompañamiento (bloque 5).** El alumno escribe *"no sé qué repasar para el parcial"*. A1 clasifica `intent = orientacion` y hace un **despacho compuesto**: **A6** aporta fechas/checklist del Config Store y **A2** sugiere un punto de entrada según lo que el alumno ya vio (vía A8). A1 **ensambla** una orientación única.
+2. **Autoevaluación (bloque 3).** El alumno pide un quiz del tema sugerido. **A7** genera una pregunta, evalúa la respuesta y da **feedback orientativo**; registra el desempeño en **A8** y aporta la **métrica de resolución** a **A10**.
+3. **Feedback (bloque 6).** Tras el quiz, **A10** lanza una **encuesta** breve ("¿te sirvió?", cooldown respetado); la guarda con la política de anonimato de la cátedra para el digest docente.
+4. **+N días — seguimiento (bloque 7).** El scheduler dispara **A9**, que detecta la duda aún abierta y un **hito próximo** (el parcial); contacta por **DM** con un recordatorio suave y **salida fácil** (opt-out).
+
+**Coherencia con los límites:** todo en DM (no expone privado), un mensaje proactivo acotado, sin notas ni vigilancia. Es la versión "en escenario" del ejemplo del [Entregable 4](04-memoria-entre-sesiones-y-seguimiento.md).
+
+```mermaid
+sequenceDiagram
+    actor E as Estudiante
+    participant D as Discord Gateway
+    participant A1 as A1 Frontier
+    participant A6 as A6 Admin Info
+    participant A2 as A2 Theory
+    participant A7 as A7 Quiz
+    participant A10 as A10 Feedback
+    participant A9 as A9 Follow-up
+
+    E->>D: DM, no se que repasar para el parcial
+    D->>A1: Mensaje (intent orientacion)
+    A1->>A6: Checklist y fechas (Config Store)
+    A1->>A2: Punto de entrada segun lo visto
+    A1-->>D: Orientacion ensamblada (acompanamiento)
+    D-->>E: Que repasar + por donde empezar
+    E->>D: Pido un quiz del tema
+    D->>A7: Genera quiz
+    A7-->>D: Pregunta corta
+    E->>D: Responde
+    D->>A7: Evalua
+    A7-->>D: Feedback orientativo
+    A7->>A10: Metrica de resolucion
+    A10-->>D: Encuesta breve (te sirvio?)
+    Note over E,A9: Pasan varios dias
+    A9->>A9: Detecta duda abierta + parcial proximo
+    A9-->>D: DM recordatorio suave + salida facil
+    D-->>E: Seguimiento sobre el mismo tema
+```
+
+## 6. Cobertura de los siete bloques funcionales
+
+Los escenarios A/B/C (más el opcional D) atacan las tensiones exigidas y ejercitan los siete bloques, sin inventar escenarios triviales:
 
 | Bloque funcional | Dónde se ejercita |
 |---|---|
 | 1. Apoyo teórico | Escenario C (AVL) |
 | 2. Apoyo práctico / código | Escenarios A y C |
-| 3. Autoevaluación (quiz) | Ejemplo del [Entregable 4](04-memoria-entre-sesiones-y-seguimiento.md) (quiz de pilas) |
-| 4. Información administrativa | Escenarios B y C |
-| 5. Acompañamiento / organización | Ejemplo de contacto proactivo del [Entregable 4](04-memoria-entre-sesiones-y-seguimiento.md) (A9) |
-| 6. Feedback estudiante → docente | Cierre del Escenario A (encuesta de A10) |
-| 7. Memoria entre sesiones y seguimiento | Registro en A y C; seguimiento en el [Entregable 4](04-memoria-entre-sesiones-y-seguimiento.md) |
+| 3. Autoevaluación (quiz) | **Escenario D**; ejemplo del [Entregable 4](04-memoria-entre-sesiones-y-seguimiento.md) |
+| 4. Información administrativa | Escenarios B, C y D |
+| 5. Acompañamiento / organización | **Escenario D** (orientación compuesta); ejemplo del [Entregable 4](04-memoria-entre-sesiones-y-seguimiento.md) |
+| 6. Feedback estudiante → docente | **Escenario D** y cierre del Escenario A (encuesta de A10) |
+| 7. Memoria entre sesiones y seguimiento | **Escenario D**; registro en A y C; seguimiento en el [Entregable 4](04-memoria-entre-sesiones-y-seguimiento.md) |
 
-## 6. Síntesis
+## 7. Síntesis
 
 Los tres escenarios muestran la coordinación en acción y son **coherentes** con el modelo de los entregables anteriores: en **A**, la restricción la sostienen **A5** (gate del evaluable) y la **postura de A1**, que declina la solución y ofrece ayuda conceptual; en **B**, A1+A6 trazan la frontera regla pública/caso particular y **derivan** a humano citando la fuente; en **C**, A1 **descompone** una consulta multi-dominio en orden fijo, **A3→A4** acota la ayuda de código no evaluable, y A1 **ensambla** una sola respuesta sin contradicciones. Los diagramas de secuencia hacen explícito el **orden temporal** y las **derivaciones**, que un diagrama de bloques ocultaría.

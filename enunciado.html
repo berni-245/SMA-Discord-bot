@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMA Discord — Consigna resumida</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --border: #2d3a4d;
+      --text: #e7ecf3;
+      --muted: #9aa8bc;
+      --accent: #5865f2;
+      --warn: #f0b429;
+      --ok: #3ba55d;
+      --danger: #ed4245;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 1.55rem;
+      line-height: 1.25;
+      margin: 0 0 0.75rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(237, 66, 69, 0.15);
+      color: #ff8a8c;
+      border: 1px solid rgba(237, 66, 69, 0.35);
+    }
+
+    .lead { color: var(--muted); margin: 0.75rem 0 0; }
+
+    nav {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    nav strong { display: block; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--muted); }
+
+    nav ol {
+      margin: 0;
+      padding-left: 1.25rem;
+      columns: 2;
+      column-gap: 2rem;
+    }
+
+    @media (max-width: 600px) { nav ol { columns: 1; } }
+
+    nav a { color: var(--accent); text-decoration: none; }
+    nav a:hover { text-decoration: underline; }
+
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.35rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.05rem;
+      margin: 0 0 0.75rem;
+      color: #fff;
+    }
+
+    h3 {
+      font-size: 0.92rem;
+      margin: 1rem 0 0.4rem;
+      color: var(--accent);
+    }
+
+    p, ul, ol { margin: 0.4rem 0; }
+    ul, ol { padding-left: 1.25rem; }
+
+    li { margin: 0.25rem 0; }
+
+    .pill {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      background: rgba(88, 101, 242, 0.2);
+      color: #a5adff;
+      vertical-align: middle;
+    }
+
+    .grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 640px) {
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+
+    .card {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+    }
+
+    .card h3 { margin-top: 0; }
+
+    .req { border-left: 3px solid var(--warn); padding-left: 0.85rem; }
+    .limit { border-left: 3px solid var(--danger); padding-left: 0.85rem; }
+    .note { border-left: 3px solid var(--ok); padding-left: 0.85rem; font-size: 0.92rem; color: var(--muted); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin-top: 0.5rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.6rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { background: rgba(0, 0, 0, 0.25); color: var(--muted); font-weight: 600; }
+
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <span class="badge">Solo diseño — no código</span>
+      <h1>Sistema multiagente de soporte a la cursada en Discord</h1>
+      <p class="lead">
+        Diseñar conceptualmente un asistente para estudiantes y docentes en Discord.
+        No se implementa API, bot ni LLM real. Entrega = documento + artefactos de modelado.
+      </p>
+    </header>
+
+    <nav>
+      <strong>Índice</strong>
+      <ol>
+        <li><a href="#contexto">Contexto</a></li>
+        <li><a href="#objetivo">Objetivo</a></li>
+        <li><a href="#requisitos">Requisitos clave</a></li>
+        <li><a href="#funcionalidades">7 funcionalidades</a></li>
+        <li><a href="#limites">Límites globales</a></li>
+        <li><a href="#entregables">8 entregables</a></li>
+        <li><a href="#abiertas">Preguntas abiertas</a></li>
+        <li><a href="#calidad">Criterios de calidad</a></li>
+      </ol>
+    </nav>
+
+    <section id="contexto">
+      <h2>Contexto</h2>
+      <ul>
+        <li>Discord como canal de comunicación; usuarios ya autorizados con roles (estudiante, docente, ayudante).</li>
+        <li>El asistente <strong>complementa</strong> a los docentes; no reemplaza canales institucionales.</li>
+        <li>Discord es el <strong>ambiente</strong>: permisos, canales y roles acotan qué se percibe y qué se puede actuar (sensores/actuadores).</li>
+        <li><span class="pill">Multi-materia</span> El modelo debe soportar <strong>varias materias en paralelo</strong>, con aislamiento de conocimiento y reglas por cursada. Una materia de ejemplo ilustra escenarios; no basta un diseño monolítico.</li>
+        <li>Los docentes reciben feedback de estudiantes (complementario, no evaluación oficial).</li>
+      </ul>
+    </section>
+
+    <section id="objetivo">
+      <h2>Objetivo del diseño</h2>
+      <p>Definir agentes, roles, coordinación y límites. Responder explícitamente:</p>
+      <ul>
+        <li>Qué agentes existen, por qué, y qué queda fuera de cada uno.</li>
+        <li>Cómo se coordinan (orden, derivación, información compartida).</li>
+        <li>Cómo se distinguen roles estudiante vs docente.</li>
+        <li>Memoria <strong>intra-sesión</strong> vs persistencia <strong>entre sesiones</strong> (seguimiento proactivo).</li>
+        <li>Cómo el ambiente Discord condiciona percepción y acción.</li>
+      </ul>
+      <p class="note">Toda decisión debe justificarse con conceptos SMA (especialización, coordinación, autonomía, agente–ambiente).</p>
+    </section>
+
+    <section id="requisitos">
+      <h2>Requisitos transversales</h2>
+
+      <div class="req">
+        <h3>Privacidad por canal</h3>
+        <ul>
+          <li><strong>Público</strong> (canales visibles): consultas y respuestas no son confidenciales.</li>
+          <li><strong>DM</strong>: privado; no republicar en canales públicos ni identificar al estudiante, salvo transferencia explícita y consentida.</li>
+          <li>Casos intermedios (hilos, canales restringidos): etiquetar como público o privado y justificar.</li>
+        </ul>
+      </div>
+
+      <div class="req">
+        <h3>Actualización de conocimiento</h3>
+        <p>Docentes aportan material en un <strong>canal especializado por materia</strong> (solo docencia escribe). El diseño debe trazar cómo ese contenido llega a la base de conocimiento de los agentes (ingesta, versionado, vigencia).</p>
+      </div>
+
+      <div class="req">
+        <h3>Fuera de dominio</h3>
+        <p>Ante temas ajenos a la materia o no atendibles: respuesta educada + “fuera del dominio” + orientar al estudiante hacia docentes o canal humano designado. No inventar ni sustituir consulta docente.</p>
+      </div>
+    </section>
+
+    <section id="funcionalidades">
+      <h2>Funcionalidades (por materia en contexto)</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>1. Apoyo teórico</h3>
+          <p>Preguntas, explicaciones, ejemplos, resúmenes sobre la materia correcta.</p>
+        </div>
+        <div class="card">
+          <h3>2. Apoyo práctico / programación</h3>
+          <p>Consignas, procedimientos, revisión de avances, errores, próximos pasos.</p>
+          <p><strong>Restricción:</strong> no entregar solución evaluable completa en un solo mensaje. No se exige bloquear cadenas incrementales de mensajes.</p>
+          <p><strong>Obligatorio:</strong> trazar cómo el código llega desde Discord (bloque, adjunto, hilo, etc.).</p>
+        </div>
+        <div class="card">
+          <h3>3. Autoevaluación</h3>
+          <p>Quizzes cortos, preguntas de comprensión, feedback orientativo (no nota oficial).</p>
+        </div>
+        <div class="card">
+          <h3>4. Info administrativa</h3>
+          <p>Fechas, modalidad, reglas publicadas. Casos personales: solo info genérica + derivación a área humana.</p>
+          <p><em>Ej.:</em> “¿recupero si me enfermé?” → reglas generales + derivar; no validar el caso.</p>
+        </div>
+        <div class="card">
+          <h3>5. Acompañamiento</h3>
+          <p>Recordatorios, checklists, orientación cuando el estudiante está perdido.</p>
+        </div>
+        <div class="card">
+          <h3>6. Feedback a docentes</h3>
+          <p>Estudiantes aportan retroalimentación; docentes acceden vía digest/canal privado. Definir agregación, anonimato, periodicidad y moderación de abuso.</p>
+        </div>
+        <div class="card" style="grid-column: 1 / -1;">
+          <h3>7. Memoria entre sesiones</h3>
+          <ul>
+            <li>Persistir lo mínimo por usuario y materia (temas, tipo de ayuda).</li>
+            <li>Contacto proactivo razonable (recordatorio suave, repregunta).</li>
+            <li>Separar memoria transitoria intra-sesión de registro longitudinal.</li>
+            <li>Opt-out / control del usuario; respetar privacidad DM.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="limites">
+      <h2>Límites globales (no negociables)</h2>
+      <div class="limit">
+        <ul>
+          <li>No corregir exámenes ni poner notas.</li>
+          <li>No reemplazar al docente ni gestionar trámites formales.</li>
+          <li>No dar datos institucionales sensibles ni decisiones académicas oficiales.</li>
+          <li>No usar feedback como única evaluación docente.</li>
+          <li>No acosar con mensajes proactivos.</li>
+          <li>No exponer contenido de DM en canales públicos (salvo transferencia consentida).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="entregables">
+      <h2>Entregables de diseño</h2>
+      <p class="note"><strong>Glosario obligatorio al inicio:</strong> definir “sesión” vs “conversación” y usarlo de forma consistente con la memoria.</p>
+
+      <table>
+        <thead>
+          <tr><th>#</th><th>Entregable</th><th>Contenido esencial</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Agentes</td>
+            <td>Inventario, rol, recursos, alcance/exclusiones. Carácter reactivo/proactivo/social y BDI. Contraste admin (reactivo) vs seguimiento (proactivo).</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Coordinación</td>
+            <td>Primer agente, derivación, info compartida, mecanismo de coordinación, roles estudiante/docente, flujo feedback → docente, fuera de dominio.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Multi-materia</td>
+            <td>Resolución de contexto, aislamiento de conocimiento, ambigüedad “¿de qué materia?”.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Memoria</td>
+            <td>Qué se guarda/descarta, dónde vive, contacto proactivo, opt-out, ejemplo día 1 → seguimiento posterior.</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Discord</td>
+            <td>Bot(s), canales, roles. <strong>Matriz agente–ambiente</strong> (percepción/acción por canal). Canal docente. Privacidad público/DM. Flujo de ingreso de código.</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Escenarios</td>
+            <td>≥3 escenarios de tensión distinta + <strong>diagrama de secuencia</strong> de uno. A: código sin sobre-entrega. B: límite administrativo. C: consulta mixta.</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Riesgos</td>
+            <td>Alucinaciones, fuera de dominio, filtrado de privacidad, abuso — con mitigaciones concretas.</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Auto-evaluación</td>
+            <td>Escalabilidad multi-materia, robustez si falla programación, flexibilidad para nuevo agente (ej. bienestar). Juicio + argumento + límite honesto.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="note" style="margin-top: 1rem;">Formato principal: Markdown. Diagramas libres; obligatorios: glosario, diagrama de secuencia, matriz agente–ambiente.</p>
+    </section>
+
+    <section id="abiertas">
+      <h2>Preguntas abiertas (el grupo decide y argumenta)</h2>
+      <ul>
+        <li><strong>Arquitectura:</strong> orquestador vs peer-to-peer; agente guardián/andamiaje; usuario como agente o solo entorno.</li>
+        <li><strong>UX Discord:</strong> nudge a DM, personalidad única vs múltiple, conversaciones largas.</li>
+        <li><strong>Feedback:</strong> identificado vs anónimo; moderación humana/agente; capacidades docente separadas.</li>
+        <li><strong>Datos:</strong> otras fuentes además del canal docente; versionado; validación previa; stack por materia; agentes genéricos vs por materia.</li>
+        <li><strong>Coordinación:</strong> prioridad entre agentes; orden en consultas mixtas; estado compartido intra-sesión; retención y auditoría de memoria.</li>
+        <li><strong>Pedagógico:</strong> quién genera quizzes; límite honesto anti-fraude (no es requisito bloquear cadenas).</li>
+        <li><strong>Privacidad:</strong> retención de código/conversaciones; capas de almacenamiento; aislamiento entre materias.</li>
+      </ul>
+    </section>
+
+    <section id="calidad">
+      <h2>Criterios de calidad (resumen)</h2>
+      <ul>
+        <li>Agentes sin solapamiento confuso; BDI y reactividad/proactividad explícitas.</li>
+        <li>Coordinación alineada con límites éticos y flujo feedback → docente.</li>
+        <li>Multi-materia con aislamiento creíble.</li>
+        <li>Glosario sesión/conversación coherente con memoria intra vs entre sesiones.</li>
+        <li>Discord como ambiente: matriz, privacidad, canal docente, ingreso de código.</li>
+        <li>Escenarios A/B/C con tensiones reales; secuencia temporal visible.</li>
+        <li>Riesgos con mitigaciones, no lista genérica.</li>
+        <li>Auto-evaluación con argumentos anclados al diseño propio.</li>
+      </ul>
+    </section>
+
+    <footer>
+      Referencia tecnológica (LLM, frameworks) opcional — solo ilustración.<br>
+      Basado en <code>enunciado.md</code> — versión condensada para lectura rápida.
+    </footer>
+  </div>
+</body>
+</html>

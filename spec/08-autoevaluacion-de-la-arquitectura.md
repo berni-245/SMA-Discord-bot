@@ -17,15 +17,15 @@ La arquitectura final usa **6 agentes** más infraestructura determinista. Frent
 
 ## 3. Robustez y degradación
 
-| Falla | Se degrada | Sigue disponible |
-|---|---|---|
-| A2 Tutor | Teoría, práctica, quiz y orientación pedagógica | Admin, feedback, curator y seguimiento previamente configurado |
-| A3 Admin | Fechas/reglas conversacionales | Tutor, feedback y seguimiento |
-| A4 Follow-up | Contacto proactivo | Atención reactiva completa |
-| A5 Feedback | Digests | Atención y memoria |
-| A6 Curator | Actualizaciones nuevas; se conserva última versión confirmada | Atención con fuentes vigentes existentes |
-| MemoryStore | Personalización y seguimiento | Consultas sin memoria |
-| OutputPolicy o Dispatcher | Publicación segura | Debe fallar cerrado: no se publica |
+| Falla                     | Se degrada                                                    | Sigue disponible                                               |
+| ------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------- |
+| A2 Tutor                  | Teoría, práctica, quiz y orientación pedagógica               | Admin, feedback, curator y seguimiento previamente configurado |
+| A3 Admin                  | Fechas/reglas conversacionales                                | Tutor, feedback y seguimiento                                  |
+| A4 Follow-up              | Contacto proactivo                                            | Atención reactiva completa                                     |
+| A5 Feedback               | Digests                                                       | Atención y memoria                                             |
+| A6 Curator                | Actualizaciones nuevas; se conserva última versión confirmada | Atención con fuentes vigentes existentes                       |
+| MemoryStore               | Personalización y seguimiento                                 | Consultas sin memoria                                          |
+| OutputPolicy o Dispatcher | Publicación segura                                            | Debe fallar cerrado: no se publica                             |
 
 **Trade-off honesto:** integrar teoría, práctica y quiz en A2 amplía el impacto de su caída. A cambio, elimina handoffs entre especialistas pedagógicos y políticas presentadas como agentes; la consistencia de una respuesta normal mejora y la implementación se achica.
 
@@ -46,13 +46,13 @@ No requiere modificar A2, A3, A5 o A6 ni el modelo multi-materia. Las reglas det
 
 ## 5. Métricas de evaluación
 
-| Dimensión | Evaluación | Fundamento |
-|---|---|---|
-| Complejidad de coordinación | Mejorada | Seis agentes; políticas/stores fuera del SMA |
-| Privacidad | Alta | Origen, consentimiento, publicación única y feedback agregado |
-| Trazabilidad | Alta | Versionado KB/Config, citas, modos de salida y logs mínimos |
-| Robustez | Media/alta | Menos handoffs; A2 concentra capacidades pedagógicas |
-| Compatibilidad Discord | Alta | Eventos explícitos, permisos acotados y DMs fallables contemplados |
+| Dimensión                   | Evaluación | Fundamento                                                         |
+| --------------------------- | ---------- | ------------------------------------------------------------------ |
+| Complejidad de coordinación | Mejorada   | Seis agentes; políticas/stores fuera del SMA                       |
+| Privacidad                  | Alta       | Origen, consentimiento, publicación única y feedback agregado      |
+| Trazabilidad                | Alta       | Versionado KB/Config, citas, modos de salida y logs mínimos        |
+| Robustez                    | Media/alta | Menos handoffs; A2 concentra capacidades pedagógicas               |
+| Compatibilidad Discord      | Alta       | Eventos explícitos, permisos acotados y DMs fallables contemplados |
 
 ## 6. Mejoras futuras
 

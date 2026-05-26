@@ -4,12 +4,12 @@
 
 El sistema es **una aplicación de bot** presente en el servidor de cada materia. Los seis agentes son roles internos; no poseen identidades ni permisos Discord propios. El `OutboundDispatcher` es el único componente que envía mensajes.
 
-| Espacio | Entrada admitida | Visibilidad | Uso |
-|---|---|---|---|
-| Canal de estudiantes | `@bot` o comando | Pública para sus lectores | Consultas y respuestas públicas |
-| DM estudiante-bot | Mensaje o comando | Privada | Código sensible, quiz y seguimiento |
-| Canal docente | `/incorporar-material` o `@bot incorporar` por rol autorizado | Según permisos de cátedra | Actualización KB/Config |
-| Canal docente privado de digest | Publicación del bot | Docentes | Digest agregado de A5 |
+| Espacio                         | Entrada admitida                                              | Visibilidad               | Uso                                 |
+| ------------------------------- | ------------------------------------------------------------- | ------------------------- | ----------------------------------- |
+| Canal de estudiantes            | `@bot` o comando                                              | Pública para sus lectores | Consultas y respuestas públicas     |
+| DM estudiante-bot               | Mensaje o comando                                             | Privada                   | Código sensible, quiz y seguimiento |
+| Canal docente                   | `/incorporar-material` o `@bot incorporar` por rol autorizado | Según permisos de cátedra | Actualización KB/Config             |
+| Canal docente privado de digest | Publicación del bot                                           | Docentes                  | Digest agregado de A5               |
 
 Un hilo hereda la visibilidad del canal padre. Un canal restringido es público entre quienes pueden leerlo; no equivale a un DM. Un grupo pequeño o DM grupal se trata como **privado respecto del servidor, pero compartido entre sus participantes**: el bot no republica afuera, pero tampoco promete confidencialidad 1:1.
 
@@ -26,15 +26,15 @@ Comandos previstos: `/mi-historial`, `/borrar-historial`, `/restablecer-perfil`,
 
 **P** = percibe un evento del ambiente dirigido a su función. **(P)** = recibe internamente contexto saneado desde A1 o infraestructura. **B** = produce borrador o decisión. La escritura efectiva siempre corresponde a Dispatcher.
 
-| Agente | Canal estudiante | DM estudiante | Canal docente de aporte | Canal docente de digest |
-|---|---|---|---|---|
-| A1 Frontier | P / B | P / B | — | — |
-| A2 Tutor | (P) / B vía A1 | (P) / B vía A1 | — | — |
-| A3 Admin | (P) / B vía A1 | (P) / B vía A1 | — | — |
-| A4 Follow-up | — | (P) / B con opt-in | — | — |
-| A5 Feedback | (P) / B vía A1 por `/feedback` | (P) / B vía A1 si voluntario | — | B digest |
-| A6 Knowledge Curator | — | — | P / B confirmación | — |
-| OutboundDispatcher (infra) | Escribe | Escribe o registra fallo | Escribe confirmación | Escribe digest |
+| Agente                     | Canal estudiante               | DM estudiante                | Canal docente de aporte | Canal docente de digest |
+| -------------------------- | ------------------------------ | ---------------------------- | ----------------------- | ----------------------- |
+| A1 Frontier                | P / B                          | P / B                        | —                       | —                       |
+| A2 Tutor                   | (P) / B vía A1                 | (P) / B vía A1               | —                       | —                       |
+| A3 Admin                   | (P) / B vía A1                 | (P) / B vía A1               | —                       | —                       |
+| A4 Follow-up               | —                              | (P) / B con opt-in           | —                       | —                       |
+| A5 Feedback                | (P) / B vía A1 por `/feedback` | (P) / B vía A1 si voluntario | —                       | B digest                |
+| A6 Knowledge Curator       | —                              | —                            | P / B confirmación      | —                       |
+| OutboundDispatcher (infra) | Escribe                        | Escribe o registra fallo     | Escribe confirmación    | Escribe digest          |
 
 Las celdas `—` son prohibiciones de diseño: A6 no lee canales de estudiantes; A2/A3/A4 no leen el canal docente; A5 no lee conversaciones para inferir feedback. Ningún agente escribe directamente: incluso sus borradores autorizados pasan por `OutputPolicy` y `OutboundDispatcher`.
 
@@ -42,12 +42,12 @@ Las celdas `—` son prohibiciones de diseño: A6 no lee canales de estudiantes;
 
 A6 procesa exclusivamente aportes explícitos del canal autorizado:
 
-| Tipo de aporte | Destino vigente |
-|---|---|
-| Apunte, bibliografía, explicación, programa | KB Store versionado |
-| Fecha, modalidad, regla de evaluación, evaluativa activa | Config Store versionado |
-| Corrección clara | Nueva versión vigente; anterior obsoleta |
-| Conflicto ambiguo | `pendiente_confirmacion` y pregunta al docente |
+| Tipo de aporte                                           | Destino vigente                                |
+| -------------------------------------------------------- | ---------------------------------------------- |
+| Apunte, bibliografía, explicación, programa              | KB Store versionado                            |
+| Fecha, modalidad, regla de evaluación, evaluativa activa | Config Store versionado                        |
+| Corrección clara                                         | Nueva versión vigente; anterior obsoleta       |
+| Conflicto ambiguo                                        | `pendiente_confirmacion` y pregunta al docente |
 
 Así, la fecha que A3 responde y las evaluativas que `OutputPolicy` controla provienen del mismo dato actualizado por la cátedra.
 

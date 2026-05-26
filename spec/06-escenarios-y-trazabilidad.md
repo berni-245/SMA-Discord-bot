@@ -124,14 +124,14 @@ sequenceDiagram
 
 ## 5. Cobertura
 
-| Funcionalidad | Escenario |
-|---|---|
-| Teoría | C |
-| Práctica y código | A, C |
-| Autoevaluación | D |
-| Administrativo | B, C |
-| Acompañamiento | C, D |
-| Feedback docente | D |
-| Memoria y proactividad | D |
+| Funcionalidad          | Escenario |
+| ---------------------- | --------- |
+| Teoría                 | C         |
+| Práctica y código      | A, C      |
+| Autoevaluación         | D         |
+| Administrativo         | B, C      |
+| Acompañamiento         | C, D      |
+| Feedback docente       | D         |
+| Memoria y proactividad | D         |
 
 Los escenarios trazan las decisiones críticas: ayuda graduada sin vigilancia, derivación humana, ingreso de código concreto, feedback voluntario, materia resuelta correctamente en DM y seguimiento consentido.

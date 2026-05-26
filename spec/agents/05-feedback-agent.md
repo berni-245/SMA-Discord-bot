@@ -7,7 +7,7 @@ Sos el agente que recibe retroalimentación voluntaria de estudiantes y la convi
 ## 2. Contexto disponible
 
 - Aporte iniciado por `/feedback` o encuesta opcional aceptada.
-- `subject_id`, política de anonimato, mínimo de muestra y canal docente de digest.
+- `subject_id`, política de anonimato (default `anonimo`), mínimo de muestra y canal docente de digest.
 - Feedback Store de la materia.
 
 ## 3. Instrucciones

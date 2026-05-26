@@ -8,40 +8,40 @@ La versión de once agentes separaba teoría, práctica, quiz, memoria y dos con
 
 ## 2. Inventario
 
-| ID | Agente | Responsabilidad | Carácter |
-|---|---|---|---|
-| A1 | [Frontier / Coordinador](agents/01-frontier-agent.md) | Entrada, clasificación, coordinación, respuesta fuera de dominio | reactivo + social |
-| A2 | [Tutor](agents/02-tutor-agent.md) | Teoría, práctica/código, quiz y orientación | reactivo + social |
-| A3 | [Admin](agents/03-admin-agent.md) | Información administrativa publicada y derivación | reactivo |
-| A4 | [Follow-up](agents/04-followup-agent.md) | Seguimiento por DM consentido | proactivo |
-| A5 | [Feedback](agents/05-feedback-agent.md) | Feedback voluntario y digest docente | reactivo + social |
-| A6 | [Knowledge Curator](agents/06-knowledge-curator-agent.md) | Actualización versionada de KB/Config | reactivo + social |
+| ID  | Agente                                                    | Responsabilidad                                                  | Carácter          |
+| --- | --------------------------------------------------------- | ---------------------------------------------------------------- | ----------------- |
+| A1  | [Frontier / Coordinador](agents/01-frontier-agent.md)     | Entrada, clasificación, coordinación, respuesta fuera de dominio | reactivo + social |
+| A2  | [Tutor](agents/02-tutor-agent.md)                         | Teoría, práctica/código, quiz y orientación                      | reactivo + social |
+| A3  | [Admin](agents/03-admin-agent.md)                         | Información administrativa publicada y derivación                | reactivo          |
+| A4  | [Follow-up](agents/04-followup-agent.md)                  | Seguimiento por DM consentido                                    | proactivo         |
+| A5  | [Feedback](agents/05-feedback-agent.md)                   | Feedback voluntario y digest docente                             | reactivo + social |
+| A6  | [Knowledge Curator](agents/06-knowledge-curator-agent.md) | Actualización versionada de KB/Config                            | reactivo + social |
 
 ## 3. Infraestructura deliberadamente excluida del inventario
 
-| Componente | Responsabilidad | Por qué no es agente |
-|---|---|---|
-| `SubjectRouter` | Resuelve y valida `subject_id` | Es lookup/partición determinista |
-| `Auth/Role Check` | Valida usuarios y roles | Es control de acceso |
-| `MemoryStore` | STM, LTM, preferencias, retención y visibilidad | Aplica reglas de datos, no persigue objetivos |
-| `InputExtractor` | Extrae y valida bloque/adjunto de código | Es transformación de formato |
-| `OutputPolicy` | `assistance_mode`, privacidad y densidad de ayuda | Es política auditable de publicación |
-| `Scheduler` | Dispara seguimiento si hay opt-in | Es temporización |
-| `OutboundDispatcher` | Envía a Discord y registra fallos | Es el actuador físico único |
+| Componente           | Responsabilidad                                   | Por qué no es agente                          |
+| -------------------- | ------------------------------------------------- | --------------------------------------------- |
+| `SubjectRouter`      | Resuelve y valida `subject_id`                    | Es lookup/partición determinista              |
+| `Auth/Role Check`    | Valida usuarios y roles                           | Es control de acceso                          |
+| `MemoryStore`        | STM, LTM, preferencias, retención y visibilidad   | Aplica reglas de datos, no persigue objetivos |
+| `InputExtractor`     | Extrae y valida bloque/adjunto de código          | Es transformación de formato                  |
+| `OutputPolicy`       | `assistance_mode`, privacidad y densidad de ayuda | Es política auditable de publicación          |
+| `Scheduler`          | Dispara seguimiento si hay opt-in                 | Es temporización                              |
+| `OutboundDispatcher` | Envía a Discord y registra fallos                 | Es el actuador físico único                   |
 
 ## 4. Cobertura funcional
 
-| Funcionalidad requerida | Responsable |
-|---|---|
-| Apoyo teórico | A2 Tutor + KB |
-| Apoyo práctico y código | A2 Tutor + `InputExtractor` + `OutputPolicy` |
-| Autoevaluación | A2 Tutor |
-| Información administrativa | A3 Admin + Config Store |
-| Acompañamiento y organización | A2 Tutor reactivo; A4 Follow-up proactivo |
-| Feedback estudiante → docente | A5 Feedback |
-| Memoria y contacto proactivo | `MemoryStore` + A4 Follow-up |
-| Conocimiento vivo docente | A6 Knowledge Curator |
-| Privacidad y Discord | `OutputPolicy` + `OutboundDispatcher` |
+| Funcionalidad requerida       | Responsable                                  |
+| ----------------------------- | -------------------------------------------- |
+| Apoyo teórico                 | A2 Tutor + KB                                |
+| Apoyo práctico y código       | A2 Tutor + `InputExtractor` + `OutputPolicy` |
+| Autoevaluación                | A2 Tutor                                     |
+| Información administrativa    | A3 Admin + Config Store                      |
+| Acompañamiento y organización | A2 Tutor reactivo; A4 Follow-up proactivo    |
+| Feedback estudiante → docente | A5 Feedback                                  |
+| Memoria y contacto proactivo  | `MemoryStore` + A4 Follow-up                 |
+| Conocimiento vivo docente     | A6 Knowledge Curator                         |
+| Privacidad y Discord          | `OutputPolicy` + `OutboundDispatcher`        |
 
 ## 5. Fichas de agentes
 
@@ -107,16 +107,16 @@ La versión de once agentes separaba teoría, práctica, quiz, memoria y dos con
 
 ## 6. Carácter y contraste obligatorio
 
-| Agente | Reactivo | Proactivo | Social |
-|---|:---:|:---:|:---:|
-| A1 Frontier | ● | | ● |
-| A2 Tutor | ● | | ● |
-| A3 Admin | ● | | |
-| A4 Follow-up | | ● | |
-| A5 Feedback | ● | | ● |
-| A6 Knowledge Curator | ● | | ● |
+| Agente               | Reactivo | Proactivo | Social |
+| -------------------- | :------: | :-------: | :----: |
+| A1 Frontier          |    ●     |           |   ●    |
+| A2 Tutor             |    ●     |           |   ●    |
+| A3 Admin             |    ●     |           |        |
+| A4 Follow-up         |          |     ●     |        |
+| A5 Feedback          |    ●     |           |   ●    |
+| A6 Knowledge Curator |    ●     |           |   ●    |
 
-En las fichas anteriores, la línea **BDI** sintetiza respectivamente *Beliefs* (contexto que el agente considera cierto), *Desires* (objetivo propio) e *Intentions* (plan que ejecuta).
+En las fichas anteriores, la línea **BDI** sintetiza respectivamente _Beliefs_ (contexto que el agente considera cierto), _Desires_ (objetivo propio) e _Intentions_ (plan que ejecuta).
 
 **A3 Admin** es reactivo: solo contesta reglas o fechas cuando recibe una consulta, porque anticipar decisiones administrativas podría confundir comunicaciones oficiales. **A4 Follow-up** es proactivo: el seguimiento exige iniciar contacto después de una sesión, pero únicamente con opt-in, por DM y bajo límites de frecuencia. Mantenerlos separados evita que una función informativa adquiera iniciativa intrusiva.
 

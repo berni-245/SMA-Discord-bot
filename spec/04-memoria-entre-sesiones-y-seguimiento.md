@@ -2,12 +2,12 @@
 
 ## 1. Dos niveles de memoria
 
-| | STM intra-sesión | LTM entre sesiones |
-|---|---|---|
-| Propósito | Coordinar el intercambio actual | Continuidad y seguimiento |
-| Vida | Hasta inactividad/cierre de sesión | Cursada + 6 meses, salvo borrado |
-| Ejemplos | `subject_id` elegido en DM, intención actual | Tema consultado, duda abierta, quiz a retomar, preferencia de seguimiento |
-| Uso proactivo | Nunca | Solo para A4 con opt-in |
+|               | STM intra-sesión                             | LTM entre sesiones                                                        |
+| ------------- | -------------------------------------------- | ------------------------------------------------------------------------- |
+| Propósito     | Coordinar el intercambio actual              | Continuidad y seguimiento                                                 |
+| Vida          | Hasta inactividad/cierre de sesión           | Cursada + 6 meses, salvo borrado                                          |
+| Ejemplos      | `subject_id` elegido en DM, intención actual | Tema consultado, duda abierta, quiz a retomar, preferencia de seguimiento |
+| Uso proactivo | Nunca                                        | Solo para A4 con opt-in                                                   |
 
 `MemoryStore` es infraestructura gobernada, no un agente: aplica partición usuario+materia, visibilidad de origen, retención y comandos del usuario.
 
@@ -26,25 +26,25 @@ No se conservan por defecto transcripciones crudas, código fuente, certificados
 
 ## 3. Operaciones y control del estudiante
 
-| Comando | Efecto |
-|---|---|
-| `/mi-historial` | Entrega un resumen de la materia activa |
-| `/borrar-historial` | Elimina LTM de usuario+materia |
-| `/restablecer-perfil` | Elimina preferencias pedagógicas inferidas |
-| `/seguimiento activar` | Registra opt-in para DM proactivo en esa materia |
-| `/seguimiento desactivar` | Retira consentimiento; A4 no vuelve a contactar |
+| Comando                   | Efecto                                           |
+| ------------------------- | ------------------------------------------------ |
+| `/mi-historial`           | Entrega un resumen de la materia activa          |
+| `/borrar-historial`       | Elimina LTM de usuario+materia                   |
+| `/restablecer-perfil`     | Elimina preferencias pedagógicas inferidas       |
+| `/seguimiento activar`    | Registra opt-in para DM proactivo en esa materia |
+| `/seguimiento desactivar` | Retira consentimiento; A4 no vuelve a contactar  |
 
 Las operaciones dejan log mínimo de auditoría sin retener el contenido borrado.
 
 ## 4. Lectura y actualización
 
-| Componente/agente | Operación permitida | Alcance |
-|---|---|---|
-| A1 Frontier | Leer STM de materia seleccionada y ejecutar comandos del usuario | Sesión/materia activa |
-| A2 Tutor | Solicitar escritura de hechos pedagógicos y leer resumen permitido | Usuario+materia; sin código crudo |
-| A4 Follow-up | Leer oportunidades LTM y registrar contacto/fallo | Solo con opt-in |
-| A5 Feedback | Ninguna lectura de memoria pedagógica | No infiere feedback |
-| A6 Curator | Ningún acceso a memoria estudiantil | Solo KB/Config de materia |
+| Componente/agente | Operación permitida                                                | Alcance                           |
+| ----------------- | ------------------------------------------------------------------ | --------------------------------- |
+| A1 Frontier       | Leer STM de materia seleccionada y ejecutar comandos del usuario   | Sesión/materia activa             |
+| A2 Tutor          | Solicitar escritura de hechos pedagógicos y leer resumen permitido | Usuario+materia; sin código crudo |
+| A4 Follow-up      | Leer oportunidades LTM y registrar contacto/fallo                  | Solo con opt-in                   |
+| A5 Feedback       | Ninguna lectura de memoria pedagógica                              | No infiere feedback               |
+| A6 Curator        | Ningún acceso a memoria estudiantil                                | Solo KB/Config de materia         |
 
 `MemoryStore` valida cada operación, aplica visibilidad y retención, y niega cualquier acceso cruzado de usuario o materia.
 

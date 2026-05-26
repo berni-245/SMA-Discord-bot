@@ -17,12 +17,12 @@ Esta elección evita inferir la materia dentro de canales compartidos y refuerza
 
 ## 3. Stores aislados
 
-| Store | Partición | Contenido | Escritor/lector principal |
-|---|---|---|---|
-| KB Store | materia | Material pedagógico vigente | A6 escribe; A2 lee |
-| Config Store | materia | Fechas, reglas, modalidad, evaluativas | A6 escribe; A3, A4 y OutputPolicy leen |
-| Memory Store | usuario + materia | STM, LTM y preferencias | Infraestructura; A1/A2/A4 consumen según permiso |
-| Feedback Store | materia | Aportes voluntarios y digests | A5 |
+| Store          | Partición         | Contenido                              | Escritor/lector principal                        |
+| -------------- | ----------------- | -------------------------------------- | ------------------------------------------------ |
+| KB Store       | materia           | Material pedagógico vigente            | A6 escribe; A2 lee                               |
+| Config Store   | materia           | Fechas, reglas, modalidad, evaluativas | A6 escribe; A3, A4 y OutputPolicy leen           |
+| Memory Store   | usuario + materia | STM, LTM y preferencias                | Infraestructura; A1/A2/A4 consumen según permiso |
+| Feedback Store | materia           | Aportes voluntarios y digests          | A5                                               |
 
 Un aporte docente en el servidor de Álgebra II nunca modifica la KB o Config de Programación II. Un estudiante en dos materias posee dos particiones de memoria independientes.
 

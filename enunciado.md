@@ -35,8 +35,6 @@ Diseñar conceptualmente un sistema multiagente que opere en Discord, identifica
 
 Las decisiones deben **justificarse** desde conceptos de sistemas multiagentes (p. ej. especialización, coordinación, descomposición del problema, límites de autonomía, relación **agente–ambiente**, evitar solapamientos o vacíos).
 
-##
-
 ## **Funcionalidades deseadas en Discord**
 
 El diseño del sistema debe contemplar **al menos** las siguientes capacidades vistas desde el usuario (**estudiante** o **docente**, según corresponda), **para cada materia habilitada en el sistema** (el detalle de _cómo_ las cumplen los agentes es parte del trabajo de diseño). Referencias a “la materia” significan **la materia cuyo contexto aplica** a esa interacción, no un despliegue monolítico de una sola asignatura en todo el servidor.

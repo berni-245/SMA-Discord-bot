@@ -4,7 +4,7 @@
 
 Se modelan **6 agentes lógicos**. La especialización se conserva cuando existe una responsabilidad, audiencia o carácter autónomo distinto; los controles mecánicos pasan a infraestructura.
 
-La versión de once agentes separaba teoría, práctica, quiz, memoria y dos controles de salida. Esa división hacía visibles las políticas, pero exigía demasiados handoffs para implementar una respuesta. La arquitectura reducida conserva los límites mediante `OutputPolicy`, `MemoryStore` y `OutboundDispatcher`, que son verificables y deterministas.
+Separar cada función —teoría, práctica, quiz, memoria y los controles de salida— en su propio agente haría visibles las políticas, pero exigiría demasiados handoffs para producir una sola respuesta. Concentrar la especialización en seis agentes conserva esos límites mediante `OutputPolicy`, `MemoryStore` y `OutboundDispatcher`, que son verificables y deterministas.
 
 ## 2. Inventario
 

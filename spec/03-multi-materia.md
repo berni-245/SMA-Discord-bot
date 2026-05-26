@@ -46,4 +46,4 @@ Agregar una cursada exige registrar servidor, permisos y particiones, pero no ag
 
 ## 7. Síntesis
 
-El tenant se resuelve por infraestructura simple y acompaña todo el flujo. La arquitectura reducida conserva el requisito multi-materia sin multiplicar prompts ni abrir lecturas cruzadas.
+El tenant se resuelve por infraestructura simple y acompaña todo el flujo. La arquitectura conserva el requisito multi-materia sin multiplicar prompts ni abrir lecturas cruzadas.

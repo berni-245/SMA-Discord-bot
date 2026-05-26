@@ -45,4 +45,4 @@ A1 debe declarar el límite del asistente y orientar a docentes cuando la pregun
 
 ## 5. Síntesis
 
-Reducir agentes no reduce controles: los límites con resultado determinista quedan centralizados en infraestructura auditable, y los agentes conservan únicamente decisiones pedagógicas, administrativas, sociales o proactivas.
+Concentrar la lógica en pocos agentes no implica menos controles: los límites con resultado determinista quedan centralizados en infraestructura auditable, y los agentes conservan únicamente decisiones pedagógicas, administrativas, sociales o proactivas.

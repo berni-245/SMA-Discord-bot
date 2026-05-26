@@ -2,7 +2,7 @@
 
 ## 1. Síntesis de la decisión
 
-La arquitectura final usa **6 agentes** más infraestructura determinista. Frente a la alternativa de 11, disminuye contratos internos y puntos de desacuerdo sin eliminar ningún bloque funcional de la consigna.
+La arquitectura usa **6 agentes** más infraestructura determinista. Concentrar las invariantes en componentes deterministas mantiene acotados los contratos internos y los puntos de desacuerdo sin eliminar ningún bloque funcional de la consigna.
 
 ## 2. Escalabilidad multi-materia
 
@@ -27,7 +27,7 @@ La arquitectura final usa **6 agentes** más infraestructura determinista. Frent
 | MemoryStore               | Personalización y seguimiento                                 | Consultas sin memoria                                          |
 | OutputPolicy o Dispatcher | Publicación segura                                            | Debe fallar cerrado: no se publica                             |
 
-**Trade-off honesto:** integrar teoría, práctica y quiz en A2 amplía el impacto de su caída. A cambio, elimina handoffs entre especialistas pedagógicos y políticas presentadas como agentes; la consistencia de una respuesta normal mejora y la implementación se achica.
+**Trade-off honesto:** integrar teoría, práctica y quiz en A2 amplía el impacto de su caída. A cambio, evita handoffs entre especialistas pedagógicos y mantiene las políticas como infraestructura; una respuesta normal resulta más consistente y la implementación, más simple.
 
 Si A2 no está disponible, A1 informa al estudiante que temporalmente no puede atender explicación, código ni quiz y puede seguir derivando consultas administrativas a A3 o recibir feedback por A5. No promete una ayuda pedagógica degradada sin el agente responsable.
 
@@ -48,10 +48,10 @@ No requiere modificar A2, A3, A5 o A6 ni el modelo multi-materia. Las reglas det
 
 | Dimensión                   | Evaluación | Fundamento                                                         |
 | --------------------------- | ---------- | ------------------------------------------------------------------ |
-| Complejidad de coordinación | Mejorada   | Seis agentes; políticas/stores fuera del SMA                       |
+| Complejidad de coordinación | Baja       | Seis agentes; políticas/stores fuera del SMA                       |
 | Privacidad                  | Alta       | Origen, consentimiento, publicación única y feedback agregado      |
 | Trazabilidad                | Alta       | Versionado KB/Config, citas, modos de salida y logs mínimos        |
-| Robustez                    | Media/alta | Menos handoffs; A2 concentra capacidades pedagógicas               |
+| Robustez                    | Media/alta | Pocos handoffs; A2 concentra capacidades pedagógicas               |
 | Compatibilidad Discord      | Alta       | Eventos explícitos, permisos acotados y DMs fallables contemplados |
 
 ## 6. Mejoras futuras
@@ -63,4 +63,4 @@ No requiere modificar A2, A3, A5 o A6 ni el modelo multi-materia. Las reglas det
 
 ## 7. Síntesis
 
-La reducción es un cambio de calidad estructural: reserva el concepto de agente para comportamientos con objetivos propios y deja las invariantes en servicios auditables. El costo aceptado es que A2 se vuelve un punto de degradación pedagógica más amplio, explícitamente reconocido.
+La arquitectura reserva el concepto de agente para comportamientos con objetivos propios y deja las invariantes en servicios auditables. El costo aceptado es que A2 se vuelve un punto de degradación pedagógica más amplio, explícitamente reconocido.

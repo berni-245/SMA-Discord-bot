@@ -23,7 +23,7 @@ Los aportes docentes entran directamente a A6; los ticks consentidos de seguimie
 | Pedido de solución de TP o código de evaluativa | A1 | OutputPolicy fija modo → A2 guía dentro del modo → Dispatcher |
 | Fecha, modalidad o regla general | A1 | A1 → A3 → Dispatcher |
 | Consulta mixta pedagógica + administrativa | A1 | A2 + A3 → A1 ensambla → Dispatcher |
-| `/feedback` o encuesta aceptada | A5 | A5 registra/modera; digest docente posterior |
+| `/feedback` o encuesta aceptada del estudiante | A1 | A1 → A5 registra/modera; digest docente posterior |
 | `/seguimiento activar` o desactivar | A1 | `MemoryStore` actualiza preferencia y confirma |
 | Tick de seguimiento con opt-in | A4 | A4 → Dispatcher por DM |
 | `/incorporar-material` docente | A6 | A6 → KB/Config → confirmación docente |
@@ -76,7 +76,7 @@ No circulan transcripciones privadas hacia docentes, datos de otros estudiantes,
 
 ## 7. Flujo de feedback
 
-El estudiante inicia `/feedback` o acepta una encuesta opcional. A5 guarda el aporte con la política de anonimato, filtra abuso sin borrar críticas legítimas y, al alcanzar muestra mínima o por disparador manual, produce un digest para el canal docente. El digest no incluye resultados de quizzes ni actividad inferida.
+El estudiante inicia `/feedback` o acepta una encuesta opcional; A1 reconoce ese intent y lo pasa a A5. A5 guarda el aporte con la política de anonimato, filtra abuso sin borrar críticas legítimas y produce un digest **semanal por defecto** si alcanza la muestra mínima, o por solicitud docente explícita. El docente ve período, cantidad de respuestas, política de anonimato, temas agregados y comentarios anonimizados. El digest no incluye resultados de quizzes ni actividad inferida.
 
 ## 8. Síntesis
 

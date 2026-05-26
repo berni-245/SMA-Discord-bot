@@ -1,5 +1,7 @@
 # Reporte de revision de la propuesta `spec/`
 
+> **Estado del reporte:** documento de diagnóstico previo a la corrección. Sus hallazgos fueron aplicados en la especificación vigente: la arquitectura final usa **6 agentes lógicos** y componentes deterministas, según [`spec/README.md`](spec/README.md), [`spec/01-inventario-y-justificacion-de-agentes.md`](spec/01-inventario-y-justificacion-de-agentes.md) y [`resumen-cambios-spec.md`](resumen-cambios-spec.md). Las referencias de este reporte a la versión de 11 agentes describen el estado auditado original, no la propuesta final.
+
 ## 1. Dictamen ejecutivo
 
 La propuesta esta muy bien cubierta documentalmente: identifica agentes, define memoria entre sesiones, aisla materias, modela Discord como ambiente, incluye matriz agente-ambiente, ingreso de codigo, escenarios A/B/C con diagramas, riesgos y autoevaluacion. No hay un bloque grande de la consigna completamente ausente.

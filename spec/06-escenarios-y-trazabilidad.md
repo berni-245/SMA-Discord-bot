@@ -6,8 +6,8 @@
 
 1. El estudiante envía un bloque de código y pide: “pasame resuelto el ejercicio 3 del TP1”.
 2. `InputExtractor` valida el bloque; `MemoryStore` aporta solo la materia elegida en STM.
-3. A1 reconoce apoyo práctico y deriva a A2.
-4. `OutputPolicy` lee Config Store, identifica el TP activo y fija `refuse_solution`.
+3. A1 reconoce apoyo práctico y solicita la postura de salida.
+4. `OutputPolicy` lee Config Store, identifica el TP activo y deriva a A2 con `refuse_solution`.
 5. A2 rechaza producir una solución lista para entregar, pero señala una categoría de error o una pista mínima.
 6. Dispatcher responde por DM y `MemoryStore` registra `tema=TP1`, `estado=stuck`, sin código crudo.
 
@@ -91,25 +91,31 @@ sequenceDiagram
 ## 4. Escenario D — Feedback y seguimiento
 
 1. En DM, el estudiante pide un quiz de pilas; A2 lo genera y ofrece devolución orientativa.
-2. El estudiante usa `/feedback`; A5 registra voluntariamente su comentario para un digest agregado.
-3. El estudiante ejecuta `/seguimiento activar`; MemoryStore guarda consentimiento.
+2. El estudiante usa `/feedback`; A1 lo enruta a A5, que registra voluntariamente su comentario para un digest agregado.
+3. El estudiante ejecuta `/seguimiento activar`; A1 lo enruta a MemoryStore, que guarda consentimiento.
 4. Días después, Scheduler invoca A4 por una duda abierta; A4 redacta un DM suave.
 5. Dispatcher envía el DM o registra fallo, sin publicar nada en el servidor.
 
 ```mermaid
 sequenceDiagram
     actor E as Estudiante
+    participant A1 as A1 Frontier
     participant A2 as A2 Tutor
     participant A5 as A5 Feedback
     participant M as MemoryStore
     participant A4 as A4 Follow-up
     participant D as Discord/Dispatcher
-    E->>A2: Quiero un quiz de pilas
-    A2-->>E: Pregunta y devolucion orientativa
-    E->>A5: /feedback comentario voluntario
+    E->>A1: Quiero un quiz de pilas
+    A1->>A2: Generar autoevaluacion
+    A2-->>D: Pregunta y devolucion orientativa
+    D-->>E: Quiz y orientacion
+    E->>A1: /feedback comentario voluntario
+    A1->>A5: Registrar feedback voluntario
     A5->>A5: Guardar para digest agregado
-    E->>M: /seguimiento activar
-    M-->>E: Opt-in confirmado
+    E->>A1: /seguimiento activar
+    A1->>M: Registrar opt-in
+    M-->>D: Confirmacion de opt-in
+    D-->>E: Seguimiento activado
     Note over M,A4: Pasan dias
     M->>A4: Oportunidad consentida
     A4-->>D: DM suave de continuidad

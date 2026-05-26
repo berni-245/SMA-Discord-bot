@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auditor de consignas"
+  short_description: "Audita consignas y checklist de cumplimiento"
+  default_prompt: "Usa $audit-assignment-requirements para auditar una consigna contra sus entregables y generar un checklist con pendientes."

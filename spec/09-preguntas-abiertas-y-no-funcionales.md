@@ -16,6 +16,15 @@
 | ¿Qué pasa si falla un DM? | Se registra fallo; no se publica fallback |
 | ¿Cómo llega feedback a docentes? | A5 agrega únicamente aportes voluntarios |
 | ¿Quién publica en Discord? | `OutboundDispatcher` bajo una única identidad de bot |
+| ¿Cómo coordinan agentes? | A1 orquesta consultas estudiantiles; A6 y A4 reciben sus propios disparadores explícitos |
+| ¿Usuario o Discord son agentes? | No; usuario es actor y Discord es ambiente con sensores/actuadores |
+| ¿Quién valida salidas pedagógicas? | `OutputPolicy` como política determinista, no como séptimo agente |
+| ¿Qué voz usa el bot? | Una personalidad consistente y clara; cambia la postura, no la identidad |
+| ¿Conversaciones largas? | STM conserva contexto mínimo de sesión; referencias a código deben reenviarse como bloque/adjunto |
+| ¿Hay carga inicial además del canal docente? | Puede existir un seed inicial; luego A6 y la versión docente confirmada tienen prioridad |
+| ¿Quién valida material docente? | Se confía en rol autorizado; conflictos ambiguos quedan pendientes de confirmación |
+| ¿Lenguajes de programación? | Lista textual configurable por materia; formatos no reconocidos se solicitan nuevamente |
+| ¿Retención del feedback? | Store separado por materia; no entrena ni alimenta A2/A4 y sigue la retención definida por cátedra |
 
 ## 2. Requisitos no funcionales
 
@@ -29,6 +38,8 @@
 | Moderación | Conservar crítica legítima y escalar abuso o riesgo humano |
 | Fallo cerrado | Si no se puede aplicar OutputPolicy o verificar fuente, no publicar respuesta sustantiva |
 | Plataforma | Interacciones por evento explícito; evitar lectura pasiva e historial innecesario |
+| Latencia/degradación | Una respuesta normal prioriza un solo round de agente; ante indisponibilidad se informa y se preservan flujos independientes |
+| Idioma y accesibilidad | Español claro por defecto, tono respetuoso, mensajes breves y estructura legible; traducción queda como extensión |
 
 ## 3. Parámetros a definir por implementación/cátedra
 

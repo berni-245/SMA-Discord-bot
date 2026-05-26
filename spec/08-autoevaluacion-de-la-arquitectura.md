@@ -13,7 +13,7 @@ La arquitectura final usa **6 agentes** más infraestructura determinista. Frent
 - costo de indexación para A6 y de digests para A5;
 - oportunidades consentidas que Scheduler evalúa para A4.
 
-El límite real no es el número de agentes sino la operación de múltiples servidores y stores.
+**Límite honesto:** el límite real no es el número de agentes sino la operación de múltiples servidores y stores: alta de permisos, indexación y auditoría pueden convertirse en cuello de botella.
 
 ## 3. Robustez y degradación
 
@@ -29,6 +29,8 @@ El límite real no es el número de agentes sino la operación de múltiples ser
 
 **Trade-off honesto:** integrar teoría, práctica y quiz en A2 amplía el impacto de su caída. A cambio, elimina handoffs entre especialistas pedagógicos y políticas presentadas como agentes; la consistencia de una respuesta normal mejora y la implementación se achica.
 
+Si A2 no está disponible, A1 informa al estudiante que temporalmente no puede atender explicación, código ni quiz y puede seguir derivando consultas administrativas a A3 o recibir feedback por A5. No promete una ayuda pedagógica degradada sin el agente responsable.
+
 ## 4. Flexibilidad
 
 Para incorporar, por ejemplo, un agente de bienestar estudiantil:
@@ -39,6 +41,8 @@ Para incorporar, por ejemplo, un agente de bienestar estudiantil:
 4. La matriz Discord agrega su fila.
 
 No requiere modificar A2, A3, A5 o A6 ni el modelo multi-materia. Las reglas deterministas transversales continúan en infraestructura.
+
+**Evaluación: alta con integración acotada. Límite honesto:** el nuevo agente exigiría definir política de datos sensibles, derivación humana y canal permitido; no basta con agregarlo al catálogo de A1.
 
 ## 5. Métricas de evaluación
 

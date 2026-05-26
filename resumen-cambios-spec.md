@@ -41,3 +41,10 @@ Se implementaron las recomendaciones pendientes de `reporte-revision-spec.md`: l
 - Se reescribieron los entregables `spec/README.md` y `spec/00-*` a `spec/09-*` para la arquitectura de seis agentes.
 - Se reemplazaron las fichas operativas de `spec/agents/` por las seis fichas vigentes.
 - Se actualizaron escenarios y autoevaluación para declarar el trade-off real: A2 simplifica coordinación, pero su fallo degrada todo el frente pedagógico.
+
+## Verificación contra la consigna
+
+- Se explicitó la cobertura completa de teoría, práctica/código, quizzes, administración, organización, feedback y memoria/seguimiento.
+- Se reforzaron la matriz agente-ambiente, los casos de visibilidad intermedia, el flujo válido/ilegible de código y la ruta uniforme de comandos estudiantiles por A1.
+- Se documentaron acceso y actualización de memoria, periodicidad y contenido del digest, riesgos de extracción maliciosa/dependencia e idioma, tono, latencia y degradación.
+- La autoevaluación ahora declara el límite honesto de A2 como punto único del frente pedagógico y cómo se comunica una falla.

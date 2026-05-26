@@ -58,7 +58,7 @@ La versión de once agentes separaba teoría, práctica, quiz, memoria y dos con
 ### A2 — Tutor
 
 - **Rol:** tutor pedagógico integrado.
-- **Responsabilidades:** explicar teoría, interpretar consignas, analizar código, proponer próximos pasos, generar/evaluar quizzes y armar checklists de estudio.
+- **Responsabilidades:** explicar teoría a distinta profundidad, dar ejemplos simples y resúmenes; interpretar consignas y procedimientos; revisar avances/código, detectar errores y sugerir mejoras; generar/evaluar quizzes; armar checklists de estudio.
 - **Capacidades distintivas:** cambia de modalidad pedagógica sin cambiar de materia ni audiencia; usa `assistance_mode` para ayudar sin resolver entregables.
 - **Recursos:** KB vigente, código validado, memoria pedagógica mínima permitida y resultado de `OutputPolicy`.
 - **Aporte:** reduce handoffs entre tareas que forman una misma conversación de aprendizaje.
@@ -88,7 +88,7 @@ La versión de once agentes separaba teoría, práctica, quiz, memoria y dos con
 ### A5 — Feedback
 
 - **Rol:** canal de escucha entre estudiantes y cátedra.
-- **Responsabilidades:** recibir `/feedback` o respuestas voluntarias, moderar y armar digest agregado.
+- **Responsabilidades:** recibir `/feedback` o respuestas voluntarias, moderar y armar digest agregado periódico o a pedido docente, indicando período, muestra y política de anonimato.
 - **Capacidades distintivas:** anonimización, mínimo de muestra y separación de crítica honesta frente a abuso.
 - **Recursos:** Feedback Store por materia, política de anonimato y destino docente.
 - **Aporte:** cierra el circuito pedagógico requerido.
@@ -115,6 +115,8 @@ La versión de once agentes separaba teoría, práctica, quiz, memoria y dos con
 | A4 Follow-up | | ● | |
 | A5 Feedback | ● | | ● |
 | A6 Knowledge Curator | ● | | ● |
+
+En las fichas anteriores, la línea **BDI** sintetiza respectivamente *Beliefs* (contexto que el agente considera cierto), *Desires* (objetivo propio) e *Intentions* (plan que ejecuta).
 
 **A3 Admin** es reactivo: solo contesta reglas o fechas cuando recibe una consulta, porque anticipar decisiones administrativas podría confundir comunicaciones oficiales. **A4 Follow-up** es proactivo: el seguimiento exige iniciar contacto después de una sesión, pero únicamente con opt-in, por DM y bajo límites de frecuencia. Mantenerlos separados evita que una función informativa adquiera iniciativa intrusiva.
 

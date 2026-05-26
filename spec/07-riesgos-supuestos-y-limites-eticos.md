@@ -14,6 +14,7 @@
 | Responder sin fuente vigente | Información inventada u obsoleta | A2/A3 citan KB/Config; sin fuente, A1 reconduce |
 | Fecha docente no aplicada | A3 informa una versión vieja | A6 escribe directamente Config Store versionado |
 | Mezcla entre materias | Filtrado o respuesta incorrecta | SubjectRouter + partición por `subject_id` |
+| Pedido malicioso de datos ajenos | Revelar consultas o desempeño de terceros | MemoryStore solo entrega la partición del usuario autenticado; A1 rechaza el pedido |
 | Exponer una consulta DM | Violación de privacidad | MemoryStore etiqueta origen; OutputPolicy bloquea publicación |
 | Entregar un TP resuelto | Fraude o sustitución del aprendizaje | OutputPolicy fija `guided_only/refuse_solution`; A2 no entrega solución |
 | Vigilar consultas sucesivas | Pérdida de confianza y exceso de datos | No se registran señales antifraude multi-turno |
@@ -23,6 +24,8 @@
 | Lectura pasiva del servidor | Dependencia de intent privilegiado | Comandos/menciones explícitas; no depender de `MESSAGE_CONTENT` |
 | Código desde histórico o formato no textual | Permisos ampliados o análisis inseguro | InputExtractor admite bloque/adjunto del mensaje actual |
 | Feedback ofensivo | Daño a docentes/estudiantes | A5 modera abuso y escala riesgo humano |
+| Dependencia excesiva del bot | Reemplazar razonamiento o consulta docente | A2 orienta sin resolver; A1 reconduce ante decisiones/fuentes faltantes |
+| Instrucciones para ignorar límites | El bot abandona su rol o filtra datos | A1 y OutputPolicy rechazan el intento y mantienen permisos/fuentes |
 
 ## 3. Consultas fuera de dominio y casos humanos
 

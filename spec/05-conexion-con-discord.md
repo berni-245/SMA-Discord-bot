@@ -11,7 +11,7 @@ El sistema es **una aplicación de bot** presente en el servidor de cada materia
 | Canal docente | `/incorporar-material` o `@bot incorporar` por rol autorizado | Según permisos de cátedra | Actualización KB/Config |
 | Canal docente privado de digest | Publicación del bot | Docentes | Digest agregado de A5 |
 
-Un hilo hereda la visibilidad del canal padre. Un canal restringido es público entre quienes pueden leerlo; no equivale a un DM.
+Un hilo hereda la visibilidad del canal padre. Un canal restringido es público entre quienes pueden leerlo; no equivale a un DM. Un grupo pequeño o DM grupal se trata como **privado respecto del servidor, pero compartido entre sus participantes**: el bot no republica afuera, pero tampoco promete confidencialidad 1:1.
 
 ## 2. Sensores, actuadores y comandos
 
@@ -24,17 +24,19 @@ Comandos previstos: `/mi-historial`, `/borrar-historial`, `/restablecer-perfil`,
 
 ## 3. Matriz agente-ambiente
 
-**P** = percibe evento dirigido a su función. **B** = produce borrador o decisión. La escritura efectiva siempre corresponde a Dispatcher.
+**P** = percibe un evento del ambiente dirigido a su función. **(P)** = recibe internamente contexto saneado desde A1 o infraestructura. **B** = produce borrador o decisión. La escritura efectiva siempre corresponde a Dispatcher.
 
 | Agente | Canal estudiante | DM estudiante | Canal docente de aporte | Canal docente de digest |
 |---|---|---|---|---|
 | A1 Frontier | P / B | P / B | — | — |
-| A2 Tutor | B vía A1 | B vía A1 | — | — |
-| A3 Admin | B vía A1 | B vía A1 | — | — |
-| A4 Follow-up | — | B con opt-in | — | — |
-| A5 Feedback | P por `/feedback` | P / B si voluntario | — | B digest |
+| A2 Tutor | (P) / B vía A1 | (P) / B vía A1 | — | — |
+| A3 Admin | (P) / B vía A1 | (P) / B vía A1 | — | — |
+| A4 Follow-up | — | (P) / B con opt-in | — | — |
+| A5 Feedback | (P) / B vía A1 por `/feedback` | (P) / B vía A1 si voluntario | — | B digest |
 | A6 Knowledge Curator | — | — | P / B confirmación | — |
 | OutboundDispatcher (infra) | Escribe | Escribe o registra fallo | Escribe confirmación | Escribe digest |
+
+Las celdas `—` son prohibiciones de diseño: A6 no lee canales de estudiantes; A2/A3/A4 no leen el canal docente; A5 no lee conversaciones para inferir feedback. Ningún agente escribe directamente: incluso sus borradores autorizados pasan por `OutputPolicy` y `OutboundDispatcher`.
 
 ## 4. Ingesta docente y vigencia
 
@@ -64,6 +66,8 @@ Mecanismos base admitidos:
 2. Adjunto de texto en ese mensaje (`.py`, `.java`, `.c`, `.js`, `.txt` u otro formato textual validable).
 
 No se aceptan en el flujo base enlaces a mensajes previos ni capturas: ampliarían permisos/historial o impedirían análisis textual confiable.
+
+Se fija un límite conceptual configurable de tamaño (por ejemplo, 100 KB o 2000 líneas). Si el adjunto no es textual, excede el límite, está ilegible o el estudiante pide analizar código pero no lo adjunta, el bot solicita reenviar un bloque o archivo válido y no improvisa análisis.
 
 Flujo:
 

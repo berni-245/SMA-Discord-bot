@@ -11,7 +11,7 @@ La arquitectura usa **6 agentes** más infraestructura determinista. Concentrar 
 - servidores, roles y permisos administrados;
 - particiones de KB, Config, Memory y Feedback;
 - costo de indexación para A6 y de digests para A5;
-- oportunidades consentidas que Scheduler evalúa para A4.
+- oportunidades de seguimiento que Scheduler evalúa para A4 (ventana 2–5 días post-sesión y `dm_contactable` por estudiante).
 
 **Límite honesto:** el límite real no es el número de agentes sino la operación de múltiples servidores y stores: alta de permisos, indexación y auditoría pueden convertirse en cuello de botella.
 
@@ -52,7 +52,7 @@ No requiere modificar A2, A3, A5 o A6 ni el modelo multi-materia. Las reglas det
 | Privacidad                  | Alta       | Origen, consentimiento, publicación única y feedback agregado      |
 | Trazabilidad                | Alta       | Versionado KB/Config, citas, modos de salida y logs mínimos        |
 | Robustez                    | Media/alta | Pocos handoffs; A2 concentra capacidades pedagógicas               |
-| Compatibilidad Discord      | Alta       | Eventos explícitos, permisos acotados y DMs fallables contemplados |
+| Compatibilidad Discord      | Alta       | Eventos explícitos, permisos acotados, DMs fallables y contactabilidad previa contemplados |
 
 ## 6. Mejoras futuras
 

@@ -12,18 +12,18 @@
 | Riesgo                                      | Consecuencia                               | Mitigación y responsable                                                            |
 | ------------------------------------------- | ------------------------------------------ | ----------------------------------------------------------------------------------- |
 | Responder sin fuente vigente                | Información inventada u obsoleta           | A2/A3 citan KB/Config; sin fuente, A1 reconduce                                     |
-| Fecha docente no aplicada                   | A3 informa una versión vieja               | A6 escribe directamente Config Store versionado                                     |
+| Fecha docente no aplicada                   | A3 informa una versión vieja               | Solo `/actualizar-catedra` escribe Config Store; A3 no usa fechas sueltas en KB     |
 | Mezcla entre materias                       | Filtrado o respuesta incorrecta            | SubjectRouter + partición por `subject_id`                                          |
 | Pedido malicioso de datos ajenos            | Revelar consultas o desempeño de terceros  | MemoryStore solo entrega la partición del usuario autenticado; A1 rechaza el pedido |
 | Exponer una consulta DM                     | Violación de privacidad                    | MemoryStore etiqueta origen; OutputPolicy bloquea publicación                       |
 | Entregar un TP resuelto                     | Fraude o sustitución del aprendizaje       | OutputPolicy fija `guided_only/refuse_solution`; A2 no entrega solución             |
 | Vigilar consultas sucesivas                 | Pérdida de confianza y exceso de datos     | No se registran señales antifraude multi-turno                                      |
 | Feedback identificado o inferido            | Analítica no consentida                    | A5 procesa solo aportes voluntarios y agregados                                     |
-| Seguimiento intrusivo                       | Spam o exposición                          | A4 solo por DM con opt-in, cooldown, silencio y opt-out                             |
-| DM no entregable                            | Fallo de continuidad                       | Dispatcher registra fallo; no usa canal público                                     |
+| Seguimiento intrusivo                       | Spam o exposición                          | A4 solo por DM, habilitado por default con opt-out, `dm_contactable`, ventana 2–5 días post-sesión, cooldown y silencio |
+| DM no entregable                            | Fallo de continuidad                       | Dispatcher registra fallo, marca `dm_contactable=false`; no usa canal público       |
 | Lectura pasiva del servidor                 | Dependencia de intent privilegiado         | Comandos/menciones explícitas; no depender de `MESSAGE_CONTENT`                     |
 | Código desde histórico o formato no textual | Permisos ampliados o análisis inseguro     | InputExtractor admite bloque/adjunto del mensaje actual                             |
-| Feedback ofensivo                           | Daño a docentes/estudiantes                | A5 modera abuso y escala riesgo humano                                              |
+| Feedback ofensivo                           | Daño a docentes/estudiantes                | A5 no almacena odio/ataques; escala a autoridad designada; conserva crítica legítima en digest        |
 | Dependencia excesiva del bot                | Reemplazar razonamiento o consulta docente | A2 orienta sin resolver; A1 reconduce ante decisiones/fuentes faltantes             |
 | Instrucciones para ignorar límites          | El bot abandona su rol o filtra datos      | A1 y OutputPolicy rechazan el intento y mantienen permisos/fuentes                  |
 

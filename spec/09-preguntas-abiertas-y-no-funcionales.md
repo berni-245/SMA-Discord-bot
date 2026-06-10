@@ -6,14 +6,17 @@
 | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ¿Cuántos agentes?                                       | Seis agentes lógicos; políticas y stores son infraestructura                                                                                        |
 | ¿Cómo se determina la materia?                          | Un servidor por materia; en DM A1 solicita selección si es ambigua                                                                                  |
-| ¿Cómo entra contenido docente?                          | `/incorporar-material` o mención explícita en canal docente                                                                                         |
-| ¿Dónde quedan fechas/reglas?                            | A6 las versiona en Config Store, no solo en KB                                                                                                      |
+| ¿Cómo entra contenido docente?                          | `/incorporar-material` o `@bot incorporar` → pipeline `content` → KB Store                                                                        |
+| ¿Cómo entran fechas/reglas/evaluativas oficiales?       | Con **`/actualizar-catedra`** → pipeline `config` → Config Store. Si llegan por `/incorporar-material`, van a KB como contenido y A6 puede **sugerir** el comando |
+| ¿Dónde quedan fechas/reglas para A3/OutputPolicy?       | Solo en Config Store vía `/actualizar-catedra`; KB no es fuente oficial administrativa                                                                            |
 | ¿Cómo entra código?                                     | Bloque o adjunto textual del mensaje actual dirigido al bot                                                                                         |
 | ¿Se aceptan links a mensajes previos?                   | No en el flujo base                                                                                                                                 |
 | ¿Cómo se limita una evaluativa?                         | `OutputPolicy` usa `normal`, `guided_only`, `refuse_solution` por salida                                                                            |
 | ¿Se vigilan cadenas de consultas?                       | No                                                                                                                                                  |
-| ¿Cómo se inicia seguimiento?                            | `/seguimiento activar`; A4 envía solo DM                                                                                                            |
-| ¿Qué pasa si falla un DM?                               | Se registra fallo; no se publica fallback                                                                                                           |
+| ¿Cómo se inicia seguimiento?                            | **Habilitado por default** al primer contacto pedagógico; `/seguimiento desactivar` para opt-out; A4 contacta **2–5 días** post-sesión, solo por DM si `dm_contactable=true` |
+| ¿Cómo se habilita el DM?                                | El estudiante debe iniciar el privado, ejecutar `/activar-dm` o cumplir el mecanismo equivalente de la plataforma; si se había pensado "volverse amigo del bot", queda modelado como requisito de contactabilidad, no como publicación pública |
+| ¿Ítems de feedback?                                    | Tres ejes — cursada, material, asistente — accionables por la cátedra sin duplicar evaluaciones oficiales                                           |
+| ¿Qué pasa si falla un DM?                               | Se registra fallo, se marca `dm_contactable=false`; no se publica fallback                                                                          |
 | ¿Cómo llega feedback a docentes?                        | A5 agrega únicamente aportes voluntarios                                                                                                            |
 | ¿Política de anonimato del feedback?                    | `anonimo` por defecto; `pseudonimo` o `identificado_con_consentimiento` solo con consentimiento explícito del estudiante y configuración de cátedra |
 | ¿Quién genera quizzes y con qué criterio de dificultad? | A2; alineados al tema consultado y a la unidad o bloque vigente en KB, calibrados al nivel del material citado                                      |
@@ -45,7 +48,8 @@
 
 ## 3. Parámetros a definir por implementación/cátedra
 
-- Tiempo de inactividad que cierra una sesión.
+- Tiempo de inactividad que cierra una sesión (p. ej. 30–60 min).
+- Ventana de seguimiento dentro del rango 2–5 días post-sesión.
 - Tamaño máximo de bloques o adjuntos de código.
 - Retención exacta si difiere del default de cursada + 6 meses.
 - Frecuencia máxima y horarios de silencio para A4.

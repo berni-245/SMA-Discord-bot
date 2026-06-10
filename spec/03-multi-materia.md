@@ -28,11 +28,11 @@ Un aporte docente en el servidor de Álgebra II nunca modifica la KB o Config de
 
 ## 4. Aporte docente en contexto
 
-El canal docente pertenece al servidor de una materia. Un docente autorizado usa `/incorporar-material` o una mención explícita; `Auth/Role Check` y `SubjectRouter` fijan el tenant, y A6 versiona:
+El canal docente pertenece al servidor de una materia. Un docente autorizado usa **`/incorporar-material`** (o `@bot incorporar`) para contenido pedagógico, o **`/actualizar-catedra`** para fechas, modalidad, reglas y evaluativas. `Auth/Role Check` y `SubjectRouter` fijan el tenant; A6 enruta por comando:
 
-- contenido teórico/práctico en KB Store;
-- fecha, modalidad, regla o evaluativa en Config Store;
-- contradicción ambigua como `pendiente_confirmacion`, sin convertirse en fuente vigente.
+- **Default** — `/incorporar-material` → pipeline `content` → KB Store (siempre incorpora; puede sugerir `/actualizar-catedra` si detecta intención administrativa);
+- **Config** — `/actualizar-catedra` → pipeline `config` → Config Store (parseo y validación estructurados);
+- contradicción ambigua en config → `pendiente_confirmacion`, sin convertirse en fuente vigente.
 
 ## 5. Casos límite
 

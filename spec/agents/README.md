@@ -7,9 +7,9 @@ La arquitectura final contiene **6 agentes lógicos**. Los agentes producen deci
 | A1  | [Frontier / Coordinador](01-frontier-agent.md)     | Entrada, ruteo, ensamblado y bordes          |
 | A2  | [Tutor](02-tutor-agent.md)                         | Teoría, práctica, código, quiz y orientación |
 | A3  | [Admin](03-admin-agent.md)                         | Información administrativa publicada         |
-| A4  | [Follow-up](04-followup-agent.md)                  | Seguimiento DM con opt-in                    |
+| A4  | [Follow-up](04-followup-agent.md)                  | Seguimiento DM habilitado por default; opt-out y DM contactable  |
 | A5  | [Feedback](05-feedback-agent.md)                   | Feedback voluntario y digest                 |
-| A6  | [Knowledge Curator](06-knowledge-curator-agent.md) | Conocimiento/configuración docente vigente   |
+| A6  | [Knowledge Curator](06-knowledge-curator-agent.md) | KB vía `/incorporar-material`; Config vía `/actualizar-catedra` |
 
 ## Componentes fuera del SMA
 

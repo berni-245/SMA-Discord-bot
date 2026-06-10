@@ -73,28 +73,28 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     actor E as Estudiante
+    participant D as Discord/Dispatcher
     participant A1 as A1 Frontier
     participant A3 as A3 Admin
     participant OP as OutputPolicy
     participant A2 as A2 Tutor
-    participant D as Discord/Dispatcher
-    E->>A1: AVL + fecha TP + codigo inorder
+    E->>D: DM AVL + fecha TP + codigo inorder
+    D->>A1: Mensaje y materia resuelta
     A1->>A3: Consultar fecha
     A3-->>A1: Fecha citada
     A1->>OP: Revisar ayuda sobre TP activo
     OP-->>A2: guided_only
     A2-->>A1: Teoria + pista de debugging
-    A1-->>D: Respuesta unica ensamblada
+    A1->>D: Respuesta unica ensamblada
     D-->>E: Fecha + explicacion + guia parcial
 ```
 
 ## 4. Escenario D — Feedback y seguimiento
 
-1. En DM, el estudiante pide un quiz de pilas; A2 lo genera y ofrece devolución orientativa.
-2. El estudiante usa `/feedback`; A1 lo enruta a A5, que registra voluntariamente su comentario para un digest agregado.
-3. El estudiante ejecuta `/seguimiento activar`; A1 lo enruta a MemoryStore, que guarda consentimiento.
-4. Días después, Scheduler invoca A4 por una duda abierta; A4 redacta un DM suave.
-5. Dispatcher envía el DM o registra fallo, sin publicar nada en el servidor.
+1. En DM, el estudiante pide un quiz de pilas; A2 lo genera (seguimiento ya habilitado por default y DM contactable porque el estudiante inició el privado).
+2. El estudiante usa `/feedback` sobre claridad del material; A5 lo clasifica en eje `material` y lo agrega al digest.
+3. La sesión cierra por inactividad; al tercer día, Scheduler invoca A4 por una duda abierta y verifica `dm_contactable=true`.
+4. A4 redacta un DM suave con recordatorio de `/seguimiento desactivar`; Dispatcher envía o, si Discord rechaza el privado, registra `delivery_failed` y marca `dm_contactable=false`.
 
 ```mermaid
 sequenceDiagram
@@ -109,29 +109,46 @@ sequenceDiagram
     A1->>A2: Generar autoevaluacion
     A2-->>D: Pregunta y devolucion orientativa
     D-->>E: Quiz y orientacion
-    E->>A1: /feedback comentario voluntario
-    A1->>A5: Registrar feedback voluntario
+    E->>A1: /feedback sobre material
+    A1->>A5: Registrar feedback eje material
     A5->>A5: Guardar para digest agregado
-    E->>A1: /seguimiento activar
-    A1->>M: Registrar opt-in
-    M-->>D: Confirmacion de opt-in
-    D-->>E: Seguimiento activado
-    Note over M,A4: Pasan dias
-    M->>A4: Oportunidad consentida
+    Note over M: Sesion cierra por inactividad
+    Note over M,A4: 2-5 dias despues
+    M->>A4: Oportunidad habilitada + dm_contactable=true
     A4-->>D: DM suave de continuidad
     D-->>E: Seguimiento o fallo registrado
 ```
 
-## 5. Cobertura
+## 5. Escenario E — Transferencia consentida
 
-| Funcionalidad          | Escenario |
-| ---------------------- | --------- |
-| Teoría                 | C         |
-| Práctica y código      | A, C      |
-| Autoevaluación         | D         |
-| Administrativo         | B, C      |
-| Acompañamiento         | C, D      |
-| Feedback docente       | D         |
-| Memoria y proactividad | D         |
+**Contexto:** el estudiante resolvió una duda en DM y quiere compartir solo la pregunta (sin código) en `#consultas` de Programación II.
 
-Los escenarios trazan las decisiones críticas: ayuda graduada sin vigilancia, derivación humana, ingreso de código concreto, feedback voluntario, materia resuelta correctamente en DM y seguimiento consentido.
+1. En DM, el estudiante escribe: “¿Podés publicar en #consultas que mi duda era sobre el caso base del factorial recursivo?”
+2. A1 reconoce transferencia consentida y valida el fragmento solicitado.
+3. `OutputPolicy` autoriza publicar únicamente ese texto genérico; no incluye código ni historial DM.
+4. Dispatcher publica en `#consultas` citando que fue compartido a pedido del estudiante.
+
+## 6. Escenario F — Aporte docente con dos pipelines
+
+**Contexto:** canal `#material-catedra` de Programación II.
+
+1. La docente envía `/incorporar-material` + PDF “Unidad 4 - Árboles” → A6 indexa en KB Store.
+2. Luego envía `/incorporar-material El parcial pasa al 20/06` → A6 lo guarda en KB como aviso y **sugiere** `/actualizar-catedra`.
+3. La docente ejecuta `/actualizar-catedra tipo:fecha parcial_1=20/06` → A6 versiona en Config Store.
+4. A3 y `OutputPolicy` consumen la fecha oficial desde Config; A2 cita el PDF desde KB.
+
+## 7. Cobertura
+
+| Funcionalidad          | Escenario   |
+| ---------------------- | ----------- |
+| Teoría                 | C           |
+| Práctica y código      | A, C        |
+| Autoevaluación         | D           |
+| Administrativo         | B, C, F     |
+| Acompañamiento         | C, D        |
+| Feedback docente       | D           |
+| Memoria y proactividad | D           |
+| Privacidad / transferencia | E      |
+| Actualización docente  | F           |
+
+Los escenarios trazan las decisiones críticas: ayuda graduada, derivación humana, ingreso de código, feedback voluntario, seguimiento con opt-out, transferencia consentida y pipelines A6 content/config.

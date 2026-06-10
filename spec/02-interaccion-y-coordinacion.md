@@ -12,7 +12,7 @@ La coordinación combina un **coordinador reactivo** (A1), especialistas y polí
 6. `OutputPolicy` valida privacidad y restricción pedagógica sobre la salida.
 7. `OutboundDispatcher` publica bajo la única identidad Discord del bot.
 
-Los aportes docentes entran directamente a A6; los ticks consentidos de seguimiento entran a A4. No necesitan atravesar A1.
+Los aportes docentes entran directamente a A6; los ticks de seguimiento (2–5 días post-sesión) entran a A4. No necesitan atravesar A1.
 
 ## 2. Primer interviniente y ruteo
 
@@ -25,8 +25,9 @@ Los aportes docentes entran directamente a A6; los ticks consentidos de seguimie
 | Consulta mixta pedagógica + administrativa      | A1            | A2 + A3 → A1 ensambla → Dispatcher                                 |
 | `/feedback` o encuesta aceptada del estudiante  | A1            | A1 → A5 registra/modera; digest docente posterior                  |
 | `/seguimiento activar` o desactivar             | A1            | `MemoryStore` actualiza preferencia y confirma                     |
-| Tick de seguimiento con opt-in                  | A4            | A4 → Dispatcher por DM                                             |
-| `/incorporar-material` docente                  | A6            | A6 → KB/Config → confirmación docente                              |
+| Tick de seguimiento (2–5 días post-sesión)      | A4            | A4 verifica `dm_contactable` → Dispatcher por DM                   |
+| `/incorporar-material` o `@bot incorporar` (docente) | A6            | Pipeline `content` → KB Store → confirmación                       |
+| `/actualizar-catedra` (docente)                     | A6            | Pipeline `config` → Config Store → confirmación                    |
 
 En un DM sin materia fijada, A1 pregunta la materia antes de invocar especialistas y la conserva en STM durante la sesión.
 
@@ -69,16 +70,18 @@ No circulan transcripciones privadas hacia docentes, datos de otros estudiantes,
 
 | Superficie                   | Estudiante                                                                | Docente/ayudante                                  |
 | ---------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------- |
-| Entrada                      | Mención/comando en canal habilitado o DM                                  | `/incorporar-material` o mención en canal docente |
+| Entrada                      | Mención/comando en canal habilitado o DM                                  | `/incorporar-material` o `@bot incorporar` (contenido); `/actualizar-catedra` (fechas/reglas) |
 | Capacidades                  | Consultar, autoevaluarse, aportar feedback, controlar memoria/seguimiento | Actualizar KB/Config, recibir digest agregado     |
-| Agentes visibles lógicamente | A1, A2, A3, A5; A4 si dio opt-in                                          | A6; digest de A5                                  |
+| Agentes visibles lógicamente | A1, A2, A3, A5; A4 si el seguimiento sigue habilitado y el DM es contactable | A6; digest de A5                                  |
 | Privacidad                   | DM no se republica sin consentimiento                                     | No accede a consultas privadas individuales       |
 
 ## 7. Flujo de feedback
 
-El estudiante inicia `/feedback` o acepta una encuesta opcional; A1 reconoce ese intent y lo pasa a A5. A5 guarda el aporte con la política de anonimato, filtra abuso sin borrar críticas legítimas y produce un digest **semanal por defecto** si alcanza la muestra mínima, o por solicitud docente explícita. El docente ve período, cantidad de respuestas, política de anonimato, temas agregados y comentarios anonimizados. El digest no incluye resultados de quizzes ni actividad inferida.
+El estudiante inicia `/feedback` o acepta una encuesta opcional; A1 reconoce ese intent y lo pasa a A5. A5 clasifica el aporte en uno de tres ejes — **cursada** (claridad, ritmo, dificultad), **material** (apuntes, ejemplos, consignas) o **asistente** (utilidad del bot) — porque son dimensiones accionables por la cátedra sin sustituir evaluaciones oficiales ni inferir desempeño desde quizzes.
 
-**Política de anonimato por defecto:** `anonimo`. Los aportes y digests no identifican al estudiante salvo que la cátedra configure `pseudonimo` o `identificado_con_consentimiento` y el estudiante otorgue consentimiento explícito en el flujo de feedback. Esa postura es la predeterminada de A5 y de los digests docentes.
+A5 guarda el aporte con política de anonimato `anonimo` por defecto, conserva crítica honesta, **escala odio o ataques personales a la autoridad designada** (p. ej. `#moderacion-catedra`) y produce un digest **semanal por defecto** si alcanza la muestra mínima, o por solicitud docente. El docente ve período, `N`, anonimato, ejes agregados y comentarios anonimizados. El digest no incluye resultados de quizzes ni actividad inferida.
+
+**Política de anonimato por defecto:** `anonimo`. Los aportes y digests no identifican al estudiante salvo que la cátedra configure `pseudonimo` o `identificado_con_consentimiento` y el estudiante otorgue consentimiento explícito en el flujo de feedback.
 
 ## 8. Síntesis
 

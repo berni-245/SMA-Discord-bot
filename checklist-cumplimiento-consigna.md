@@ -1,13 +1,14 @@
-# Checklist de cumplimiento: SMA Discord — diseño conceptual
+# Checklist de cumplimiento: SMA Discord - diseño conceptual
 
 ## Alcance
 
 | Elemento | Valor |
 |---|---|
 | Consigna auditada | `enunciado.md` |
-| Entregables revisados | `spec/` (README, 00–09, `agents/`) |
-| Fecha de revision | 2026-06-10 (reauditoría puntual de seguimiento por DM) |
-| Modo | `auditoria y correccion` |
+| Entregables revisados | `spec/README.md`, `spec/00-glosario.md` a `spec/09-preguntas-abiertas-y-no-funcionales.md`, `spec/agents/*.md` |
+| Archivos no entregables inspeccionados | `skills-lock.json` |
+| Fecha de revision | 2026-06-17 |
+| Modo | `solo auditoria` |
 
 ## Leyenda
 
@@ -20,36 +21,160 @@
 
 | Estado | Cantidad |
 |---|---:|
-| Cumple | 58 |
+| Cumple | 109 |
 | Parcial | 0 |
 | Pendiente | 0 |
-| No aplica | 2 |
+| No aplica | 0 |
 
 **Dictamen:** `Cumple`.
 
-## Requisitos Obligatorios (síntesis)
+## Revision Archivo Por Archivo
 
-Todos los entregables 0–8, funcionalidades 1–7, escenarios A/B/C, diagramas de secuencia, matriz agente–ambiente, canal docente, pipelines A6, transferencia consentida (escenario E), ítems de feedback justificados, seguimiento default+opt-out+`dm_contactable`, visibilidad `publico`/`dm` y autoevaluación verificados en `spec/`.
+| Archivo | Resultado | Observaciones |
+|---|---|---|
+| `enunciado.md` | `[x] CUMPLE` | Consigna completa leida; requisitos base identificados en alcance conceptual, multi-materia, privacidad, actualizacion docente, funcionalidades 1-7, entregables 1-8, preguntas abiertas y criterios de calidad. |
+| `spec/README.md` | `[x] CUMPLE` | Funciona como indice y sintesis del documento: declara un bot, 6 agentes, garantias centrales, no entrega soluciones, seguimiento por DM, feedback agregado y dispatcher unico (`spec/README.md:3`, `spec/README.md:7`, `spec/README.md:37`). |
+| `spec/00-glosario.md` | `[x] CUMPLE` | Define sesion, conversacion, STM/LTM, visibilidad `publico`/`dm`, agentes e infraestructura temprano y con terminos usados despues (`spec/00-glosario.md:5`, `spec/00-glosario.md:9`, `spec/00-glosario.md:11`). |
+| `spec/01-inventario-y-justificacion-de-agentes.md` | `[x] CUMPLE` | Justifica granularidad, cubre cada agente con rol, capacidades, recursos, fuera de alcance y BDI; incluye contraste A3 reactivo vs A4 proactivo (`spec/01-inventario-y-justificacion-de-agentes.md:3`, `spec/01-inventario-y-justificacion-de-agentes.md:46`, `spec/01-inventario-y-justificacion-de-agentes.md:121`). |
+| `spec/02-interaccion-y-coordinacion.md` | `[x] CUMPLE` | Explica ruteo, primer interviniente, ayuda practica, fuera de dominio, datos compartidos, roles y flujo de feedback (`spec/02-interaccion-y-coordinacion.md:3`, `spec/02-interaccion-y-coordinacion.md:17`, `spec/02-interaccion-y-coordinacion.md:46`, `spec/02-interaccion-y-coordinacion.md:78`). |
+| `spec/03-multi-materia.md` | `[x] CUMPLE` | Declara una materia por servidor, agentes parametrizados por `subject_id`, stores aislados y manejo de ambiguedad en DM (`spec/03-multi-materia.md:5`, `spec/03-multi-materia.md:11`, `spec/03-multi-materia.md:18`, `spec/03-multi-materia.md:37`). |
+| `spec/04-memoria-entre-sesiones-y-seguimiento.md` | `[x] CUMPLE` | Diferencia STM/LTM, define persistencia minima, control del estudiante, privacidad, disparo proactivo 2-5 dias y ejemplo dia 1/dia N (`spec/04-memoria-entre-sesiones-y-seguimiento.md:3`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:14`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:56`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:69`). |
+| `spec/05-conexion-con-discord.md` | `[x] CUMPLE` | Modela Discord como ambiente, sensores/actuadores, matriz agente-ambiente, canal docente, privacidad, DM contactable, ingreso de codigo y permisos de plataforma (`spec/05-conexion-con-discord.md:3`, `spec/05-conexion-con-discord.md:26`, `spec/05-conexion-con-discord.md:42`, `spec/05-conexion-con-discord.md:76`). |
+| `spec/06-escenarios-y-trazabilidad.md` | `[x] CUMPLE` | Incluye escenarios A, B y C paso a paso y con diagramas de secuencia, mas D/E/F para feedback, seguimiento, privacidad y actualizacion docente (`spec/06-escenarios-y-trazabilidad.md:3`, `spec/06-escenarios-y-trazabilidad.md:35`, `spec/06-escenarios-y-trazabilidad.md:63`, `spec/06-escenarios-y-trazabilidad.md:92`, `spec/06-escenarios-y-trazabilidad.md:122`, `spec/06-escenarios-y-trazabilidad.md:131`). |
+| `spec/07-riesgos-supuestos-y-limites-eticos.md` | `[x] CUMPLE` | Riesgos no genericos y mitigaciones alineadas: fuentes, materias, DM, fraude, seguimiento, lectura pasiva, feedback ofensivo y dependencia del bot (`spec/07-riesgos-supuestos-y-limites-eticos.md:10`, `spec/07-riesgos-supuestos-y-limites-eticos.md:30`, `spec/07-riesgos-supuestos-y-limites-eticos.md:34`). |
+| `spec/08-autoevaluacion-de-la-arquitectura.md` | `[x] CUMPLE` | Evalua escalabilidad, robustez/degradacion y flexibilidad con juicio, argumento y limites honestos (`spec/08-autoevaluacion-de-la-arquitectura.md:7`, `spec/08-autoevaluacion-de-la-arquitectura.md:18`, `spec/08-autoevaluacion-de-la-arquitectura.md:34`). |
+| `spec/09-preguntas-abiertas-y-no-funcionales.md` | `[x] CUMPLE` | Cierra decisiones abiertas y explicita no funcionales: arquitectura, Discord, feedback, datos, memoria, quizzes, privacidad, latencia e idioma (`spec/09-preguntas-abiertas-y-no-funcionales.md:3`, `spec/09-preguntas-abiertas-y-no-funcionales.md:34`, `spec/09-preguntas-abiertas-y-no-funcionales.md:59`). |
+| `spec/agents/README.md` | `[x] CUMPLE` | Lista fichas vigentes y reafirma que politicas/stores/dispatcher son infraestructura determinista, no agentes (`spec/agents/README.md:1`, `spec/agents/README.md:14`). |
+| `spec/agents/01-frontier-agent.md` | `[x] CUMPLE` | Ficha coherente con A1: clasifica, pide materia, coordina, reconduce, valida transferencia consentida y no publica directamente (`spec/agents/01-frontier-agent.md:3`, `spec/agents/01-frontier-agent.md:25`, `spec/agents/01-frontier-agent.md:39`). |
+| `spec/agents/02-tutor-agent.md` | `[x] CUMPLE` | Ficha coherente con A2: teoria, practica/codigo, quiz, orientacion, modos `normal/guided_only/refuse_solution` y no persiste codigo crudo (`spec/agents/02-tutor-agent.md:3`, `spec/agents/02-tutor-agent.md:15`, `spec/agents/02-tutor-agent.md:27`). |
+| `spec/agents/03-admin-agent.md` | `[x] CUMPLE` | Ficha coherente con A3: informacion publicada desde Config Store, derivacion de casos personales y no iniciativa proactiva (`spec/agents/03-admin-agent.md:3`, `spec/agents/03-admin-agent.md:13`, `spec/agents/03-admin-agent.md:20`). |
+| `spec/agents/04-followup-agent.md` | `[x] CUMPLE` | Ficha coherente con A4: proactividad acotada, default con opt-out, DM contactable, ventana 2-5 dias, sin fallback publico (`spec/agents/04-followup-agent.md:3`, `spec/agents/04-followup-agent.md:14`, `spec/agents/04-followup-agent.md:25`). |
+| `spec/agents/05-feedback-agent.md` | `[x] CUMPLE` | Ficha coherente con A5: feedback voluntario, ejes justificados, anonimato, digest, moderacion y escalamiento de abuso (`spec/agents/05-feedback-agent.md:3`, `spec/agents/05-feedback-agent.md:14`, `spec/agents/05-feedback-agent.md:26`). |
+| `spec/agents/06-knowledge-curator-agent.md` | `[x] CUMPLE` | Ficha coherente con A6: canal docente, dos pipelines, versionado, sugerencia de `/actualizar-catedra`, conflictos `pending_confirmation` y no cruce de materias (`spec/agents/06-knowledge-curator-agent.md:3`, `spec/agents/06-knowledge-curator-agent.md:14`, `spec/agents/06-knowledge-curator-agent.md:30`). |
+| `skills-lock.json` | `[x] CUMPLE` | Metadata de skills, no forma parte del entregable de diseno ni introduce implementacion o contradicciones. |
 
-## Consistencia corregida en esta pasada
+## Requisitos Obligatorios
 
-| Control | Estado |
-|---|---|
-| Seguimiento: default habilitado + opt-out + ventana 2–5 días | `[x] CUMPLE` |
-| Seguimiento por DM: contactabilidad previa + `/activar-dm` + sin fallback público | `[x] CUMPLE` |
-| Visibilidad: solo `publico` y `dm` | `[x] CUMPLE` |
-| OutputPolicy unificado (sin PrivacyFilter duplicado) | `[x] CUMPLE` |
-| Feedback: ítems + escalamiento a autoridad | `[x] CUMPLE` |
-| A6: content default + config con `/actualizar-catedra` + sugerencia | `[x] CUMPLE` |
-| Escenarios D/E/F alineados | `[x] CUMPLE` |
-| Glosario coherente con memoria y escenarios | `[x] CUMPLE` |
+| Estado | ID | Requisito atomico | Evidencia verificada | Pendiente o accion |
+|---|---|---|---|---|
+| `[x] CUMPLE` | REQ-001 | El trabajo debe ser exclusivamente de diseno y modelado conceptual, sin implementar codigo ni integrar APIs reales. | Consigna: `enunciado.md:5`, `enunciado.md:324`. Entrega: solo archivos Markdown/metadata; `spec/README.md:1`, `skills-lock.json:1`. | Sin accion. |
+| `[x] CUMPLE` | REQ-002 | El diseno debe partir de usuarios autorizados con roles estudiante/docente/ayudante. | Consigna: `enunciado.md:11`. Evidencia: `spec/00-glosario.md:21`, `spec/02-interaccion-y-coordinacion.md:69`, `spec/05-conexion-con-discord.md:18`. | Sin accion. |
+| `[x] CUMPLE` | REQ-003 | Debe decidir cuantos agentes hacen falta, por que existen y por que no otros. | Consigna: `enunciado.md:27`, `enunciado.md:158`. Evidencia: `spec/README.md:7`, `spec/01-inventario-y-justificacion-de-agentes.md:3`, `spec/01-inventario-y-justificacion-de-agentes.md:20`. | Sin accion. |
+| `[x] CUMPLE` | REQ-004 | Por cada agente: rol, responsabilidades, capacidades, recursos, aporte global y fuera de alcance. | Consigna: `enunciado.md:28`, `enunciado.md:159`. Evidencia: fichas A1-A6 en `spec/01-inventario-y-justificacion-de-agentes.md:46`; detalle vigente en `spec/agents/01-frontier-agent.md:3`, `spec/agents/02-tutor-agent.md:3`, `spec/agents/03-admin-agent.md:3`, `spec/agents/04-followup-agent.md:3`, `spec/agents/05-feedback-agent.md:3`, `spec/agents/06-knowledge-curator-agent.md:3`. | Sin accion. |
+| `[x] CUMPLE` | REQ-005 | Identificar caracter reactivo/proactivo/social y vincular con BDI, incluyendo contraste administrativo vs seguimiento. | Consigna: `enunciado.md:160`, `enunciado.md:273`. Evidencia: `spec/01-inventario-y-justificacion-de-agentes.md:108`, `spec/01-inventario-y-justificacion-de-agentes.md:119`, `spec/01-inventario-y-justificacion-de-agentes.md:121`. | Sin accion. |
+| `[x] CUMPLE` | REQ-006 | Explicar quien actua primero ante mensajes tipicos y casos limite. | Consigna: `enunciado.md:162`. Evidencia: `spec/02-interaccion-y-coordinacion.md:17`, `spec/02-interaccion-y-coordinacion.md:19`, `spec/agents/01-frontier-agent.md:25`. | Sin accion. |
+| `[x] CUMPLE` | REQ-007 | Explicar salida ante fuera de dominio/no atendible: respuesta educada y reconduccion a docente/canal humano. | Consigna: `enunciado.md:57`, `enunciado.md:163`, `enunciado.md:212`. Evidencia: `spec/02-interaccion-y-coordinacion.md:46`, `spec/07-riesgos-supuestos-y-limites-eticos.md:30`, `spec/agents/01-frontier-agent.md:35`. | Sin accion. |
+| `[x] CUMPLE` | REQ-008 | Detallar criterios de derivacion, informacion compartida y que no se comparte por privacidad/costo/consistencia. | Consigna: `enunciado.md:164`, `enunciado.md:165`. Evidencia: `spec/02-interaccion-y-coordinacion.md:17`, `spec/02-interaccion-y-coordinacion.md:56`, `spec/02-interaccion-y-coordinacion.md:67`. | Sin accion. |
+| `[x] CUMPLE` | REQ-009 | Distinguir roles estudiante/docente y mostrar como feedback estudiantil llega a docentes. | Consigna: `enunciado.md:32`, `enunciado.md:167`, `enunciado.md:279`. Evidencia: `spec/02-interaccion-y-coordinacion.md:69`, `spec/02-interaccion-y-coordinacion.md:78`, `spec/05-conexion-con-discord.md:7`, `spec/agents/05-feedback-agent.md:26`. | Sin accion. |
+| `[x] CUMPLE` | REQ-010 | El sistema debe soportar varias materias y resolver/recibir explicitamente el contexto de materia. | Consigna: `enunciado.md:21`, `enunciado.md:40`, `enunciado.md:168`. Evidencia: `spec/03-multi-materia.md:3`, `spec/03-multi-materia.md:9`, `spec/09-preguntas-abiertas-y-no-funcionales.md:8`. | Sin accion. |
+| `[x] CUMPLE` | REQ-011 | Aislar conocimiento, reglas administrativas, canal docente, feedback y memoria entre materias; manejar ambiguedad. | Consigna: `enunciado.md:170`, `enunciado.md:256`. Evidencia: `spec/03-multi-materia.md:18`, `spec/03-multi-materia.md:27`, `spec/03-multi-materia.md:37`, `spec/07-riesgos-supuestos-y-limites-eticos.md:16`. | Sin accion. |
+| `[x] CUMPLE` | REQ-012 | Respetar privacidad por canal: publico en canal publico, privado en DM, e intermedios clasificados. | Consigna: `enunciado.md:42`, `enunciado.md:46`, `enunciado.md:47`, `enunciado.md:49`. Evidencia: `spec/00-glosario.md:11`, `spec/05-conexion-con-discord.md:14`, `spec/05-conexion-con-discord.md:57`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:52`. | Sin accion. |
+| `[x] CUMPLE` | REQ-013 | Los docentes deben aportar nuevo contenido por canal especializado y el diseno debe trazar incorporacion/versionado/vigencia. | Consigna: `enunciado.md:51`, `enunciado.md:53`, `enunciado.md:55`, `enunciado.md:180`. Evidencia: `spec/05-conexion-con-discord.md:42`, `spec/03-multi-materia.md:29`, `spec/agents/06-knowledge-curator-agent.md:14`, `spec/06-escenarios-y-trazabilidad.md:131`. | Sin accion. |
+| `[x] CUMPLE` | REQ-014 | Contemplar apoyo teorico: preguntas, profundidad variable, ejemplos y resumenes por materia. | Consigna: `enunciado.md:63`. Evidencia: `spec/01-inventario-y-justificacion-de-agentes.md:58`, `spec/agents/02-tutor-agent.md:17`, `spec/06-escenarios-y-trazabilidad.md:63`. | Sin accion. |
+| `[x] CUMPLE` | REQ-015 | Contemplar apoyo practico: consignas, procedimientos, revision, errores, inconsistencias, destrabe, pasos, ejemplos parciales y mejora. | Consigna: `enunciado.md:70`. Evidencia: `spec/01-inventario-y-justificacion-de-agentes.md:60`, `spec/agents/02-tutor-agent.md:18`, `spec/02-interaccion-y-coordinacion.md:34`. | Sin accion. |
+| `[x] CUMPLE` | REQ-016 | Para programacion, analizar codigo, indicar errores, explicar fragmentos y destrabar sin entregar soluciones finales. | Consigna: `enunciado.md:82`, `enunciado.md:89`. Evidencia: `spec/agents/02-tutor-agent.md:18`, `spec/agents/02-tutor-agent.md:21`, `spec/02-interaccion-y-coordinacion.md:34`, `spec/06-escenarios-y-trazabilidad.md:3`. | Sin accion. |
+| `[x] CUMPLE` | REQ-017 | El diseno no debe prometer vigilancia/bloqueo de cadenas incrementales; la restriccion aplica por respuesta. | Consigna: `enunciado.md:91`, `enunciado.md:248`. Evidencia: `spec/02-interaccion-y-coordinacion.md:44`, `spec/00-glosario.md:67`, `spec/agents/02-tutor-agent.md:31`, `spec/07-riesgos-supuestos-y-limites-eticos.md:20`. | Sin accion. |
+| `[x] CUMPLE` | REQ-018 | Explicitar mecanismo concreto por el cual el codigo llega desde Discord al sistema y al agente que lo interpreta. | Consigna: `enunciado.md:93`, `enunciado.md:183`, `enunciado.md:220`. Evidencia: `spec/05-conexion-con-discord.md:76`, `spec/05-conexion-con-discord.md:87`, `spec/06-escenarios-y-trazabilidad.md:7`. | Sin accion. |
+| `[x] CUMPLE` | REQ-019 | Contemplar autoevaluacion: quizzes, preguntas de comprension y feedback orientativo sin notas oficiales. | Consigna: `enunciado.md:95`. Evidencia: `spec/agents/02-tutor-agent.md:19`, `spec/06-escenarios-y-trazabilidad.md:92`, `spec/09-preguntas-abiertas-y-no-funcionales.md:22`. | Sin accion. |
+| `[x] CUMPLE` | REQ-020 | Contemplar informacion administrativa general y derivacion de casos personales sin tramitar ni decidir. | Consigna: `enunciado.md:101`, `enunciado.md:105`, `enunciado.md:106`, `enunciado.md:108`. Evidencia: `spec/agents/03-admin-agent.md:5`, `spec/agents/03-admin-agent.md:13`, `spec/06-escenarios-y-trazabilidad.md:35`. | Sin accion. |
+| `[x] CUMPLE` | REQ-021 | Contemplar acompanamiento y organizacion: recordatorios, checklists y orientacion. | Consigna: `enunciado.md:114`. Evidencia: `spec/01-inventario-y-justificacion-de-agentes.md:40`, `spec/agents/02-tutor-agent.md:20`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:60`. | Sin accion. |
+| `[x] CUMPLE` | REQ-022 | Definir feedback por materia, items/granularidad y justificacion. | Consigna: `enunciado.md:118`, `enunciado.md:122`. Evidencia: `spec/02-interaccion-y-coordinacion.md:80`, `spec/agents/05-feedback-agent.md:14`, `spec/09-preguntas-abiertas-y-no-funcionales.md:18`. | Sin accion. |
+| `[x] CUMPLE` | REQ-023 | Docentes deben acceder al feedback con que ven, periodicidad/disparador, agregacion/anonimato. | Consigna: `enunciado.md:123`. Evidencia: `spec/02-interaccion-y-coordinacion.md:82`, `spec/02-interaccion-y-coordinacion.md:84`, `spec/agents/05-feedback-agent.md:33`. | Sin accion. |
+| `[x] CUMPLE` | REQ-024 | Prever abuso o feedback malicioso con moderacion/reporte humano. | Consigna: `enunciado.md:125`. Evidencia: `spec/agents/05-feedback-agent.md:30`, `spec/agents/05-feedback-agent.md:40`, `spec/07-riesgos-supuestos-y-limites-eticos.md:26`. | Sin accion. |
+| `[x] CUMPLE` | REQ-025 | Recordar actividades entre sesiones con persistencia minima por usuario+materia y descartar lo no necesario. | Consigna: `enunciado.md:127`, `enunciado.md:131`, `enunciado.md:173`. Evidencia: `spec/04-memoria-entre-sesiones-y-seguimiento.md:14`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:25`, `spec/03-multi-materia.md:24`. | Sin accion. |
+| `[x] CUMPLE` | REQ-026 | Definir donde vive la memoria y como agentes la leen/actualizan. | Consigna: `enunciado.md:174`. Evidencia: `spec/04-memoria-entre-sesiones-y-seguimiento.md:12`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:40`, `spec/00-glosario.md:40`. | Sin accion. |
+| `[x] CUMPLE` | REQ-027 | Definir contacto proactivo: disparo, periodicidad, reglas de silencio, relacion con Discord y opt-out/control. | Consigna: `enunciado.md:132`, `enunciado.md:135`, `enunciado.md:175`. Evidencia: `spec/04-memoria-entre-sesiones-y-seguimiento.md:27`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:56`, `spec/agents/04-followup-agent.md:14`. | Sin accion. |
+| `[x] CUMPLE` | REQ-028 | Incluir ejemplo dia 1 -> tiempo despues -> seguimiento sobre el mismo tema sin contradecir limites. | Consigna: `enunciado.md:176`. Evidencia: `spec/04-memoria-entre-sesiones-y-seguimiento.md:69`, `spec/06-escenarios-y-trazabilidad.md:92`. | Sin accion. |
+| `[x] CUMPLE` | REQ-029 | Incorporar limites globales: no corregir oficialmente, no notas, no reemplazo docente, no tramites, no acoso, no exponer DM. | Consigna: `enunciado.md:137`. Evidencia: `spec/07-riesgos-supuestos-y-limites-eticos.md:34`, `spec/agents/02-tutor-agent.md:27`, `spec/agents/03-admin-agent.md:20`, `spec/agents/04-followup-agent.md:25`, `spec/agents/05-feedback-agent.md:35`. | Sin accion. |
+| `[x] CUMPLE` | REQ-030 | Representar el sistema en Discord y justificar bot, roles, canales, hilos, convivencia estudiantes/docentes. | Consigna: `enunciado.md:177`, `enunciado.md:178`. Evidencia: `spec/05-conexion-con-discord.md:3`, `spec/05-conexion-con-discord.md:7`, `spec/README.md:7`. | Sin accion. |
+| `[x] CUMPLE` | REQ-031 | Incluir matriz agente-ambiente con percepcion/accion y prohibiciones por canal. | Consigna: `enunciado.md:179`, `enunciado.md:297`. Evidencia: `spec/05-conexion-con-discord.md:26`, `spec/05-conexion-con-discord.md:30`, `spec/05-conexion-con-discord.md:40`. | Sin accion. |
+| `[x] CUMPLE` | REQ-032 | Explicar como un usuario dispara interacciones y recibe respuestas. | Consigna: `enunciado.md:181`. Evidencia: `spec/05-conexion-con-discord.md:16`, `spec/05-conexion-con-discord.md:24`, `spec/02-interaccion-y-coordinacion.md:5`. | Sin accion. |
+| `[x] CUMPLE` | REQ-033 | Aplicar privacidad publico/DM a respuestas, memoria, feedback y agentes. | Consigna: `enunciado.md:182`, `enunciado.md:298`, `enunciado.md:299`. Evidencia: `spec/05-conexion-con-discord.md:57`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:52`, `spec/02-interaccion-y-coordinacion.md:75`, `spec/agents/05-feedback-agent.md:37`. | Sin accion. |
+| `[x] CUMPLE` | REQ-034 | Incluir al menos tres escenarios obligatorios A/B/C, de tensiones distintas y paso a paso. | Consigna: `enunciado.md:184`, `enunciado.md:185`, `enunciado.md:306`. Evidencia: `spec/06-escenarios-y-trazabilidad.md:3`, `spec/06-escenarios-y-trazabilidad.md:35`, `spec/06-escenarios-y-trazabilidad.md:63`. | Sin accion. |
+| `[x] CUMPLE` | REQ-035 | Incluir diagrama de secuencia para al menos un escenario A/B/C con orden temporal y participantes relevantes. | Consigna: `enunciado.md:186`, `enunciado.md:307`. Evidencia: diagramas para A, B y C en `spec/06-escenarios-y-trazabilidad.md:14`, `spec/06-escenarios-y-trazabilidad.md:45`, `spec/06-escenarios-y-trazabilidad.md:73`. | Sin accion. |
+| `[x] CUMPLE` | REQ-036 | Escenario A debe mostrar pedido de solucion entregable y quien evita sobre-entrega en un turno. | Consigna: `enunciado.md:187`, `enunciado.md:188`, `enunciado.md:308`. Evidencia: `spec/06-escenarios-y-trazabilidad.md:7`, `spec/06-escenarios-y-trazabilidad.md:10`, `spec/06-escenarios-y-trazabilidad.md:11`. | Sin accion. |
+| `[x] CUMPLE` | REQ-037 | Escenario B debe trazar frontera administrativa y derivacion humana. | Consigna: `enunciado.md:189`. Evidencia: `spec/06-escenarios-y-trazabilidad.md:35`, `spec/06-escenarios-y-trazabilidad.md:41`, `spec/06-escenarios-y-trazabilidad.md:42`. | Sin accion. |
+| `[x] CUMPLE` | REQ-038 | Escenario C debe mezclar frentes y mostrar orden de tratamiento/descomposicion evitando contradicciones. | Consigna: `enunciado.md:190`. Evidencia: `spec/06-escenarios-y-trazabilidad.md:63`, `spec/06-escenarios-y-trazabilidad.md:67`, `spec/06-escenarios-y-trazabilidad.md:71`. | Sin accion. |
+| `[x] CUMPLE` | REQ-039 | Incluir riesgos, supuestos y limites eticos: alucinaciones, fuera de dominio, maliciosas, filtrado publico. | Consigna: `enunciado.md:192`, `enunciado.md:312`. Evidencia: `spec/07-riesgos-supuestos-y-limites-eticos.md:3`, `spec/07-riesgos-supuestos-y-limites-eticos.md:10`, `spec/07-riesgos-supuestos-y-limites-eticos.md:30`. | Sin accion. |
+| `[x] CUMPLE` | REQ-040 | Incluir autoevaluacion con escalabilidad, robustez/degradacion y flexibilidad, cada una con juicio, argumento y limite honesto. | Consigna: `enunciado.md:196`, `enunciado.md:316`. Evidencia: `spec/08-autoevaluacion-de-la-arquitectura.md:7`, `spec/08-autoevaluacion-de-la-arquitectura.md:18`, `spec/08-autoevaluacion-de-la-arquitectura.md:34`, `spec/08-autoevaluacion-de-la-arquitectura.md:47`. | Sin accion. |
+| `[x] CUMPLE` | REQ-041 | Ser explicito sobre supuestos y preguntas abiertas que el grupo decidio cerrar. | Consigna: `enunciado.md:206`, `enunciado.md:320`. Evidencia: `spec/09-preguntas-abiertas-y-no-funcionales.md:3`, `spec/07-riesgos-supuestos-y-limites-eticos.md:3`. | Sin accion. |
+
+## Limites Y Restricciones
+
+| Estado | ID | Restriccion | Evidencia verificada | Pendiente o accion |
+|---|---|---|---|---|
+| `[x] CUMPLE` | LIM-001 | No corregir oficialmente trabajos/examenes, poner notas ni aprobar/desaprobar. | Consigna: `enunciado.md:141`, `enunciado.md:142`. Evidencia: `spec/07-riesgos-supuestos-y-limites-eticos.md:38`, `spec/agents/02-tutor-agent.md:29`. | Sin accion. |
+| `[x] CUMPLE` | LIM-002 | No reemplazar docentes ni canales institucionales formales. | Consigna: `enunciado.md:13`, `enunciado.md:143`. Evidencia: `spec/02-interaccion-y-coordinacion.md:46`, `spec/07-riesgos-supuestos-y-limites-eticos.md:40`. | Sin accion. |
+| `[x] CUMPLE` | LIM-003 | No brindar informacion institucional sensible ni gestionar tramites/formalidades o decisiones academicas oficiales. | Consigna: `enunciado.md:144`, `enunciado.md:145`, `enunciado.md:146`. Evidencia: `spec/agents/03-admin-agent.md:17`, `spec/agents/03-admin-agent.md:22`, `spec/07-riesgos-supuestos-y-limites-eticos.md:40`. | Sin accion. |
+| `[x] CUMPLE` | LIM-004 | Feedback no sustituye evaluaciones oficiales ni debe ser unica fuente obligatoria de evaluacion docente/institucional. | Consigna: `enunciado.md:15`, `enunciado.md:125`, `enunciado.md:147`. Evidencia: `spec/agents/05-feedback-agent.md:39`, `spec/02-interaccion-y-coordinacion.md:80`, `spec/07-riesgos-supuestos-y-limites-eticos.md:42`. | Sin accion. |
+| `[x] CUMPLE` | LIM-005 | No acosar con mensajes proactivos ni explotar memoria de forma intrusiva. | Consigna: `enunciado.md:148`. Evidencia: `spec/04-memoria-entre-sesiones-y-seguimiento.md:56`, `spec/agents/04-followup-agent.md:18`, `spec/agents/04-followup-agent.md:25`, `spec/07-riesgos-supuestos-y-limites-eticos.md:22`. | Sin accion. |
+| `[x] CUMPLE` | LIM-006 | No exponer consultas privadas de DM en canales publicos salvo transferencia explicita, consentida y trazada. | Consigna: `enunciado.md:149`. Evidencia: `spec/05-conexion-con-discord.md:57`, `spec/05-conexion-con-discord.md:63`, `spec/06-escenarios-y-trazabilidad.md:122`. | Sin accion. |
+| `[x] CUMPLE` | LIM-007 | No mezclar datos, conocimiento, memoria ni feedback entre materias. | Consigna: `enunciado.md:21`, `enunciado.md:131`. Evidencia: `spec/03-multi-materia.md:18`, `spec/03-multi-materia.md:27`, `spec/07-riesgos-supuestos-y-limites-eticos.md:44`. | Sin accion. |
+| `[x] CUMPLE` | LIM-008 | No persistir por defecto transcripciones crudas, codigo fuente, certificados, datos medicos ni senales de vigilancia multi-turno. | Consigna relacionada: `enunciado.md:91`, `enunciado.md:135`, `enunciado.md:252`. Evidencia: `spec/04-memoria-entre-sesiones-y-seguimiento.md:25`, `spec/02-interaccion-y-coordinacion.md:63`, `spec/09-preguntas-abiertas-y-no-funcionales.md:41`. | Sin accion. |
+| `[x] CUMPLE` | LIM-009 | No depender de lectura pasiva amplia ni permisos innecesarios de Discord para el flujo base. | Consigna: `enunciado.md:19`, `enunciado.md:181`. Evidencia: `spec/05-conexion-con-discord.md:96`, `spec/05-conexion-con-discord.md:99`, `spec/05-conexion-con-discord.md:100`, `spec/07-riesgos-supuestos-y-limites-eticos.md:24`. | Sin accion. |
+
+## Formato Y Artefactos Exigidos
+
+| Estado | ID | Artefacto o formato | Evidencia verificada | Pendiente o accion |
+|---|---|---|---|---|
+| `[x] CUMPLE` | FMT-001 | Documento principal en Markdown, con artefactos de diseno. | Consigna: `enunciado.md:202`. Evidencia: `spec/README.md:1`, documentos `spec/*.md`. | Sin accion. |
+| `[x] CUMPLE` | FMT-002 | Glosario inicial con definicion de sesion vs conversacion, coherente con memoria. | Consigna: `enunciado.md:155`, `enunciado.md:292`. Evidencia: `spec/00-glosario.md:5`, `spec/00-glosario.md:6`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:3`. | Sin accion. |
+| `[x] CUMPLE` | FMT-003 | Entregable 1: inventario y justificacion de agentes. | Consigna: `enunciado.md:157`. Evidencia: `spec/01-inventario-y-justificacion-de-agentes.md:1`. | Sin accion. |
+| `[x] CUMPLE` | FMT-004 | Entregable 2: interaccion y coordinacion. | Consigna: `enunciado.md:161`. Evidencia: `spec/02-interaccion-y-coordinacion.md:1`. | Sin accion. |
+| `[x] CUMPLE` | FMT-005 | Entregable 3: multi-materia. | Consigna: `enunciado.md:168`. Evidencia: `spec/03-multi-materia.md:1`. | Sin accion. |
+| `[x] CUMPLE` | FMT-006 | Entregable 4: memoria entre sesiones y seguimiento. | Consigna: `enunciado.md:172`. Evidencia: `spec/04-memoria-entre-sesiones-y-seguimiento.md:1`. | Sin accion. |
+| `[x] CUMPLE` | FMT-007 | Entregable 5: conexion con Discord, matriz agente-ambiente, canal docente, privacidad e ingreso de codigo. | Consigna: `enunciado.md:177`. Evidencia: `spec/05-conexion-con-discord.md:1`, `spec/05-conexion-con-discord.md:26`, `spec/05-conexion-con-discord.md:42`, `spec/05-conexion-con-discord.md:76`. | Sin accion. |
+| `[x] CUMPLE` | FMT-008 | Entregable 6: escenarios y trazabilidad con diagrama de secuencia. | Consigna: `enunciado.md:184`. Evidencia: `spec/06-escenarios-y-trazabilidad.md:1`, `spec/06-escenarios-y-trazabilidad.md:14`, `spec/06-escenarios-y-trazabilidad.md:45`, `spec/06-escenarios-y-trazabilidad.md:73`. | Sin accion. |
+| `[x] CUMPLE` | FMT-009 | Entregable 7: riesgos, supuestos y limites eticos. | Consigna: `enunciado.md:192`. Evidencia: `spec/07-riesgos-supuestos-y-limites-eticos.md:1`. | Sin accion. |
+| `[x] CUMPLE` | FMT-010 | Entregable 8: autoevaluacion de la arquitectura. | Consigna: `enunciado.md:196`. Evidencia: `spec/08-autoevaluacion-de-la-arquitectura.md:1`. | Sin accion. |
+| `[x] CUMPLE` | FMT-011 | Fichas operativas de agentes coherentes con el inventario. | Consigna relacionada: `enunciado.md:159`. Evidencia: `spec/agents/README.md:1`, `spec/agents/01-frontier-agent.md:1`, `spec/agents/02-tutor-agent.md:1`, `spec/agents/03-admin-agent.md:1`, `spec/agents/04-followup-agent.md:1`, `spec/agents/05-feedback-agent.md:1`, `spec/agents/06-knowledge-curator-agent.md:1`. | Sin accion. |
+| `[x] CUMPLE` | FMT-012 | Checklist de auditoria actualizado con evidencia trazable. | Evidencia: este archivo. | Sin accion. |
+
+## Decisiones Abiertas Que La Entrega Debe Cerrar
+
+| Estado | ID | Decision requerida | Postura encontrada | Pendiente o accion |
+|---|---|---|---|---|
+| `[x] CUMPLE` | DEC-001 | Clasificador de fuera de dominio y coordinacion: orquestador unico o peer-to-peer. | A1 clasifica/orquesta consultas estudiantiles; A4 y A6 reciben disparadores propios (`spec/02-interaccion-y-coordinacion.md:5`, `spec/09-preguntas-abiertas-y-no-funcionales.md:24`). | Sin accion. |
+| `[x] CUMPLE` | DEC-002 | Guardian/politica de andamiaje: si existe y por que. | `OutputPolicy` es politica determinista, no septimo agente; controla `assistance_mode`, privacidad y sobre-entrega (`spec/01-inventario-y-justificacion-de-agentes.md:20`, `spec/09-preguntas-abiertas-y-no-funcionales.md:26`). | Sin accion. |
+| `[x] CUMPLE` | DEC-003 | Modelar usuario o Discord como agente, o como entorno. | Usuario es actor y Discord ambiente con sensores/actuadores (`spec/09-preguntas-abiertas-y-no-funcionales.md:25`, `spec/05-conexion-con-discord.md:16`). | Sin accion. |
+| `[x] CUMPLE` | DEC-004 | Clasificacion de publico/DM, canales intermedios y nudges hacia DM para codigo/datos sensibles. | Canales/hilos/restringidos por rol son `publico`; DM es `dm`; ante codigo sensible publico se sugiere DM (`spec/00-glosario.md:11`, `spec/05-conexion-con-discord.md:14`, `spec/05-conexion-con-discord.md:91`). | Sin accion. |
+| `[x] CUMPLE` | DEC-005 | UX de ingreso de codigo y referencias a mensajes anteriores. | Bloque o adjunto textual del mensaje actual; no links a mensajes previos en flujo base (`spec/05-conexion-con-discord.md:78`, `spec/05-conexion-con-discord.md:83`, `spec/09-preguntas-abiertas-y-no-funcionales.md:12`). | Sin accion. |
+| `[x] CUMPLE` | DEC-006 | Personalidad conversacional: una voz o voces por agente. | Una personalidad consistente, cambia postura no identidad (`spec/09-preguntas-abiertas-y-no-funcionales.md:27`). | Sin accion. |
+| `[x] CUMPLE` | DEC-007 | Manejo de conversaciones largas y referencias previas. | STM conserva contexto minimo; codigo debe reenviarse como bloque/adjunto (`spec/09-preguntas-abiertas-y-no-funcionales.md:28`, `spec/00-glosario.md:9`). | Sin accion. |
+| `[x] CUMPLE` | DEC-008 | Politica de anonimato/identificacion del feedback. | `anonimo` por defecto; pseudonimo/identificado solo con configuracion y consentimiento (`spec/02-interaccion-y-coordinacion.md:84`, `spec/09-preguntas-abiertas-y-no-funcionales.md:21`). | Sin accion. |
+| `[x] CUMPLE` | DEC-009 | Moderacion del feedback: agente, humano o ambos. | A5 modera y escala abuso/riesgo a autoridad designada (`spec/agents/05-feedback-agent.md:30`, `spec/agents/05-feedback-agent.md:32`). | Sin accion. |
+| `[x] CUMPLE` | DEC-010 | Si docentes usan los mismos agentes que estudiantes o capacidades separadas. | Docentes usan A6 para actualizar y reciben digest de A5; estudiantes usan A1/A2/A3/A5/A4 (`spec/02-interaccion-y-coordinacion.md:71`, `spec/02-interaccion-y-coordinacion.md:75`). | Sin accion. |
+| `[x] CUMPLE` | DEC-011 | Ecosistema de datos: fuentes iniciales, prioridad, versionado, validacion docente. | Puede existir seed inicial; A6 versiona; Config via `/actualizar-catedra`; se confia en rol autorizado y conflictos quedan pendientes (`spec/09-preguntas-abiertas-y-no-funcionales.md:29`, `spec/09-preguntas-abiertas-y-no-funcionales.md:30`, `spec/05-conexion-con-discord.md:51`). | Sin accion. |
+| `[x] CUMPLE` | DEC-012 | Lenguajes permitidos/stack de programacion. | Lista textual configurable por materia; formatos no reconocidos se solicitan nuevamente (`spec/09-preguntas-abiertas-y-no-funcionales.md:31`, `spec/05-conexion-con-discord.md:81`). | Sin accion. |
+| `[x] CUMPLE` | DEC-013 | Multi-materia: agentes genericos parametrizados o agentes por materia. | Agentes genericos reciben `subject_id`; una materia = un servidor (`spec/03-multi-materia.md:5`, `spec/09-preguntas-abiertas-y-no-funcionales.md:8`). | Sin accion. |
+| `[x] CUMPLE` | DEC-014 | Conflictos y consultas mixtas: prioridad, orden y estado compartido intra-sesion. | A1 ensambla A2+A3; STM guarda materia/intencion; escenario C muestra tratamiento de teoria+admin+codigo (`spec/02-interaccion-y-coordinacion.md:25`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:5`, `spec/06-escenarios-y-trazabilidad.md:63`). | Sin accion. |
+| `[x] CUMPLE` | DEC-015 | Memoria entre sesiones: duracion, granularidad, propietario, auditoria, privacidad y opt-out. | LTM cursada + 6 meses, minimo necesario, MemoryStore, comandos de control, visibilidad `publico/dm`, opt-out (`spec/04-memoria-entre-sesiones-y-seguimiento.md:5`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:14`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:27`). | Sin accion. |
+| `[x] CUMPLE` | DEC-016 | Quizzes: quien los genera y criterio de dificultad. | A2 los genera alineados a KB y nivel del material/memoria minima (`spec/agents/02-tutor-agent.md:19`, `spec/09-preguntas-abiertas-y-no-funcionales.md:22`). | Sin accion. |
+| `[x] CUMPLE` | DEC-017 | Privacidad, almacenamiento, feedback y retencion de datos. | No se almacenan transcripciones/codigo por defecto; feedback store separado; no alimenta A2/A4; origen publico/dm (`spec/04-memoria-entre-sesiones-y-seguimiento.md:23`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:25`, `spec/09-preguntas-abiertas-y-no-funcionales.md:32`). | Sin accion. |
+| `[x] CUMPLE` | DEC-018 | No funcionales: latencia/degradacion, idioma, tono y accesibilidad. | Un round normal de agente, preserva flujos independientes ante fallos, espanol claro por defecto (`spec/09-preguntas-abiertas-y-no-funcionales.md:34`, `spec/09-preguntas-abiertas-y-no-funcionales.md:46`, `spec/09-preguntas-abiertas-y-no-funcionales.md:47`). | Sin accion. |
+
+## Consistencia Y Factibilidad
+
+| Estado | ID | Control | Evidencia o conflicto | Pendiente o accion |
+|---|---|---|---|---|
+| `[x] CUMPLE` | CAL-001 | Glosario sesion/conversacion alineado con STM/LTM y seguimiento. | `spec/00-glosario.md:5` define sesion/conversacion; `spec/04-memoria-entre-sesiones-y-seguimiento.md:5` usa la misma distincion; A4 cierra por inactividad o jornada (`spec/agents/04-followup-agent.md:12`). | Sin accion. |
+| `[x] CUMPLE` | CAL-002 | Multi-materia coherente en README, entregable 3, memoria, feedback, A6 y escenarios. | `subject_id` y stores por materia aparecen en `spec/README.md:7`, `spec/03-multi-materia.md:18`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:12`, `spec/agents/06-knowledge-curator-agent.md:10`. | Sin accion. |
+| `[x] CUMPLE` | CAL-003 | Privacidad publico/DM consistente en glosario, memoria, Discord, feedback y escenarios. | `spec/00-glosario.md:11`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:54`, `spec/05-conexion-con-discord.md:57`, `spec/06-escenarios-y-trazabilidad.md:122`. | Sin accion. |
+| `[x] CUMPLE` | CAL-004 | A6 y pipeline KB/Config no se contradicen entre docs. | `spec/03-multi-materia.md:31`, `spec/05-conexion-con-discord.md:44`, `spec/agents/06-knowledge-curator-agent.md:20`, `spec/06-escenarios-y-trazabilidad.md:131`. | Sin accion. |
+| `[x] CUMPLE` | CAL-005 | Seguimiento default + opt-out + DM contactable + sin fallback publico consistente. | `spec/README.md:42`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:38`, `spec/04-memoria-entre-sesiones-y-seguimiento.md:67`, `spec/agents/04-followup-agent.md:16`. | Sin accion. |
+| `[x] CUMPLE` | CAL-006 | `OutputPolicy` y `OutboundDispatcher` se mantienen como infraestructura central, no agentes duplicados. | `spec/README.md:18`, `spec/01-inventario-y-justificacion-de-agentes.md:20`, `spec/agents/README.md:14`, `spec/05-conexion-con-discord.md:5`. | Sin accion. |
+| `[x] CUMPLE` | CAL-007 | Escenarios reflejan la arquitectura documentada y no introducen roles o flujos contradictorios. | A usa InputExtractor/OutputPolicy/A2/MemoryStore (`spec/06-escenarios-y-trazabilidad.md:7`); B usa A3/Config/derivacion (`spec/06-escenarios-y-trazabilidad.md:35`); C ensambla A2+A3 (`spec/06-escenarios-y-trazabilidad.md:63`). | Sin accion. |
+| `[x] CUMPLE` | CAL-008 | Riesgos y limites no contradicen funcionalidades: el bot ayuda dentro de dominio y reconduce cuando falta fuente/criterio humano. | `spec/02-interaccion-y-coordinacion.md:46`, `spec/07-riesgos-supuestos-y-limites-eticos.md:14`, `spec/07-riesgos-supuestos-y-limites-eticos.md:32`. | Sin accion. |
+| `[x] CUMPLE` | CAL-009 | No hay evidencia de implementacion fuera del alcance. | Inventario de archivos: Markdown y `skills-lock.json`; consigna pide no programar (`enunciado.md:5`, `enunciado.md:324`). | Sin accion. |
 
 ## Pendientes Priorizados
 
-Sin pendientes abiertos.
+| Prioridad | IDs | Cambio requerido | Donde corregir |
+|---|---|---|---|
+| - | - | No hay pendientes ni parciales abiertos. | - |
 
 ## Conclusion
 
-La entrega cumple la consigna. Tras la unificación, no quedan incongruencias conocidas entre glosario, entregables, fichas de agentes y escenarios. La reauditoría puntual agrega la condición operativa de DM contactable para el seguimiento proactivo.
+La entrega **cumple** la consigna. La auditoria archivo por archivo y el cruce global no detectaron faltantes obligatorios, contradicciones internas ni incumplimientos de alcance. El diseno cubre las funcionalidades 1-7, los entregables 1-8, el soporte multi-materia, la privacidad por canal, el canal docente de actualizacion, el ingreso de codigo, la memoria entre sesiones con seguimiento proactivo controlado, los escenarios A/B/C con secuencias, los riesgos y la autoevaluacion de arquitectura.
 
-Validaciones: relectura focalizada de `spec/`; cruce seguimiento default/opt-out/contactabilidad, privacidad, A4, Discord y escenarios; contraste con documentación oficial de Discord sobre creación y fallos de DM.
+Validaciones realizadas: lectura completa de `enunciado.md`; inventario de archivos del proyecto; revision individual de cada archivo de `spec/` y `spec/agents/`; busqueda cruzada de terminos criticos (`subject_id`, `publico`, `dm`, `OutputPolicy`, `dm_contactable`, `feedback`, `actualizar-catedra`, `InputExtractor`); verificacion de diagramas Mermaid de secuencia; contraste entre glosario, memoria, Discord, escenarios, riesgos y fichas de agentes.

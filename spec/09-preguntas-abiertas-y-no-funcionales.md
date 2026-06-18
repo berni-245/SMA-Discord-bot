@@ -21,11 +21,14 @@
 | ¿Política de anonimato del feedback?                    | `anonimo` por defecto; `pseudonimo` o `identificado_con_consentimiento` solo con consentimiento explícito del estudiante y configuración de cátedra |
 | ¿Quién genera quizzes y con qué criterio de dificultad? | A2; alineados al tema consultado y a la unidad o bloque vigente en KB, calibrados al nivel del material citado                                      |
 | ¿Quién publica en Discord?                              | `OutboundDispatcher` bajo una única identidad de bot                                                                                                |
-| ¿Cómo coordinan agentes?                                | A1 orquesta consultas estudiantiles; A6 y A4 reciben sus propios disparadores explícitos                                                            |
+| ¿Cómo coordinan agentes?                                | A1 decide intención en cada turno y usa `conversation_owner_agent` como continuidad; si el agente receptor detecta baja confianza o fuera de scope, devuelve a A1; A6 y A4 reciben sus propios disparadores explícitos |
 | ¿Usuario o Discord son agentes?                         | No; usuario es actor y Discord es ambiente con sensores/actuadores                                                                                  |
 | ¿Quién valida salidas pedagógicas?                      | `OutputPolicy` como política determinista, no como séptimo agente                                                                                   |
 | ¿Qué voz usa el bot?                                    | Una personalidad consistente y clara; cambia la postura, no la identidad                                                                            |
 | ¿Conversaciones largas?                                 | STM conserva contexto mínimo de sesión; referencias a código deben reenviarse como bloque/adjunto                                                   |
+| ¿Quién detecta autolesión/ideación suicida?             | A1 con `SafetyClassifier` en la frontera de cada turno; A2 y A5 actúan como segunda barrera si el mensaje les llega por continuidad o feedback      |
+| ¿Cómo se evita abrir varios hilos de crisis?            | `CrisisCaseStore` deduplica por `user_id + subject_id`; nuevos mensajes actualizan el mismo hilo hasta que el caso pase a `closed`                   |
+| ¿Qué ve la cátedra ante crisis?                         | Un hilo privado para docentes de la cátedra con usuario, materia, nivel, timestamps, respuesta del bot y transcripción completa disponible de la conversación para elevar a psicología/bienestar |
 | ¿Hay carga inicial además del canal docente?            | Puede existir un seed inicial; luego A6 y la versión docente confirmada tienen prioridad                                                            |
 | ¿Quién valida material docente?                         | Se confía en rol autorizado; conflictos ambiguos quedan pendientes de confirmación                                                                  |
 | ¿Lenguajes de programación?                             | Lista textual configurable por materia; formatos no reconocidos se solicitan nuevamente                                                             |
@@ -37,10 +40,10 @@
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | Privacidad             | No exponer DM, memoria ni feedback identificable en público                                                                  |
 | Aislamiento            | Toda lectura/escritura incluye `subject_id`; memoria además incluye usuario                                                  |
-| Trazabilidad           | Versionar fuentes; citar respuesta; registrar envíos/fallos sin contenido excesivo                                           |
-| Minimización           | No persistir código ni transcripciones crudas por defecto                                                                    |
+| Trazabilidad           | Versionar fuentes; citar respuesta; registrar envíos/fallos sin contenido excesivo; en crisis, auditar hilo, estado y accesos |
+| Minimización           | No persistir código ni transcripciones crudas por defecto; excepción: snapshot completo de conversación para caso de crisis activo |
 | Control usuario        | Historial, borrado y consentimiento de seguimiento disponibles                                                               |
-| Moderación             | Conservar crítica legítima y escalar abuso o riesgo humano                                                                   |
+| Moderación             | Conservar crítica legítima y escalar abuso o riesgo humano; crisis no entra a digest ni feedback ordinario                    |
 | Fallo cerrado          | Si no se puede aplicar OutputPolicy o verificar fuente, no publicar respuesta sustantiva                                     |
 | Plataforma             | Interacciones por evento explícito; evitar lectura pasiva e historial innecesario                                            |
 | Latencia/degradación   | Una respuesta normal prioriza un solo round de agente; ante indisponibilidad se informa y se preservan flujos independientes |
@@ -55,7 +58,9 @@
 - Frecuencia máxima y horarios de silencio para A4.
 - Muestra mínima y periodicidad del digest de A5.
 - Canal humano concreto de derivación por materia.
+- Canal docente privado de crisis y procedimiento de elevación a psicología/bienestar.
+- Retención y cierre manual de casos de crisis.
 
 ## 4. Estado de cobertura
 
-La propuesta cubre teoría, práctica/código, autoevaluación, administración, acompañamiento, feedback y memoria/seguimiento; define actualización docente, privacidad, fuera de dominio, escenarios, Discord como ambiente y autoevaluación de la arquitectura. Los parámetros abiertos no impiden implementar el diseño: son configuraciones institucionales o operativas.
+La propuesta cubre teoría, práctica/código, autoevaluación, administración, acompañamiento, feedback, memoria/seguimiento y escalamiento de crisis; define actualización docente, privacidad, fuera de dominio, escenarios, Discord como ambiente y autoevaluación de la arquitectura. Los parámetros abiertos no impiden implementar el diseño: son configuraciones institucionales u operativas.

@@ -16,6 +16,7 @@ El proyecto cumple la consigna, pero si el diseno se llevara a una implementacio
 | Media | Escala | Una materia por servidor simplifica aislamiento pero complica operacion masiva. | Plantillas de servidor, automatizacion de alta y tablero multi-materia. |
 | Media | Calidad | KB/Config pueden quedar obsoletos aunque el pipeline exista. | Revalidacion periodica, duenos por materia, fechas de vigencia y alertas a docentes. |
 | Media | Abuso | Feedback puede usarse para hostigar o manipular digests. | Muestra minima, moderacion, escalamiento humano y separacion de critica vs ataque. |
+| Alta | Bienestar | Un estudiante puede expresar autolesion o ideacion suicida y el sistema tratarlo como una consulta mas. | `SafetyClassifier` en A1, A2/A5 como segunda barrera, un solo hilo privado por usuario+materia y derivacion a psicologia/bienestar. |
 
 ## Riesgos y formas de resolverlos
 
@@ -215,15 +216,31 @@ El proyecto cumple la consigna, pero si el diseno se llevara a una implementacio
 - Retencion corta para logs operativos; retencion separada para LTM pedagogica.
 - Acceso de auditoria restringido y revisable.
 
+### 16. Crisis de bienestar o ideacion suicida
+
+**Problema.** Un estudiante puede escribir contenido de autolesion, ideacion suicida o riesgo humano en medio de una consulta pedagogica, por DM, en canal publico o como feedback. Si el sistema lo trata como una pregunta normal, se pierde la oportunidad de intervencion humana. Si crea un hilo por cada mensaje, satura a la catedra.
+
+**Impacto.** Riesgo de demora en la derivacion a psicologia/bienestar, exposicion inadecuada o duplicacion de alertas.
+
+**Solucion.**
+
+- A1 ejecuta `SafetyClassifier` en cada turno antes de decidir agente destino.
+- A2 Tutor y A5 Feedback actuan como segunda barrera si reciben el mensaje por continuidad o `/feedback`.
+- Niveles: `none`, `distress`, `self_harm_ambiguous`, `self_harm_explicit`, `imminent_risk`.
+- Se abre caso solo para `self_harm_ambiguous`, `self_harm_explicit` o `imminent_risk`; `distress` recibe contencion, orientacion humana y pausa temporal de seguimiento automatico mediante `safety_hold_until`.
+- `CrisisCaseStore` deduplica por `user_id + subject_id`; varios mensajes del mismo estudiante actualizan el mismo hilo hasta cierre.
+- El hilo privado en `#alertas-bienestar-catedra` queda visible para docentes de la catedra e incluye la transcripcion completa disponible de la conversacion para elevar al area de psicologia/bienestar.
+- Mientras el caso esta `open`, `acknowledged` o `escalated_to_psychology`, o mientras `safety_hold_until` sigue vigente, A4 Follow-up no envia mensajes proactivos.
+
 ## Cambios recomendados al documento
 
 Estos puntos no son obligatorios para aprobar la consigna, pero fortalecerian el diseno:
 
-1. Agregar una seccion "Riesgos operativos de Discord" en `spec/07-riesgos-supuestos-y-limites-eticos.md`.
-2. En `spec/05-conexion-con-discord.md`, incorporar la regla de respuesta inicial/defer para slash commands y una politica explicita de rate limits.
-3. En `spec/04-memoria-entre-sesiones-y-seguimiento.md`, agregar metricas de efectividad: tasa de DM contactable, opt-out y fallos de entrega.
-4. En `spec/02-interaccion-y-coordinacion.md`, sumar una rubrica breve de `OutputPolicy` por materia/evaluativa.
-5. En `spec/agents/06-knowledge-curator-agent.md`, agregar el estado "pendiente de estructurar" cuando A6 detecta una fecha/regla publicada por el pipeline de contenido.
+1. En `spec/05-conexion-con-discord.md`, incorporar la regla de respuesta inicial/defer para slash commands y una politica explicita de rate limits.
+2. En `spec/04-memoria-entre-sesiones-y-seguimiento.md`, agregar metricas de efectividad: tasa de DM contactable, opt-out y fallos de entrega.
+3. En `spec/02-interaccion-y-coordinacion.md`, sumar una rubrica breve de `OutputPolicy` por materia/evaluativa.
+4. En `spec/agents/06-knowledge-curator-agent.md`, agregar el estado "pendiente de estructurar" cuando A6 detecta una fecha/regla publicada por el pipeline de contenido.
+5. Revisar con la catedra el nombre real del canal de crisis, responsables docentes, contactos de psicologia/bienestar y politica de retencion del caso.
 
 ## Referencias oficiales utiles
 

@@ -8,14 +8,14 @@ El sistema usa **un solo bot** y **6 agentes lógicos**, parametrizados por `sub
 
 | Agente                    | Responsabilidad principal                                        |
 | ------------------------- | ---------------------------------------------------------------- |
-| A1 Frontier / Coordinador | Clasifica, deriva, ensambla y reconduce a humanos                |
-| A2 Tutor                  | Teoría, práctica/código, autoevaluación y orientación pedagógica |
+| A1 Frontier / Coordinador | Clasifica intención, seguridad, deriva, ensambla y reconduce a humanos |
+| A2 Tutor                  | Teoría, práctica/código, autoevaluación, orientación y segunda barrera de crisis |
 | A3 Admin                  | Fechas y reglas publicadas; deriva casos particulares            |
 | A4 Follow-up              | Seguimiento proactivo por DM (habilitado por default, opt-out y DM contactable) |
 | A5 Feedback               | Feedback voluntario, moderación y digest docente                 |
 | A6 Knowledge Curator      | Incorpora aportes docentes versionados a KB o Config             |
 
-La memoria, el ruteo de materia, la extracción de código, las políticas de salida y el envío a Discord son **infraestructura determinista**, no agentes. Esta decisión reduce handoffs y mantiene separados los comportamientos que sí requieren una postura propia.
+La memoria, el ruteo de materia, la extracción de código, las políticas de salida, el protocolo de crisis y el envío a Discord son **infraestructura determinista**, no agentes. Esta decisión reduce handoffs y mantiene separados los comportamientos que sí requieren una postura propia.
 
 ## Entregables
 
@@ -41,4 +41,6 @@ Las fichas operativas vigentes están en [`agents/`](agents/).
 - Los aportes por `/incorporar-material` van siempre a KB; los oficiales de cátedra (fechas, reglas) requieren `/actualizar-catedra` para Config, con sugerencia si el docente usa el comando equivocado.
 - El seguimiento es únicamente por DM, **habilitado por default** con `/seguimiento desactivar` para opt-out; ventana 2–5 días post-sesión y envío solo si el estudiante tiene DM contactable.
 - El feedback docente contiene solo aportes voluntarios y agregados.
+- Las señales de autolesión, ideación suicida o riesgo humano activan un único hilo privado de crisis por estudiante+materia para docentes de la cátedra, con transcripción completa disponible y derivación a psicología/bienestar.
+- A1 decide intención en cada turno; puede usar el último agente como continuidad, pero el agente devuelve a A1 si hay baja confianza o fuera de scope.
 - `OutboundDispatcher` es el único componente que escribe efectivamente en Discord.

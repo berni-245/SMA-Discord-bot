@@ -26,10 +26,13 @@ La arquitectura usa **6 agentes** más infraestructura determinista. Concentrar 
 | A6 Curator                | Actualizaciones nuevas; se conserva última versión confirmada | Atención con fuentes vigentes existentes                       |
 | MemoryStore               | Personalización y seguimiento                                 | Consultas sin memoria                                          |
 | OutputPolicy o Dispatcher | Publicación segura                                            | Debe fallar cerrado: no se publica                             |
+| SafetyClassifier o CrisisEscalationProtocol | Escalamiento automático de crisis              | Debe fallar cerrado: no tratar como tutoría; avisar por canal docente alternativo si está configurado |
 
 **Trade-off honesto:** integrar teoría, práctica y quiz en A2 amplía el impacto de su caída. A cambio, evita handoffs entre especialistas pedagógicos y mantiene las políticas como infraestructura; una respuesta normal resulta más consistente y la implementación, más simple.
 
 Si A2 no está disponible, A1 informa al estudiante que temporalmente no puede atender explicación, código ni quiz y puede seguir derivando consultas administrativas a A3 o recibir feedback por A5. No promete una ayuda pedagógica degradada sin el agente responsable.
+
+Si A2 está disponible pero detecta una crisis durante una continuidad, no intenta resolverla: devuelve control a A1/protocolo. Esto reduce el riesgo de que el ruteo por último agente esconda una señal de seguridad humana.
 
 ## 4. Flexibilidad
 
@@ -50,7 +53,7 @@ No requiere modificar A2, A3, A5 o A6 ni el modelo multi-materia. Las reglas det
 | --------------------------- | ---------- | ------------------------------------------------------------------ |
 | Complejidad de coordinación | Baja       | Seis agentes; políticas/stores fuera del SMA                       |
 | Privacidad                  | Alta       | Origen, consentimiento, publicación única y feedback agregado      |
-| Trazabilidad                | Alta       | Versionado KB/Config, citas, modos de salida y logs mínimos        |
+| Trazabilidad                | Alta       | Versionado KB/Config, citas, modos de salida, logs mínimos y casos de crisis auditados |
 | Robustez                    | Media/alta | Pocos handoffs; A2 concentra capacidades pedagógicas               |
 | Compatibilidad Discord      | Alta       | Eventos explícitos, permisos acotados, DMs fallables y contactabilidad previa contemplados |
 

@@ -24,12 +24,17 @@
 | Lectura pasiva del servidor                 | Dependencia de intent privilegiado         | Comandos/menciones explícitas; no depender de `MESSAGE_CONTENT`                     |
 | Código desde histórico o formato no textual | Permisos ampliados o análisis inseguro     | InputExtractor admite bloque/adjunto del mensaje actual                             |
 | Feedback ofensivo                           | Daño a docentes/estudiantes                | A5 no almacena odio/ataques; escala a autoridad designada; conserva crítica legítima en digest        |
+| Mensaje con autolesión, ideación suicida o riesgo humano | Falta de intervención humana a tiempo | A1 aplica `SafetyClassifier`; A2/A5 son segunda barrera; `CrisisEscalationProtocol` crea o actualiza un hilo privado para docentes de la cátedra con transcripción completa disponible y derivación a psicología/bienestar |
+| Duplicación de alertas de crisis            | Ruido operativo y demora en respuesta humana | `CrisisCaseStore` deduplica por `user_id + subject_id`; nuevos mensajes actualizan el mismo hilo hasta cierre |
+| Seguimiento automático durante malestar o crisis | Mensaje inoportuno o dañino                | A4 se pausa mientras exista caso `open`, `acknowledged` o `escalated_to_psychology`, o mientras esté vigente `safety_hold_until` |
 | Dependencia excesiva del bot                | Reemplazar razonamiento o consulta docente | A2 orienta sin resolver; A1 reconduce ante decisiones/fuentes faltantes             |
 | Instrucciones para ignorar límites          | El bot abandona su rol o filtra datos      | A1 y OutputPolicy rechazan el intento y mantienen permisos/fuentes                  |
 
 ## 3. Consultas fuera de dominio y casos humanos
 
 A1 debe declarar el límite del asistente y orientar a docentes cuando la pregunta sea ajena a la materia, no tenga base documental o requiera criterio humano. A3 solo comunica reglas generales publicadas; no determina si un certificado o trámite de una persona es válido.
+
+Ante autolesión, ideación suicida o riesgo humano urgente, el sistema no intenta contener el caso como tutor ni lo deriva a un canal público. A1 activa el protocolo de crisis; A2 o A5 pueden detectarlo como segunda barrera si el turno les llegó por continuidad o feedback. El bot envía contención breve al estudiante y el caso queda en manos de docentes de la cátedra para elevación al área institucional correspondiente.
 
 ## 4. Límites no negociables
 
@@ -42,6 +47,8 @@ A1 debe declarar el límite del asistente y orientar a docentes cuando la pregun
 | No convertir feedback en evaluación oficial          | A5                            |
 | No acosar mediante seguimiento                       | A4 + Scheduler + preferencias |
 | No mezclar materias                                  | SubjectRouter + stores        |
+| No duplicar casos de crisis ni tratarlos como feedback | CrisisCaseStore + A1/A5       |
+| No dejar un riesgo humano sin escalamiento privado   | A1/A2/A5 + CrisisEscalationProtocol |
 
 ## 5. Síntesis
 

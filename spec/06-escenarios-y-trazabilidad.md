@@ -137,7 +137,47 @@ sequenceDiagram
 3. La docente ejecuta `/actualizar-catedra tipo:fecha parcial_1=20/06` → A6 versiona en Config Store.
 4. A3 y `OutputPolicy` consumen la fecha oficial desde Config; A2 cita el PDF desde KB.
 
-## 7. Cobertura
+## 7. Escenario G — Crisis de bienestar con hilo único
+
+**Contexto:** DM de Programación II. El estudiante venía hablando con A2 sobre un TP y luego envía tres mensajes seguidos expresando ideación suicida.
+
+1. Gateway recibe el primer mensaje. A1 ejecuta `SafetyClassifier` antes de sostener continuidad con A2 y detecta `self_harm_explicit`.
+2. A1 no deriva a Tutor. Activa `CrisisEscalationProtocol`.
+3. `CrisisCaseStore` busca caso activo por `user_id + subject_id`. Como no existe, Dispatcher crea un hilo en `#alertas-bienestar-catedra`.
+4. El hilo recibe el paquete de crisis: usuario, materia, canal de origen, timestamps, nivel, mensaje detonante, respuesta de contención del bot y transcripción completa disponible de la conversación.
+5. El bot responde al estudiante con contención breve y orientación a contactar de inmediato a una persona de confianza y a los canales institucionales/emergencia definidos por la facultad.
+6. El estudiante manda dos mensajes adicionales de crisis. A1 vuelve a detectar riesgo, pero `CrisisCaseStore` encuentra el caso activo y agrega ambos mensajes al mismo hilo; no crea hilos nuevos.
+7. A4 queda pausado para ese usuario+materia mientras el caso esté `open`, `acknowledged` o `escalated_to_psychology`.
+8. Docentes de la cátedra marcan el caso como `acknowledged` o `escalated_to_psychology` y lo elevan al área correspondiente.
+
+```mermaid
+sequenceDiagram
+    actor E as Estudiante
+    participant D as Discord/Dispatcher
+    participant A1 as A1 Frontier
+    participant S as SafetyClassifier
+    participant C as CrisisCaseStore
+    participant P as CrisisEscalationProtocol
+    participant H as Hilo crisis catedra
+    E->>D: DM con mensaje de autolesion
+    D->>A1: Turno + materia + STM
+    A1->>S: Clasificar crisis
+    S-->>A1: self_harm_explicit
+    A1->>C: Buscar caso activo user+materia
+    C-->>A1: No existe
+    A1->>P: Crear caso y paquete
+    P->>D: Crear hilo privado
+    D-->>H: Hilo + transcripcion completa
+    D-->>E: Contencion + ayuda humana
+    E->>D: Segundo mensaje de crisis
+    D->>A1: Nuevo turno
+    A1->>C: Buscar caso activo
+    C-->>A1: thread_id existente
+    A1->>P: Actualizar caso
+    P-->>H: Agregar mensaje al mismo hilo
+```
+
+## 8. Cobertura
 
 | Funcionalidad          | Escenario   |
 | ---------------------- | ----------- |
@@ -150,5 +190,6 @@ sequenceDiagram
 | Memoria y proactividad | D           |
 | Privacidad / transferencia | E      |
 | Actualización docente  | F           |
+| Crisis de bienestar    | G           |
 
-Los escenarios trazan las decisiones críticas: ayuda graduada, derivación humana, ingreso de código, feedback voluntario, seguimiento con opt-out, transferencia consentida y pipelines A6 content/config.
+Los escenarios trazan las decisiones críticas: ayuda graduada, derivación humana, ingreso de código, feedback voluntario, seguimiento con opt-out, transferencia consentida, pipelines A6 content/config y escalamiento de crisis sin duplicar hilos.

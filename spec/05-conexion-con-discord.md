@@ -10,6 +10,7 @@ El sistema es **una aplicación de bot** presente en el servidor de cada materia
 | DM estudiante-bot               | Mensaje o comando                                             | Privada                   | Código sensible, quiz y seguimiento |
 | Canal docente de aporte         | `/incorporar-material`, `@bot incorporar` o `/actualizar-catedra` por rol autorizado | Docentes escriben; estudiantes leen | Contenido → KB; datos cátedra → Config |
 | Canal docente privado de digest | Publicación del bot                                           | Docentes                  | Digest agregado de A5               |
+| Canal docente privado de crisis | Hilo creado o actualizado por el bot ante evento de crisis    | Docentes de la cátedra | Escalamiento a psicología/bienestar |
 
 Un hilo hereda la visibilidad del canal padre y se etiqueta `publico`. Un canal restringido por rol también es `publico` entre quienes pueden leerlo; no equivale a un `dm`.
 
@@ -20,6 +21,7 @@ Un hilo hereda la visibilidad del canal padre y se etiqueta `publico`. Un canal 
 - **SubjectRouter** fija materia por servidor o solicita materia en DM.
 - **OutboundDispatcher** publica respuestas y captura errores de entrega.
 - **DM Contact Check** verifica si el estudiante puede recibir mensajes privados del bot antes de considerar entregable el seguimiento.
+- **CrisisEscalationProtocol** crea o actualiza un hilo privado por caso en el canal docente de crisis y registra la derivación institucional.
 
 Comandos previstos: `/mi-historial`, `/borrar-historial`, `/restablecer-perfil`, `/seguimiento activar`, `/seguimiento desactivar`, `/activar-dm`, `/feedback`, `/checklist`, `/incorporar-material` y **`/actualizar-catedra`** (docentes).
 
@@ -27,17 +29,17 @@ Comandos previstos: `/mi-historial`, `/borrar-historial`, `/restablecer-perfil`,
 
 **P** = percibe un evento del ambiente dirigido a su función. **(P)** = recibe internamente contexto saneado desde A1 o infraestructura. **B** = produce borrador o decisión. La escritura efectiva siempre corresponde a Dispatcher.
 
-| Agente                     | Canal estudiante               | DM estudiante                | Canal docente de aporte | Canal docente de digest |
-| -------------------------- | ------------------------------ | ---------------------------- | ----------------------- | ----------------------- |
-| A1 Frontier                | P / B                          | P / B                        | —                       | —                       |
-| A2 Tutor                   | (P) / B vía A1                 | (P) / B vía A1               | —                       | —                       |
-| A3 Admin                   | (P) / B vía A1                 | (P) / B vía A1               | —                       | —                       |
-| A4 Follow-up               | —                              | (P) / B si seguimiento habilitado y DM contactable | —                       | —                       |
-| A5 Feedback                | (P) / B vía A1 por `/feedback` | (P) / B vía A1 si voluntario | —                       | B digest                |
-| A6 Knowledge Curator       | —                              | —                            | P / B confirmación      | —                       |
-| OutboundDispatcher (infra) | Escribe                        | Escribe o registra fallo     | Escribe confirmación    | Escribe digest          |
+| Agente                     | Canal estudiante               | DM estudiante                | Canal docente de aporte | Canal docente de digest | Canal docente de crisis |
+| -------------------------- | ------------------------------ | ---------------------------- | ----------------------- | ----------------------- | ----------------------- |
+| A1 Frontier                | P / B                          | P / B                        | —                       | —                       | B alerta vía protocolo  |
+| A2 Tutor                   | (P) / B vía A1                 | (P) / B vía A1               | —                       | —                       | —                       |
+| A3 Admin                   | (P) / B vía A1                 | (P) / B vía A1               | —                       | —                       | —                       |
+| A4 Follow-up               | —                              | (P) / B si seguimiento habilitado y DM contactable | —                       | —                       | —                       |
+| A5 Feedback                | (P) / B vía A1 por `/feedback` | (P) / B vía A1 si voluntario | —                       | B digest                | B alerta vía protocolo si el feedback contiene riesgo humano |
+| A6 Knowledge Curator       | —                              | —                            | P / B confirmación      | —                       | —                       |
+| OutboundDispatcher (infra) | Escribe                        | Escribe o registra fallo     | Escribe confirmación    | Escribe digest          | Crea hilo y publica paquete de crisis |
 
-Las celdas `—` son prohibiciones de diseño: A6 no lee canales de estudiantes; A2/A3/A4 no leen el canal docente; A5 no lee conversaciones para inferir feedback. Ningún agente escribe directamente: incluso sus borradores autorizados pasan por `OutputPolicy` y `OutboundDispatcher`.
+Las celdas `—` son prohibiciones de diseño: A6 no lee canales de estudiantes; A2/A3/A4 no leen el canal docente; A5 no lee conversaciones para inferir feedback. Ningún agente escribe directamente: incluso sus borradores autorizados pasan por `OutputPolicy` y `OutboundDispatcher`. El canal docente de crisis solo recibe casos por `CrisisEscalationProtocol`, no por digest ni por monitoreo pasivo.
 
 ## 4. Ingesta docente y vigencia
 
@@ -61,8 +63,22 @@ Así, la fecha que A3 responde y las evaluativas que `OutputPolicy` controla pro
 - A4 solo envía seguimiento por DM con seguimiento habilitado (default) y `dm_contactable=true`; ante fallo no existe fallback público.
 - A5 entrega a docentes feedback agregado y voluntario, no transcripciones ni resultados de quizzes.
 - **Transferencia consentida:** si el estudiante pide explícitamente compartir un fragmento de DM en un canal `publico`, A1 valida el pedido, `OutputPolicy` autoriza solo ese fragmento y Dispatcher publica con trazabilidad.
+- **Excepción de crisis:** si un mensaje de `dm` o `publico` contiene señales de autolesión, ideación suicida o riesgo humano urgente, el sistema no lo republica en canales estudiantiles, pero sí crea o actualiza un hilo restringido en el canal docente de crisis con el paquete de crisis y la transcripción completa disponible de la conversación con ese estudiante en esa materia.
 
-## 6. Contactabilidad por DM
+## 6. Hilos de crisis para cátedra
+
+El canal docente privado de crisis funciona como una bandeja de casos, no como digest ni como feedback:
+
+1. `SafetyClassifier` asigna `crisis_level`.
+2. `CrisisCaseStore` busca caso activo por `user_id + subject_id`.
+3. Si no existe caso activo, Dispatcher crea un hilo nuevo en el canal docente de crisis.
+4. Si ya existe caso `open`, `acknowledged` o `escalated_to_psychology`, Dispatcher agrega el nuevo mensaje al mismo hilo y actualiza `max_crisis_level`.
+5. El hilo contiene usuario, materia, timestamps, canal de origen, nivel detectado, mensaje detonante, respuesta del bot y transcripción completa disponible de la conversación.
+6. Los docentes de la cátedra usan ese hilo para elevar el caso al área de psicología/bienestar de la facultad y luego marcar estado `acknowledged`, `escalated_to_psychology` o `closed`.
+
+Aunque el chat original exista en Discord, el snapshot en el hilo evita depender de mensajes borrados, permisos del canal original o contexto distribuido entre DM/hilo/canal.
+
+## 7. Contactabilidad por DM
 
 El diseño no asume que todos los estudiantes puedan recibir DMs del bot. Algunos pueden tener bloqueados los mensajes privados de miembros del servidor o reglas de privacidad equivalentes; por eso el seguimiento requiere una etapa de habilitación:
 
@@ -73,7 +89,7 @@ El diseño no asume que todos los estudiantes puedan recibir DMs del bot. Alguno
 
 Este paso separa consentimiento de seguimiento (`follow_up_enabled`) de posibilidad técnica de entrega (`dm_contactable`).
 
-## 7. Ingreso de código
+## 8. Ingreso de código
 
 Mecanismos base admitidos:
 
@@ -93,20 +109,21 @@ Flujo:
 5. `OutputPolicy` consulta evaluativas vigentes y fija `normal`, `guided_only` o `refuse_solution`.
 6. A2 redacta ayuda compatible con el modo; Dispatcher publica la respuesta aprobada.
 
-## 8. Permisos y restricciones de plataforma
+## 9. Permisos y restricciones de plataforma
 
 - En canales donde interactúa, el bot requiere permisos equivalentes a ver el canal y enviar mensajes (`VIEW_CHANNEL`, `SEND_MESSAGES`).
-- El flujo base no necesita recuperar mensajes históricos; no depende de `READ_MESSAGE_HISTORY`.
+- Para crisis, el bot requiere permiso de crear hilos o publicar en el canal docente privado de crisis; si falla, registra alerta operativa y avisa por el canal docente alternativo definido por la cátedra.
+- El flujo base no necesita recuperar mensajes históricos; no depende de `READ_MESSAGE_HISTORY`. La excepción es el snapshot de crisis, que puede requerir leer mensajes de la conversación activa o del DM para adjuntar la transcripción completa disponible al hilo docente.
 - Las menciones y comandos evitan diseñar una lectura pasiva de mensajes ordinarios; si se quisiera esa capacidad habría que contemplar el intent privilegiado `MESSAGE_CONTENT`.
 - Los DMs pueden fallar por configuración del usuario o restricciones de Discord; el fallo se registra como `delivery_failed` y `dm_contactable=false`, sin cambiar de canal.
 
-## 9. Referencias de plataforma
+## 10. Referencias de plataforma
 
 - Discord, [Message Resource](https://docs.discord.com/developers/resources/message): contenido de mensajes e implicancias de intents.
 - Discord, [Application Commands](https://docs.discord.com/developers/tutorials/upgrading-to-application-commands): comandos como entrada explícita a la aplicación.
 - Discord, [User Resource](https://docs.discord.com/developers/resources/user): creación y uso de DMs.
 - Discord, [Opcodes and Status Codes](https://docs.discord.com/developers/topics/opcodes-and-status-codes): fallos de entrega como `50007`.
 
-## 10. Síntesis
+## 11. Síntesis
 
 La solución usa capacidades realistas de Discord: eventos explícitos, una identidad de bot y permisos mínimos. La arquitectura de seis agentes no cambia estas garantías; las vuelve más sencillas porque publicación, privacidad y extracción de entradas quedan en componentes únicos.

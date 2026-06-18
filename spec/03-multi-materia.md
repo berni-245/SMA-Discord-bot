@@ -23,8 +23,9 @@ Esta elección evita inferir la materia dentro de canales compartidos y refuerza
 | Config Store   | materia           | Fechas, reglas, modalidad, evaluativas | A6 escribe; A3, A4 y OutputPolicy leen           |
 | Memory Store   | usuario + materia | STM, LTM y preferencias                | Infraestructura; A1/A2/A4 consumen según permiso |
 | Feedback Store | materia           | Aportes voluntarios y digests          | A5                                               |
+| Crisis Case Store | usuario + materia | Casos de crisis, `thread_id`, estado y auditoría | CrisisEscalationProtocol; docentes de la cátedra |
 
-Un aporte docente en el servidor de Álgebra II nunca modifica la KB o Config de Programación II. Un estudiante en dos materias posee dos particiones de memoria independientes.
+Un aporte docente en el servidor de Álgebra II nunca modifica la KB o Config de Programación II. Un estudiante en dos materias posee dos particiones de memoria independientes y, si hubiera crisis, casos separados por materia.
 
 ## 4. Aporte docente en contexto
 
@@ -39,6 +40,7 @@ El canal docente pertenece al servidor de una materia. Un docente autorizado usa
 - **DM sin materia resoluble:** A1 solicita selección o indica cómo habilitar el acceso; no deriva a especialistas.
 - **Pregunta sobre otra materia dentro de un servidor:** A1 orienta a usar el servidor correcto; no cruza stores.
 - **Docente con acceso a varias materias:** cada incorporación queda atada al servidor donde se ejecutó el comando.
+- **Crisis en DM con varias materias posibles:** A1 intenta resolver materia por sesión activa; si no puede, solicita selección mínima solo si hacerlo no retrasa una derivación urgente. Ante riesgo inminente, crea caso en el último `subject_id` confiable y lo marca para revisión docente.
 
 ## 6. Escalabilidad
 

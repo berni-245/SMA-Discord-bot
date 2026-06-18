@@ -24,6 +24,9 @@ Separar cada función —teoría, práctica, quiz, memoria y los controles de sa
 | `SubjectRouter`      | Resuelve y valida `subject_id`                    | Es lookup/partición determinista              |
 | `Auth/Role Check`    | Valida usuarios y roles                           | Es control de acceso                          |
 | `MemoryStore`        | STM, LTM, preferencias, retención y visibilidad   | Aplica reglas de datos, no persigue objetivos |
+| `SafetyClassifier`   | Clasifica señales de crisis o bienestar urgente   | Es política de seguridad humana               |
+| `CrisisCaseStore`    | Casos de crisis por usuario+materia y deduplicación de hilos | Es registro auditado, no agente conversacional |
+| `CrisisEscalationProtocol` | Crea/actualiza hilos privados de crisis para cátedra | Es protocolo institucional de escalamiento     |
 | `InputExtractor`     | Extrae y valida bloque/adjunto de código          | Es transformación de formato                  |
 | `OutputPolicy`       | `assistance_mode`, privacidad y densidad de ayuda | Es política auditable de publicación          |
 | `Scheduler`          | Dispara seguimiento 2–5 días post-sesión si está habilitado y el DM es contactable | Es temporización                              |
@@ -42,27 +45,28 @@ Separar cada función —teoría, práctica, quiz, memoria y los controles de sa
 | Memoria y contacto proactivo  | `MemoryStore` + A4 Follow-up                 |
 | Conocimiento vivo docente     | A6 Knowledge Curator                         |
 | Privacidad y Discord          | `OutputPolicy` + `OutboundDispatcher`        |
+| Crisis de bienestar/autolesión | A1 + `SafetyClassifier` + `CrisisEscalationProtocol`; A2/A5 como segunda barrera |
 
 ## 5. Fichas de agentes
 
 ### A1 — Frontier / Coordinador
 
 - **Rol:** coordinador del intercambio con estudiantes.
-- **Responsabilidades:** verificar que existe materia en contexto, inferir intención, derivar a A2/A3/A5, ensamblar respuestas mixtas y emitir la reconducción humana.
-- **Capacidades distintivas:** clasificación de intenciones y manejo de bordes: materia ambigua en DM, fuera de dominio y pedidos no atendibles.
-- **Recursos:** rol autorizado, `subject_id`, canal/visibilidad, contexto mínimo de `MemoryStore`, catálogo de agentes.
+- **Responsabilidades:** verificar que existe materia en contexto, ejecutar frontera de seguridad, inferir intención en cada turno, usar `conversation_owner_agent` como continuidad, derivar a A2/A3/A5, ensamblar respuestas mixtas y emitir la reconducción humana.
+- **Capacidades distintivas:** clasificación de intenciones y manejo de bordes: materia ambigua en DM, fuera de dominio, crisis de bienestar y pedidos no atendibles.
+- **Recursos:** rol autorizado, `subject_id`, canal/visibilidad, contexto mínimo de `MemoryStore`, `SafetyClassifier`, `CrisisCaseStore`, catálogo de agentes.
 - **Aporte:** mantiene una única puerta lógica de atención al estudiante.
 - **Fuera de alcance:** no inventa teoría, reglas administrativas ni feedback; no escribe directamente en Discord.
-- **BDI:** cree el contexto saneado y la intención; busca una respuesta correcta y privada; deriva, ensambla o reconduce.
+- **BDI:** cree el contexto saneado, la intención y el nivel de seguridad; busca una respuesta correcta, privada y segura; deriva, ensambla, reconduce o escala crisis.
 
 ### A2 — Tutor
 
 - **Rol:** tutor pedagógico integrado.
-- **Responsabilidades:** explicar teoría a distinta profundidad, dar ejemplos simples y resúmenes; interpretar consignas y procedimientos; revisar avances/código, detectar errores y sugerir mejoras; generar/evaluar quizzes; armar checklists de estudio.
-- **Capacidades distintivas:** cambia de modalidad pedagógica sin cambiar de materia ni audiencia; usa `assistance_mode` para ayudar sin resolver entregables.
+- **Responsabilidades:** explicar teoría a distinta profundidad, dar ejemplos simples y resúmenes; interpretar consignas y procedimientos; revisar avances/código, detectar errores y sugerir mejoras; generar/evaluar quizzes; armar checklists de estudio; devolver a A1 cuando el turno ya no pertenece a su scope.
+- **Capacidades distintivas:** cambia de modalidad pedagógica sin cambiar de materia ni audiencia; usa `assistance_mode` para ayudar sin resolver entregables; actúa como segunda barrera si una continuidad pedagógica contiene señales de crisis.
 - **Recursos:** KB vigente, código validado, memoria pedagógica mínima permitida y resultado de `OutputPolicy`.
 - **Aporte:** reduce handoffs entre tareas que forman una misma conversación de aprendizaje.
-- **Fuera de alcance:** no responde fechas oficiales, no entrega soluciones completas, no califica y no inicia contactos.
+- **Fuera de alcance:** no responde fechas oficiales, no entrega soluciones completas, no califica, no inicia contactos y no gestiona casos de crisis; si detecta uno, devuelve control a A1/protocolo.
 - **BDI:** cree el pedido, fuentes y modo permitido; busca progreso autónomo; explica, guía o autoevalúa.
 
 ### A3 — Admin
@@ -88,7 +92,7 @@ Separar cada función —teoría, práctica, quiz, memoria y los controles de sa
 ### A5 — Feedback
 
 - **Rol:** canal de escucha entre estudiantes y cátedra.
-- **Responsabilidades:** recibir `/feedback` o respuestas voluntarias; clasificar en ejes cursada/material/asistente; moderar; **escalar odio o ataques a autoridad designada**; armar digest agregado periódico o a pedido docente.
+- **Responsabilidades:** recibir `/feedback` o respuestas voluntarias; clasificar en ejes cursada/material/asistente; moderar; **escalar odio o ataques a autoridad designada**; activar protocolo de crisis si el feedback expresa riesgo humano; armar digest agregado periódico o a pedido docente.
 - **Capacidades distintivas:** anonimización, mínimo de muestra, tres ejes accionables y separación de crítica honesta frente a abuso con escalamiento humano.
 - **Recursos:** Feedback Store por materia, política de anonimato y destino docente.
 - **Aporte:** cierra el circuito pedagógico requerido.

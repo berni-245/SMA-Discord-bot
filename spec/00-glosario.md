@@ -17,12 +17,18 @@ La STM coordina el intercambio actual; la LTM permite continuidad y seguimiento.
 - **Canal público**: espacio legible por más personas que el estudiante y el bot; se etiqueta `publico`.
 - **DM**: interacción privada 1:1 entre estudiante y bot; se etiqueta `dm`.
 - **Canal docente especializado**: canal por materia (p. ej. `#material-catedra`) donde docentes escriben con `/incorporar-material` (contenido → KB) o `/actualizar-catedra` (datos oficiales → Config); estudiantes pueden leer.
+- **Canal docente de crisis**: canal privado por materia (p. ej. `#alertas-bienestar-catedra`) visible solo para docentes de la cátedra, donde el bot crea o actualiza un hilo por caso ante señales de autolesión, ideación suicida u otro riesgo humano urgente.
 - **Hilo**: hereda la visibilidad del canal padre (`publico`), salvo configuración más restrictiva acordada por la cátedra.
 - **Rol de usuario**: `estudiante`, `docente` o `ayudante`, previamente autorizado.
 - **Discord Gateway**: sensor conceptual por el que llegan eventos dirigidos al bot.
 - **OutboundDispatcher**: único actuador que escribe mensajes en Discord bajo la identidad del bot.
 - **DM contactable**: estado operativo que indica que el estudiante ya abrió o permitió el canal privado con el bot, por ejemplo enviándole un primer mensaje o habilitando DMs desde el servidor. Si la plataforma exigiera un mecanismo equivalente, como solicitud de contacto o amistad, se trata como requisito de contactabilidad previo al seguimiento, no como dato pedagógico.
 - **Transferencia consentida**: publicación trazada de contenido nacido en `dm` hacia un canal `publico`, solicitada explícitamente por el estudiante.
+- **Evento de crisis o bienestar**: mensaje del estudiante que sugiere autolesión, ideación suicida, riesgo inmediato para sí o para terceros, o una situación de seguridad humana que excede el rol pedagógico del asistente.
+- **Nivel de crisis (`crisis_level`)**: clasificación `none`, `distress`, `self_harm_ambiguous`, `self_harm_explicit` o `imminent_risk`. `distress` habilita contención, orientación y pausa temporal de seguimiento automático; los tres niveles de autolesión/riesgo abren o actualizan caso.
+- **Pausa de seguridad (`safety_hold_until`)**: marca temporal por usuario+materia que bloquea contactos proactivos de A4 tras señales de malestar intenso que no abren caso de crisis.
+- **Caso de crisis**: registro único por `user_id + subject_id` mientras está activo. Sus estados son `open`, `acknowledged`, `escalated_to_psychology` y `closed`.
+- **Paquete de crisis**: evidencia para docentes de la cátedra: usuario, materia, canal de origen, timestamps, nivel detectado, mensaje detonante, respuesta de contención del bot y transcripción completa de la conversación disponible con ese estudiante en esa materia. Se usa para elevar el caso al área de psicología/bienestar de la facultad, no para evaluación académica.
 
 ## 3. Agentes vigentes
 
@@ -38,9 +44,13 @@ La STM coordina el intercambio actual; la LTM permite continuidad y seguimiento.
 - **SubjectRouter**: resuelve `subject_id` por servidor; en DM solicita selección si falta contexto.
 - **Auth/Role Check**: verifica autorización y rol antes de invocar agentes.
 - **MemoryStore**: persiste STM, LTM y preferencias, por usuario+materia, aplicando retención y visibilidad.
+- **Conversation owner (`conversation_owner_agent`)**: agente que venía atendiendo la conversación en STM. A1 lo usa como dato de continuidad, pero vuelve a decidir intención en cada turno antes de derivar.
 - **InputExtractor**: extrae código desde bloque o adjunto textual del mensaje dirigido al bot.
 - **OutputPolicy**: calcula `assistance_mode`, valida restricción pedagógica y reglas de privacidad (impide republicar en `publico` datos nacidos en `dm`) antes de publicar.
 - **Scheduler**: evalúa a A4 entre **2 y 5 días** post-cierre de sesión, si el seguimiento sigue habilitado, el DM es contactable y la oportunidad es pertinente.
+- **SafetyClassifier**: política de frontera usada por A1, y como segunda barrera por A2 si ya estaba atendiendo una continuidad, para asignar `crisis_level`.
+- **CrisisCaseStore**: registro separado de la memoria pedagógica que guarda `crisis_case_id`, `thread_id`, estado, primer/último mensaje detectado, `max_crisis_level`, contador de mensajes y auditoría de acceso.
+- **CrisisEscalationProtocol**: infraestructura de seguridad humana que, ante un evento de crisis detectado por A1, A2 o A5, crea o actualiza un hilo privado en el canal docente de crisis, adjunta el paquete de crisis y orienta la derivación al área institucional definida (p. ej. psicología/bienestar estudiantil).
 
 Estos componentes aplican reglas deterministas; convertirlos en agentes sumaría coordinación sin aportar autonomía.
 
@@ -77,3 +87,4 @@ Estos componentes aplican reglas deterministas; convertirlos en agentes sumaría
 - **Anonimato**: política `anonimo`, `pseudonimo` o `identificado_con_consentimiento`.
 - **Moderación**: conserva crítica honesta; ante odio o ataques personales **escala a autoridad designada** (p. ej. `#moderacion-catedra`) sin almacenar el contenido como feedback.
 - **Reconducción a docentes**: orientación a un canal humano ante fuera de dominio, falta de fuentes o decisiones oficiales.
+- **Escalamiento de crisis**: excepción de privacidad por seguridad humana; no es feedback, no es digest y no se publica en canales estudiantiles. El acceso queda limitado a docentes de la cátedra y al canal institucional de ayuda.

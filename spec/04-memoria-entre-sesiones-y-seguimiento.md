@@ -6,10 +6,12 @@
 | ------------- | -------------------------------------------- | ------------------------------------------------------------------------- |
 | Propósito     | Coordinar el intercambio actual              | Continuidad y seguimiento                                                 |
 | Vida          | Hasta inactividad o cierre de jornada         | Cursada + 6 meses, salvo borrado                                          |
-| Ejemplos      | `subject_id` elegido en DM, intención actual | Tema consultado, duda abierta, quiz a retomar, preferencia de seguimiento |
+| Ejemplos      | `subject_id` elegido en DM, intención actual, `conversation_owner_agent` | Tema consultado, duda abierta, quiz a retomar, preferencia de seguimiento |
 | Uso proactivo | Nunca                                        | Solo para A4 si el seguimiento sigue habilitado (default activo)          |
 
 `MemoryStore` es infraestructura gobernada, no un agente: aplica partición usuario+materia, visibilidad de origen, retención y comandos del usuario.
+
+Los casos de crisis no viven en la LTM pedagógica: se registran en `CrisisCaseStore`, separado por usuario+materia, con acceso restringido a docentes de la cátedra y finalidad de derivación institucional.
 
 ## 2. Información persistida
 
@@ -20,9 +22,10 @@ Se conserva lo mínimo útil:
 - estado general de un trabajo (`en_progreso` o `stuck`) y categoría de dificultad;
 - tipo de ayuda brindada (`teoria`, `practica`, `quiz`, `orientacion`) y, si aplica, referencia a un hilo `publico` relevante, sin copiar su contenido;
 - `follow_up_enabled` (default `true`), `dm_contactable`, último seguimiento y fallos de entrega;
+- `safety_hold_until` cuando hubo malestar intenso sin caso de crisis, para bloquear contacto proactivo temporal;
 - visibilidad de origen (`publico` o `dm`) de cada hecho.
 
-No se conservan por defecto transcripciones crudas, código fuente, certificados, datos médicos, comentarios privados destinados a docentes ni señales para vigilar cadenas de preguntas.
+No se conservan por defecto transcripciones crudas, código fuente, certificados, datos médicos, comentarios privados destinados a docentes ni señales para vigilar cadenas de preguntas. La excepción es el snapshot de conversación asociado a un caso de crisis abierto en `CrisisCaseStore`; no alimenta personalización, seguimiento ni feedback.
 
 ## 3. Operaciones y control del estudiante
 
@@ -43,11 +46,14 @@ Al primer contacto pedagógico en una materia, `follow_up_enabled=true` y el bot
 | ----------------- | ------------------------------------------------------------------ | ------------------------------------ |
 | A1 Frontier       | Leer STM de materia seleccionada y ejecutar comandos del usuario   | Sesión/materia activa                |
 | A2 Tutor          | Solicitar escritura de hechos pedagógicos y leer resumen permitido | Usuario+materia; sin código crudo    |
-| A4 Follow-up      | Leer oportunidades LTM y registrar contacto/fallo                  | Solo si seguimiento habilitado y DM contactable |
+| A4 Follow-up      | Leer oportunidades LTM y registrar contacto/fallo                  | Solo si seguimiento habilitado, DM contactable, sin caso de crisis activo y sin `safety_hold_until` vigente |
 | A5 Feedback       | Ninguna lectura de memoria pedagógica                              | No infiere feedback                  |
 | A6 Curator        | Ningún acceso a memoria estudiantil                                | Solo KB/Config de materia           |
+| CrisisEscalationProtocol | Leer/crear/actualizar caso de crisis y snapshot conversacional | Usuario+materia; canal docente de crisis |
 
 `MemoryStore` valida cada operación, aplica visibilidad y retención, y niega cualquier acceso cruzado de usuario o materia.
+
+`CrisisCaseStore` valida deduplicación por `user_id + subject_id`: un estudiante no genera múltiples hilos por mandar varios mensajes de crisis en la misma materia. Si el caso sigue `open`, `acknowledged` o `escalated_to_psychology`, los nuevos mensajes actualizan el mismo hilo; un caso nuevo solo se abre luego de `closed`.
 
 ## 5. Privacidad
 
@@ -55,7 +61,7 @@ Cada hecho conserva `origin_visibility` (`publico` o `dm`). Cuando el bot respon
 
 ## 6. Seguimiento proactivo
 
-A4 Follow-up es el agente proactivo. El `Scheduler` lo evalúa **entre 2 y 5 días** después del cierre de sesión (inactividad o fin de jornada), solo si `follow_up_enabled=true`, `dm_contactable=true`, existe una oportunidad pertinente y la cursada sigue vigente. No programa seguimiento al cierre del cuatrimestre.
+A4 Follow-up es el agente proactivo. El `Scheduler` lo evalúa **entre 2 y 5 días** después del cierre de sesión (inactividad o fin de jornada), solo si `follow_up_enabled=true`, `dm_contactable=true`, no hay caso de crisis activo, no hay `safety_hold_until` vigente, existe una oportunidad pertinente y la cursada sigue vigente. No programa seguimiento al cierre del cuatrimestre.
 
 Puede considerar:
 

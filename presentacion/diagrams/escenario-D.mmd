@@ -1,0 +1,21 @@
+%%{init: {"theme": "dark", "themeVariables": {"background": "#2B2D31", "primaryColor": "#5865F2", "primaryTextColor": "#FFFFFF", "primaryBorderColor": "#4752C4", "lineColor": "#B5BAC1", "actorBkg": "#5865F2", "actorBorder": "#4752C4", "actorTextColor": "#FFFFFF", "actorLineColor": "#B5BAC1", "signalColor": "#DBDEE1", "signalTextColor": "#DBDEE1", "noteBkgColor": "#383A40", "noteTextColor": "#DBDEE1"}}}%%
+sequenceDiagram
+    actor E as Estudiante
+    participant A1 as A1 Frontier
+    participant A2 as A2 Tutor
+    participant A5 as A5 Feedback
+    participant M as MemoryStore
+    participant A4 as A4 Follow-up
+    participant D as Discord/Dispatcher
+    E->>A1: Quiero un quiz de pilas
+    A1->>A2: Generar autoevaluacion
+    A2-->>D: Pregunta y devolucion orientativa
+    D-->>E: Quiz y orientacion
+    E->>A1: /feedback sobre material
+    A1->>A5: Registrar feedback eje material
+    A5->>A5: Guardar para digest agregado
+    Note over M: Sesion cierra por inactividad
+    Note over M,A4: 2-5 dias despues
+    M->>A4: Oportunidad habilitada + dm_contactable=true
+    A4-->>D: DM suave de continuidad
+    D-->>E: Seguimiento o fallo registrado

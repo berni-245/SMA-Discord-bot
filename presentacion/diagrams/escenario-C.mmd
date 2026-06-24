@@ -1,0 +1,17 @@
+%%{init: {"theme": "dark", "themeVariables": {"background": "#2B2D31", "primaryColor": "#5865F2", "primaryTextColor": "#FFFFFF", "primaryBorderColor": "#4752C4", "lineColor": "#B5BAC1", "actorBkg": "#5865F2", "actorBorder": "#4752C4", "actorTextColor": "#FFFFFF", "actorLineColor": "#B5BAC1", "signalColor": "#DBDEE1", "signalTextColor": "#DBDEE1", "noteBkgColor": "#383A40", "noteTextColor": "#DBDEE1"}}}%%
+sequenceDiagram
+    actor E as Estudiante
+    participant D as Discord/Dispatcher
+    participant A1 as A1 Frontier
+    participant A3 as A3 Admin
+    participant OP as OutputPolicy
+    participant A2 as A2 Tutor
+    E->>D: DM AVL + fecha TP + codigo inorder
+    D->>A1: Mensaje y materia resuelta
+    A1->>A3: Consultar fecha
+    A3-->>A1: Fecha citada
+    A1->>OP: Revisar ayuda sobre TP activo
+    OP-->>A2: guided_only
+    A2-->>A1: Teoria + pista de debugging
+    A1->>D: Respuesta unica ensamblada
+    D-->>E: Fecha + explicacion + guia parcial

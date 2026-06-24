@@ -1,0 +1,25 @@
+%%{init: {"theme": "dark", "themeVariables": {"background": "#2B2D31", "primaryColor": "#5865F2", "primaryTextColor": "#FFFFFF", "primaryBorderColor": "#4752C4", "lineColor": "#B5BAC1", "actorBkg": "#5865F2", "actorBorder": "#4752C4", "actorTextColor": "#FFFFFF", "actorLineColor": "#B5BAC1", "signalColor": "#DBDEE1", "signalTextColor": "#DBDEE1", "noteBkgColor": "#383A40", "noteTextColor": "#DBDEE1"}}}%%
+sequenceDiagram
+    actor E as Estudiante
+    participant D as Discord/Dispatcher
+    participant A1 as A1 Frontier
+    participant S as SafetyClassifier
+    participant C as CrisisCaseStore
+    participant P as CrisisEscalationProtocol
+    participant H as Hilo crisis catedra
+    E->>D: DM con mensaje de autolesion
+    D->>A1: Turno + materia + STM
+    A1->>S: Clasificar crisis
+    S-->>A1: self_harm_explicit
+    A1->>C: Buscar caso activo user+materia
+    C-->>A1: No existe
+    A1->>P: Crear caso y paquete
+    P->>D: Crear hilo privado
+    D-->>H: Hilo + transcripcion completa
+    D-->>E: Contencion + ayuda humana
+    E->>D: Segundo mensaje de crisis
+    D->>A1: Nuevo turno
+    A1->>C: Buscar caso activo
+    C-->>A1: thread_id existente
+    A1->>P: Actualizar caso
+    P-->>H: Agregar mensaje al mismo hilo

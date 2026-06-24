@@ -1,0 +1,19 @@
+%%{init: {"theme": "dark", "themeVariables": {"background": "#2B2D31", "primaryColor": "#5865F2", "primaryTextColor": "#FFFFFF", "primaryBorderColor": "#4752C4", "lineColor": "#B5BAC1", "actorBkg": "#5865F2", "actorBorder": "#4752C4", "actorTextColor": "#FFFFFF", "actorLineColor": "#B5BAC1", "signalColor": "#DBDEE1", "signalTextColor": "#DBDEE1", "noteBkgColor": "#383A40", "noteTextColor": "#DBDEE1"}}}%%
+sequenceDiagram
+    actor E as Estudiante
+    participant D as Discord/Dispatcher
+    participant I as InputExtractor
+    participant A1 as A1 Frontier
+    participant OP as OutputPolicy
+    participant A2 as A2 Tutor
+    participant M as MemoryStore
+    E->>D: DM con codigo + pedi resolver TP1
+    D->>I: Extraer codigo
+    I->>A1: Mensaje y codigo validado
+    A1->>M: Materia elegida en STM
+    M-->>A1: Programacion II
+    A1->>OP: Evaluar postura
+    OP-->>A2: refuse_solution
+    A2-->>D: Negativa + pista conceptual minima
+    D-->>E: Orientacion sin solucion entregable
+    A2->>M: Guardar hecho pedagogico minimo
